@@ -1,0 +1,1472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="title">Prescribed Medicines - DEMO GOODNEEWZ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../Header/header.css">
+  <link rel="stylesheet" href="../../Footer/footer.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#36C2CE',
+            secondary: '#0ea5e9',
+            accent: '#10b981',
+            dark: '#1e293b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .subcategory.hidden { display: none; }
+    .product-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #36C2CE !important;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      cursor: pointer;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    }
+    .product-image {
+      object-fit: contain;
+      width: 100%;
+      height: 160px;
+    }
+    .nav-sidebar {
+      border: 1px solid #36C2CE !important;
+    }
+  </style>
+</head>
+<body class="bg-white" onload="initializePage()">
+  <div id="header-placeholder"></div>
+
+  <!-- Hero Banner -->
+  <section class="w-full h-96 relative bg-center bg-cover"
+         style="background-image: url('https://i.pinimg.com/1200x/52/40/cf/5240cff0fb3479c7adc3351a22acc765.jpg');">
+    <div class="absolute inset-0 bg-black/30"></div>
+    <div class="relative z-10 flex items-center justify-center h-full px-4">
+      <h1 class="text-white text-3xl sm:text-4xl md:text-5xl font-bold text-center leading-tight">
+        Prescription Medicines
+      </h1>
+    </div>
+</section>
+
+  <div class="container mx-auto px-1 py-6">
+    <div class="flex flex-col md:flex-row gap-6">
+      <!-- Sidebar -->
+      <div class="w-full md:w-1/5 md:h-[calc(90vh-4rem)] md:sticky md:top-16 overflow-y-auto bg-white p-3 rounded-lg shadow nav-sidebar">
+        <div class="mb-4">
+          <!-- Sorting -->
+          <div class="flex justify-start mb-6">
+            <select class="w-52 border border-gray-300 p-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary" id="sortSelect">
+              <option>Sort By: Relevance</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+            </select>
+          </div>
+
+          <h2 class="text-lg font-bold mb-2">Categories</h2>
+          <ul id="categoryList" class="space-y-2">
+            <li>
+              <a href="#" class="category-link font-medium">Anti-Allergy / Antihistamines</a>
+              <span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span>
+            </li>
+            <li>
+              <a href="#" class="category-link font-medium">Cold & Cough Relief</a>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Brands -->
+        <div>
+          <h2 class="text-lg font-bold mb-2">
+            Brands <span class="expand-toggle cursor-pointer">+</span>
+          </h2>
+          <ul id="brandList" class="hidden space-y-2">
+            <li><label><input type="checkbox" class="brand-filter" value="BrandX"> BrandX</label></li>
+            <li><label><input type="checkbox" class="brand-filter" value="BrandZ"> BrandZ</label></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Product Grid -->
+      <section class="w-full md:w-5/6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="productGrid"></div>
+      </section>
+    </div>
+  </div>
+
+  <!-- Upload Prescription Modal -->
+  <div id="uploadModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl w-11/12 max-w-3xl p-10 relative">
+      <button id="closeUploadModal" class="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold">✕</button>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="border rounded-xl p-5 shadow-md">
+          <h2 class="text-lg font-semibold mb-4">Upload Prescription for:</h2>
+          <p id="modalProductName" class="font-bold text-primary mb-4"></p>
+          <img id="modalProductImage" class="modal-product-image w-full h-32 object-contain rounded-lg mb-4 hidden" alt="Product">
+          
+          <label class="border rounded-lg p-4 mb-3 flex items-center justify-between cursor-pointer hover:bg-gray-50">
+            <div class="flex items-center gap-3">
+              <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 16v-8m0 0l-4 4m4-4l4 4M4 20h16"/>
+              </svg>
+              <span class="font-medium text-gray-700">Choose File</span>
+            </div>
+            <input type="file" id="prescriptionFile" accept="image/*,.pdf" class="hidden">
+            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </label>
+          <p id="fileNameDisplay" class="text-sm text-gray-600 mb-3"></p>
+
+          <img id="prescriptionPreviewImg" class="hidden w-full h-48 object-contain rounded-lg mb-4" alt="Preview">
+
+          <p id="validPrescriptionBtn" class="text-sm text-gray-600 mb-3 flex items-center gap-2 cursor-pointer border-b border-blue-600 inline-block pb-1 w-fit">
+            <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+            </svg>
+            What is valid prescription?
+          </p>
+
+          <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-600 font-semibold text-center">
+            <p class="mb-3">For urgent orders, call us:</p>
+            <button onclick="window.location.href='tel:1234567890'" class="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+              1234567890
+            </button>
+          </div>
+
+          <button id="submitPrescription" class="mt-4 w-full bg-primary hover:bg-secondary text-white py-2 rounded-lg font-semibold transition">
+            Submit Prescription
+          </button>
+        </div>
+
+        <div>
+          <h2 class="text-lg font-semibold mb-4">How will the Pharmacist help you?</h2>
+          <ul class="space-y-5 text-gray-700">
+            <li class="flex items-start gap-3">
+              <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep1.png?dim=64x64&q=75" alt="Step 1" class="w-12 h-12">
+              <span>Pharmacist will check items on prescription and add to cart</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep2.png?dim=64x64&q=75" alt="Step 2" class="w-12 h-12">
+              <span>You can ask for additional items if needed</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep3.png?dim=64x64&q=75" alt="Step 3" class="w-12 h-12">
+              <span>They will apply the best coupon & get you the max savings</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep4.png?dim=64x64&q=75" alt="Step 4" class="w-12 h-12">
+              <span>Choose the earliest delivery date</span>
+            </li>
+            <li class="flex items-start gap-3">
+              <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep5.png?dim=64x64&q=75" alt="Step 5" class="w-12 h-12">
+              <span>Finally, Share payment methods options</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Valid Prescription Modal -->
+  <div id="validPrescriptionModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-2xl shadow-2xl w-11/12 max-w-xl p-12 relative">
+      <button id="closeValidPrescriptionModal" class="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold">✕</button>
+      <h2 class="text-xl font-semibold mb-6 text-center">A valid prescription contains:</h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-6">
+        <div class="flex flex-col items-center">
+          <svg class="w-8 h-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422A12.083 12.083 0 0118 20.944V21l-6-3-6 3v-.056a12.083 12.083 0 01-.16-10.366L12 14z"/>
+          </svg>
+          <span class="text-sm font-medium">Doctor Details</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <svg class="w-8 h-8 text-green-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10m-11 4h12M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <span class="text-sm font-medium">Date</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <svg class="w-8 h-8 text-purple-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9.969 9.969 0 0112 15c2.21 0 4.242.72 5.879 1.928M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span class="text-sm font-medium">Patient</span>
+        </div>
+        <div class="flex flex-col items-center">
+          <svg class="w-8 h-8 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13V7H9V1L1 9l8 8z"/>
+          </svg>
+          <span class="text-sm font-medium">Dosage</span>
+        </div>
+      </div>
+      <hr class="my-4 border-t-4 border-blue-500 rounded">
+      <h3 class="text-lg font-semibold mb-4">DO'S AND DON'Ts</h3>
+      <ul class="space-y-3 text-sm">
+        <li class="flex items-start gap-2"><span class="text-green-600 font-bold">✔</span> <b>Upload Clear Image</b> — Flat surface, good lighting.</li>
+        <li class="flex items-start gap-2"><span class="text-red-600 font-bold">✘</span> <b>No Medicine Photos</b></li>
+        <li class="flex items-start gap-2"><span class="text-red-600 font-bold">✘</span> <b>Do Not Crop</b></li>
+      </ul>
+    </div>
+  </div>
+
+   <div id="footer-placeholder"></div>
+    
+
+
+ <script>
+    function loadHeader() {
+        fetch('../../Header/header.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../../Header/header.js';
+                script.onload = () => console.log('Header JS loaded');
+                document.body.appendChild(script);
+            })
+            .catch(err => console.error('Header load failed:', err));
+    }
+
+    function loadFooter() {
+        fetch('../../Footer/footer.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('footer-placeholder').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load failed:', err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHeader();
+        loadFooter();
+        // ... rest of your code
+    });
+</script>
+  
+
+  <!-- Main JS -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // ================
+      // Data: Only Rx Products
+      // ================
+      const products = [
+       
+  {
+    "id": 1,
+    "name": "Isoxsuprine Hydrochloride SR 40mg",
+    "price": 85,
+    "originalPrice": 100,
+    "discount": "15% off",
+    "category": "Women's Health",
+    "brand": "Biofield Pharma",
+    "image": "https://via.placeholder.com/300x200.png?text=Isoxsuprine+40mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 2,
+    "name": "Letrozole Tablet",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Evapride",
+    "image": "https://via.placeholder.com/300x200.png?text=Letrozole+Tablet",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 3,
+    "name": "Doxylamine Succinate Pyridoxine Hydrochloride and Folic Acid",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Ultrableess Remedies Pvt Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Doxylamine+Combo",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 4,
+    "name": "Cefixime Tab 200mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Abbott Healthcare Pvt Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefixime+200mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 5,
+    "name": "Amoxycillin and Potassium Clavunate Tab IP",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Abbott",
+    "image": "https://via.placeholder.com/300x200.png?text=Amoxycillin+Clavunate",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 6,
+    "name": "Tranexamic Acid 500mg and Mefenamic Acid 250mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Biofield Pharma Pvt Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Tranexamic+Mefenamic",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 7,
+    "name": "Trypsin 48mg Bromelain 90mg and Rutoside Trihydrate 100mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anti-inflammatory",
+    "brand": "Flexicare CD",
+    "image": "https://via.placeholder.com/300x200.png?text=Trypsin+Bromelain",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 8,
+    "name": "Natural Micronised Progesterone 200mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Evapride Healthcare Pvt Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Progesterone+200mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 9,
+    "name": "Levonorgestrel 0.15mg Ethinyloestradiol 0.03mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Lincoln Pharmaceutical Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Levonorgestrel+EE",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 10,
+    "name": "Azithromycin 250mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "FDC Limited",
+    "image": "https://via.placeholder.com/300x200.png?text=Azithromycin+250mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 11,
+    "name": "Calcium Carbonate to Elemental Calcium",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Supplements",
+    "brand": "Shiel Healthcare Pvt Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Calcium+Carbonate",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 12,
+    "name": "Sildenafil Citrate 25mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Men's Health",
+    "brand": "Wayonext Pharmaceuticals Ltd",
+    "image": "https://via.placeholder.com/300x200.png?text=Sildenafil+25mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 13,
+    "name": "Norethisterone 10mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Norethisterone+10mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 14,
+    "name": "Lajalu 100mg Bala 50mg Ashwagandha 50mg Shatavari 50mg Yashimadhu 25mg Cow Milk 250mg Sesame Oil 500mg Coconut Oil 200mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Ayurvedic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ayurvedic+Combo",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 15,
+    "name": "Bacillus Clausii 2 Billion",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Probiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Bacillus+Clausii",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 16,
+    "name": "Saraca Indica 1800mg, Withania Somnifera 50mg, Asparagus Racemosus 15mg, Quercus Infectoria 150mg, Terminalia Chebula 15mg, Emblica Officinalis 15mg, Sida Cordifolia 30mg, Berberis Aristata 30mg, Cyperus Rotundus 30mg, Asparagus Adscendens 15mg, Nardostachys Jatamansi 15mg, Mesua Ferra 15mg, Symplocos Racemosa 15mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Ayurvedic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Herbal+Blend",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 17,
+    "name": "Frusemide IP 10mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Diuretics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Frusemide+10mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 18,
+    "name": "Promethazine Hydrochloride 25mg, Sodium Metabisulphite 0.1%w/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antihistamine",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Promethazine+25mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 19,
+    "name": "Labetalol Hydrochloride 5mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Cardiovascular",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Labetalol+5mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 20,
+    "name": "Isoxsuprine Hydrochloride 5mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Isoxsuprine+5mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 21,
+    "name": "Drotaverine Hydrochloride 40mg, Absolute Alcohol 8.0%v/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antispasmodic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Drotaverine+40mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 22,
+    "name": "Polidocanol 30mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Sclerosing Agent",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Polidocanol+30mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 23,
+    "name": "Hydrocortisone Sodium 100mg, Sodium Phosphate IP",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Corticosteroid",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Hydrocortisone+100mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 24,
+    "name": "Paracetamol 0.150g Benzyl Alcohol 2%v/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Analgesic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Paracetamol+Injection",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 25,
+    "name": "Dexamethasone Sodium Phosphate 4mg, Propyl Paraben 0.02%w/v, Methyl Paraben 0.18%w/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Corticosteroid",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Dexamethasone+4mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 26,
+    "name": "NADPH Not Less Than 10ml, Total Peptide Not Less Than 90ml, Total Nitrogen Not More Than 0.08%w/v, Benzyl Alcohol IP 1.5%v/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Injectables",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Peptide+Injection",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 27,
+    "name": "Tranexamic Acid 100mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Hemostatics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Tranexamic+100mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 28,
+    "name": "Valethamate Bromide 8mg, Sodium Chloride 8mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antispasmodic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Valethamate+8mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 29,
+    "name": "Pheniramine Maleate 22.75mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antihistamine",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Pheniramine+22.75mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 30,
+    "name": "Ceftriaxone 1000mg, Sulbactam 500mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ceftriaxone+Sulbactam",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 31,
+    "name": "Vancomycin 1000mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Vancomycin+1000mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 32,
+    "name": "Cefotaxime Sodium 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefotaxime+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 33,
+    "name": "Amoxicillin 1000mg, Potassium Clavunate 200mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Amoxicillin+Clavunate+High",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 34,
+    "name": "Ceftriaxone 1000mg, Sulbactam 500mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ceftriaxone+Sulbactam",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 35,
+    "name": "Ceftriaxone 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ceftriaxone+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 36,
+    "name": "Misoprostol 200mcg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Misoprostol+200mcg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 37,
+    "name": "Ropivacaine Hydrochloride 7.5mg, Sodium Chloride 7.5mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ropivacaine+7.5mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 38,
+    "name": "Diluted Ethanol 25% IP",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Disinfectant",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ethanol+25%",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 39,
+    "name": "Hydrogen Peroxide",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Disinfectant",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Hydrogen+Peroxide",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 40,
+    "name": "Isoflurane IP 100ml",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Isoflurane+100ml",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 41,
+    "name": "Mioprostol IP 200mcg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Mioprostol+200mcg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 42,
+    "name": "Adrenalin 1000",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Emergency",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Adrenalin+1000",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 43,
+    "name": "Aminophylline 25mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Respiratory",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Aminophylline+25mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 44,
+    "name": "Etofylline 84.70mg, Theophylline 25.30mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Respiratory",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Etofylline+Theophylline",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 45,
+    "name": "Lignocaine Hydrochloride 21.3mg, Sodium Chloride 6mg, Methyl Paraben 1mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Lignocaine+21.3mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 46,
+    "name": "Halothane",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Halothane",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 47,
+    "name": "Sterile Haemocoagulase Solution 0.2CU",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Hemostatics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Haemocoagulase+0.2CU",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 48,
+    "name": "Bupivacaine Hydrochloride 5mg, Sodium Chloride 8mg, Methylparaben 1mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Bupivacaine+5mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 49,
+    "name": "Midazolam 1mg, Benzyl Alcohol 1%v/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Sedatives",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Midazolam+1mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 50,
+    "name": "Mephentermine Sulphate 30mg, Methylparaben 0.18%w/v, Propylparaben 0.02%w/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Vasopressor",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Mephentermine+30mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 51,
+    "name": "Ketamine Hydrochloride 50mg, Benzethonium Chloride 0.01%w/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Ketamine+50mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 52,
+    "name": "Propofol 1%w/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Propofol+1%",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 53,
+    "name": "Succinylcholine Chloride 50mg, Benzyl Alcohol 1.5%v/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Muscle Relaxant",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Succinylcholine+50mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 54,
+    "name": "Lignocaine Hydrochloride 21.3mg, Adrenaline Bitartrate 0.009mg, Adrenaline 0.005mg, Potassium Metabisulfite 12mg, Sodium Chloride 65mg, Methylparaben 1.0mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Lignocaine+Adrenaline",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 55,
+    "name": "Bupivacaine Hydrochloride 5mg, Dextrose Anhydrous 80mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Bupivacaine+Heavy",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 56,
+    "name": "Atropine Sulphate 0.64mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anticholinergic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Atropine+0.64mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 57,
+    "name": "Methylergometrine 0.2mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Methylergometrine+0.2mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 58,
+    "name": "Adrenaline Bitartrate 1mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Emergency",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Adrenaline+1mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 59,
+    "name": "Cefotaxime Sodium 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefotaxime+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 60,
+    "name": "Cefotaxime Sodium 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefotaxime+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 61,
+    "name": "Cefixime 200mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefixime+200mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 62,
+    "name": "Tocopheryl Acetate 400mg Alpha Tocopherol 182mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Supplements",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Vitamin+E+400mg",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 63,
+    "name": "Lignocaine 21.3mg, Sodium Chloride 6mg, Methylparaben 1mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Lignocaine+21.3mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 64,
+    "name": "Amoxycillin 500mg, Potassium Clavunate 125mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Amoxycillin+Clavunate+625",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 65,
+    "name": "Cefotaxime Sodium 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefotaxime+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 66,
+    "name": "Azithromycin 250mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Azithromycin+250mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 67,
+    "name": "Piperacillin Sodium 4000mg, Tazobactam Sodium 500mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Piperacillin+Tazobactam",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 68,
+    "name": "Amoxycillin 500mg, Potassium Clavunate 125mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Amoxycillin+Clavunate+625",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 69,
+    "name": "Norethisterone 10mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Norethisterone+10mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 70,
+    "name": "Lignocaine Hydrochloride 21.3mg, Adrenaline Bitartrate 0.009mg, Adrenaline 0.005mg, Potassium Metabisulfite 12mg, Sodium Chloride 65mg, Methylparaben 1.0mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Lignocaine+Adrenaline",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 71,
+    "name": "Bupivacaine Hydrochloride 5mg, Dextrose Anhydrous 80mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Bupivacaine+Heavy",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 72,
+    "name": "Atropine Sulphate 0.64mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anticholinergic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Atropine+0.64mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 73,
+    "name": "Methylergometrine 0.2mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Methylergometrine+0.2mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 74,
+    "name": "Adrenaline Bitartrate 1mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Emergency",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Adrenaline+1mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 75,
+    "name": "Cefotaxime Sodium 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefotaxime+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 76,
+    "name": "Cefixime 200mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefixime+200mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 77,
+    "name": "Tocopheryl Acetate 400mg Alpha Tocopherol 182mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Supplements",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Vitamin+E+400mg",
+    "prescriptionRequired": false
+  },
+  {
+    "id": 78,
+    "name": "Lignocaine 21.3mg, Sodium Chloride 6mg, Methylparaben 1mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anesthetics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Lignocaine+21.3mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 79,
+    "name": "Amoxycillin 500mg, Potassium Clavunate 125mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Amoxycillin+Clavunate+625",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 80,
+    "name": "Cefotaxime Sodium 1g",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Cefotaxime+1g",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 81,
+    "name": "Azithromycin 250mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Azithromycin+250mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 82,
+    "name": "Piperacillin Sodium 4000mg, Tazobactam Sodium 500mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Piperacillin+Tazobactam",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 83,
+    "name": "Amoxycillin 500mg, Potassium Clavunate 125mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Antibiotics",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Amoxycillin+Clavunate+625",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 84,
+    "name": "Norethisterone 10mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Women's Health",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Norethisterone+10mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 85,
+    "name": "Levetiracetam 100mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Neurology",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Levetiracetam+100mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 86,
+    "name": "Clonidine Hydrochloride 150mcg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Cardiovascular",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Clonidine+150mcg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 87,
+    "name": "Glycopyrrolate 0.5mg, Neostigmine Methylsulphate 2.5mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Reversal Agent",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Glycopyrrolate+Neostigmine",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 88,
+    "name": "Dexmedetomidine 50mcg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Sedatives",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Dexmedetomidine+50mcg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 89,
+    "name": "Glycopyrrolate 0.2mg, Benzyl Alcohol 0.9%w/v",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Anticholinergic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Glycopyrrolate+0.2mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 90,
+    "name": "Menadione Sodium 10mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Vitamin K",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Menadione+10mg",
+    "prescriptionRequired": true
+  },
+  {
+    "id": 91,
+    "name": "Pentazocine 30mg",
+    "price": 0,
+    "originalPrice": 0,
+    "discount": "",
+    "category": "Analgesic",
+    "brand": "Unknown",
+    "image": "https://via.placeholder.com/300x200.png?text=Pentazocine+30mg",
+    "prescriptionRequired": true
+  }
+
+      ];
+
+      // ================
+      // DOM Elements
+      // ================
+      const productGrid = document.getElementById('productGrid');
+      const categoryList = document.getElementById('categoryList');
+      const brandList = document.getElementById('brandList');
+      const brandToggle = brandList?.previousElementSibling?.querySelector('span');
+      const brandFilters = document.querySelectorAll('.brand-filter');
+      const sortSelect = document.getElementById('sortSelect');
+      const uploadModal = document.getElementById('uploadModal');
+      const validPrescriptionModal = document.getElementById('validPrescriptionModal');
+      const validPrescriptionBtn = document.getElementById('validPrescriptionBtn');
+
+      let activeCategory = null;
+      let activeSort = null;
+
+      // ================
+      // Helpers
+      // ================
+      function escapeHtml(str) {
+        if (typeof str !== 'string') return str;
+        return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#039;');
+      }
+
+      // ================
+      // Product Card (Always Rx)
+      // ================
+      function createProductCard(product) {
+        const div = document.createElement('div');
+        div.className = 'product-card bg-white p-4 shadow rounded-lg flex flex-col justify-between relative cursor-pointer hover:shadow-lg transition-shadow';
+
+        div.innerHTML = `
+          <div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Rx Required</div>
+          <img src="${product.image}" alt="${escapeHtml(product.name)}" class="product-image w-full h-32 rounded-lg mb-3">
+          <p class="text-sm text-gray-600 font-medium">${escapeHtml(product.name)}</p>
+          <p class="text-xs text-gray-500">${escapeHtml(product.brand)}</p>
+          <p class="text-red-600 text-xs mt-1 font-semibold">Prescription needed</p>
+          <p class="text-green-600 font-bold mt-2">₹${product.price.toFixed(2)} 
+            ${product.originalPrice ? `<span class="text-gray-500 line-through text-sm">₹${product.originalPrice.toFixed(2)}</span> <span class="text-green-600 text-sm">${escapeHtml(product.discount)}</span>` : ''}</p>
+          <button class="mt-3 w-full bg-red-600 hover:bg-red-700 text-white py-2 rounded-lg transition flex items-center justify-center gap-2 upload-pres-btn" data-product='${escapeHtml(JSON.stringify(product))}'>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+            </svg>
+            Upload Prescription
+          </button>
+        `;
+
+        // Click anywhere → open modal
+        div.addEventListener('click', (e) => {
+          if (e.target.tagName === 'BUTTON' || e.target.closest('button')) return;
+          openUploadModalForProduct(product);
+        });
+
+        return div;
+      }
+
+      function displayProducts(list) {
+        productGrid.innerHTML = '';
+        list.forEach(p => productGrid.appendChild(createProductCard(p)));
+      }
+
+      displayProducts(products);
+
+      // ================
+      // Filters & Sorting
+      // ================
+      categoryList?.addEventListener('click', (e) => {
+        if (e.target.classList.contains('expand-toggle')) {
+          const sub = e.target.parentElement.querySelector('.subcategory');
+          if (sub) sub.classList.toggle('hidden');
+          e.target.textContent = e.target.textContent === '+' ? '-' : '+';
+          return;
+        }
+        if (e.target.classList.contains('category-link')) {
+          e.preventDefault();
+          const cat = e.target.textContent.trim();
+          activeCategory = cat;
+          applyFilters(products.filter(p => p.category === cat));
+        }
+      });
+
+      if (brandToggle) {
+        brandToggle.addEventListener('click', () => {
+          brandList.classList.toggle('hidden');
+          brandToggle.textContent = brandToggle.textContent === '+' ? '-' : '+';
+        });
+      }
+
+      brandFilters.forEach(f => f.addEventListener('change', () => applyFilters(products)));
+      sortSelect?.addEventListener('change', () => { activeSort = sortSelect.value; applyFilters(products); });
+
+      function applyFilters(startList) {
+        let list = [...(startList || products)];
+        const brands = Array.from(brandFilters).filter(f => f.checked).map(f => f.value);
+        if (brands.length) list = list.filter(p => brands.includes(p.brand));
+        if (activeSort === 'Price: Low to High') list.sort((a,b) => a.price - b.price);
+        else if (activeSort === 'Price: High to Low') list.sort((a,b) => b.price - a.price);
+        displayProducts(list);
+      }
+
+      // ================
+      // Upload Modal Logic
+      // ================
+      function openUploadModalForProduct(product) {
+        if (!uploadModal) return;
+        uploadModal.dataset.productId = product.id;
+        document.getElementById('modalProductName').textContent = `Upload Prescription for: ${product.name}`;
+        const img = document.getElementById('modalProductImage');
+        if (img) { img.src = product.image; img.classList.remove('hidden'); }
+
+        const fileInput = document.getElementById('prescriptionFile');
+        const fileNameDisplay = document.getElementById('fileNameDisplay');
+        const previewImg = document.getElementById('prescriptionPreviewImg');
+
+        const newInput = fileInput.cloneNode();
+        newInput.id = fileInput.id;
+        fileInput.parentNode.replaceChild(newInput, fileInput);
+
+        newInput.addEventListener('change', () => {
+          const file = newInput.files[0];
+          if (!file) { fileNameDisplay.textContent = ''; return; }
+          fileNameDisplay.textContent = file.name;
+          if (file.type.startsWith('image/')) {
+            const reader = new FileReader();
+            reader.onload = e => {
+              previewImg.src = e.target.result;
+              previewImg.classList.remove('hidden');
+              uploadModal.dataset.tempDataURL = e.target.result;
+              uploadModal.dataset.tempFileName = file.name;
+            };
+            reader.readAsDataURL(file);
+          } else {
+            uploadModal.dataset.tempDataURL = '';
+            uploadModal.dataset.tempFileName = file.name;
+          }
+        });
+
+        document.querySelector('label').addEventListener('click', (e) => {
+          e.preventDefault(); newInput.click();
+        }, { once: true });
+
+        uploadModal.classList.remove('hidden');
+      }
+
+      document.getElementById('submitPrescription')?.addEventListener('click', () => {
+        const prodId = uploadModal.dataset.productId;
+        const name = uploadModal.dataset.tempFileName;
+        const data = uploadModal.dataset.tempDataURL;
+
+        if (!name) return alert('Please select a file.');
+
+        const prescriptions = JSON.parse(localStorage.getItem('prescriptions') || '{}');
+        prescriptions[prodId] = { fileName: name, dataURL: data || null, uploadedAt: new Date().toISOString() };
+        localStorage.setItem('prescriptions', JSON.stringify(prescriptions));
+
+        uploadModal.classList.add('hidden');
+        alert('Prescription uploaded successfully!');
+        clearModal();
+      });
+
+      function clearModal() {
+        delete uploadModal.dataset.tempDataURL;
+        delete uploadModal.dataset.tempFileName;
+        document.getElementById('fileNameDisplay').textContent = '';
+        document.getElementById('prescriptionPreviewImg').classList.add('hidden');
+        document.getElementById('prescriptionFile').value = '';
+      }
+
+      // Close modals
+      uploadModal?.addEventListener('click', e => { if (e.target === uploadModal) { uploadModal.classList.add('hidden'); clearModal(); } });
+      document.getElementById('closeUploadModal')?.addEventListener('click', () => { uploadModal.classList.add('hidden'); clearModal(); });
+      validPrescriptionModal?.addEventListener('click', e => { if (e.target === validPrescriptionModal) validPrescriptionModal.classList.add('hidden'); });
+      document.getElementById('closeValidPrescriptionModal')?.addEventListener('click', () => validPrescriptionModal.classList.add('hidden'));
+      validPrescriptionBtn?.addEventListener('click', () => validPrescriptionModal.classList.remove('hidden'));
+
+      // Delegation for upload buttons
+      document.body.addEventListener('click', e => {
+        const btn = e.target.closest('.upload-pres-btn');
+        if (btn) {
+          e.stopPropagation();
+          try {
+            const product = JSON.parse(btn.getAttribute('data-product').replace(/&quot;/g, '"').replace(/&amp;/g, '&'));
+            openUploadModalForProduct(product);
+          } catch {}
+        }
+      });
+
+      // Expose
+      window.uploadPrescription = (obj) => {
+        const p = typeof obj === 'object' ? obj : products.find(x => x.id == obj);
+        if (p) openUploadModalForProduct(p);
+      };
+
+      applyFilters(products);
+    });
+  </script>
+
+ 
+</body>
+</html>

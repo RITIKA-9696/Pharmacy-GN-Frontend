@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">GoodiNeewz - Header</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+      
+    <link rel="stylesheet" href="header.css">
+</head>
+<body>
+<!-- header.html -->
+<header class="header">
+  <div class="header-container">
+    <!-- Left side: Logo and Pin Code Selector -->
+    <div class="logo-section">
+      <a href="../index.html">
+      <img src="/Images/IMG/LOGO-removebg-preview.png" alt="GoodiNeewz Logo" class="logo"></a>
+      <div class="pin-selector">
+        <div class="pincode-group">
+          <label for="pincode" data-i18n="enterPinCode">Select Pincode:</label>
+          <div class="pincode-wrapper">
+            <input type="text" id="pincode" data-i18n-placeholder="enterPinCode" placeholder="select" maxlength="6">
+            <span id="pincode-clear" class="pincode-clear" style="display: none;">✕</span>
+          </div>
+        </div>
+        <div id="delivery-info" class="delivery-info" style="display: none;">
+          <i class="fas fa-truck"></i>
+          <span id="delivery-text" data-i18n="deliveryEstimate">Delivery in 3-5 days</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Right side: Language, Contact, Wishlist, Cart, Profile -->
+    <div class="flex items-center space-x-5 sm:space-x-6 md:space-x-8">
+      <!-- Language Selector -->
+       
+      <select id="language-selector">
+      
+        <option value="english">English</option>
+        <option value="hindi">हिंदी</option>
+        <option value="marathi">मराठी</option>
+      </select>
+      
+      <!-- Contact Link -->
+      <a href="/contact.html" class="header-link" data-i18n="contact">Contact</a>
+      <a href="../Wishlist/wishlist.html" class="header-icon"><i class="fas fa-heart"></i></a>
+      <a href="/cart.html" class="header-icon relative">
+        <i class="fas fa-shopping-cart"></i>
+        <span class="cart-count"></span>
+      </a>
+      
+      <!-- Profile Dropdown -->
+      <div class="profile-dropdown">
+        <button class="profile-icon" id="profile-btn" type="button" data-i18n="profile">Profile</button>
+        <div id="profile-menu" class="dropdown-menu">
+          <a href="/Signup/auth.html"><i class="fas fa-user-plus"></i> <span data-i18n="signupLogin">Sign Up / Login</span></a>
+          <a href="/Profile/profile.html"><i class="fas fa-user-circle"></i> <span data-i18n="profile">Profile</span></a>
+          <a href="/MY ORDERS/myorders.html"><i class="fas fa-box"></i> <span data-i18n="orders">Orders</span></a>
+          <a href="/index.html" id="logout-btn"><i class="fas fa-sign-out-alt"></i> <span data-i18n="logout">Logout</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Navigation Bar -->
+<!-- Navigation Bar - FULLY RESPONSIVE WITH MOBILE HAMBURGER -->
+<nav class="bg-white shadow-md sticky top-0 z-50">
+  <div class="max-w-9xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+
+      <!-- Hamburger Button (Mobile only) -->
+      <button id="mobile-menu-btn" class="lg:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none">
+        <i class="fas fa-bars text-2xl"></i>
+      </button>
+
+      <!-- Desktop Navigation (hidden on mobile) -->
+      <ul class="nav-list hidden lg:flex justify-center flex-1 space-x-8">
+        <!-- Mother Care -->
+        <li class="nav-item">
+          <a href="/MotherCare/mother.html" data-i18n="motherCare" class="uiverse-highlight mother-care">
+            <i class="fas fa-female"></i>
+            Mother Care
+          </a>
+        </li>
+        <!-- Baby Care -->
+        <li class="nav-item">
+          <a href="/BabyCare/baby.html" data-i18n="babyCare" class="uiverse-highlight baby-care">
+            <i class="fas fa-baby"></i>
+            Baby Care
+          </a>
+        </li>
+        <!-- Medicine & HealthCare -->
+        <li class="nav-item dropdown">
+          <a href="medicine-healthcare.html" data-i18n="medicineHealthcare">
+            <i class="fa-solid fa-prescription-bottle-alt" style="color:#1565c0; margin-right:6px;"></i>
+            Medicine & HealthCare
+          </a>
+          <div class="submenu">
+            <a href="/Medical and HealthCare/Prescription/prescription.html" data-i18n="prescriptionMedicines">Prescription Medicines</a>
+            <a href="/Medical and HealthCare/OTC/otc.html" data-i18n="otc">OTC</a>
+            <a href="/Medical and HealthCare/Chronic/chronic.html" data-i18n="chronic">Chronic</a>
+            <a href="/Medical and HealthCare/FirstAid and Emergency/firstaid.html" data-i18n="firstAid">First Aid</a>
+            <a href="/Medical and HealthCare/PainRelief and Fever/painRelief.html" data-i18n="pain">Pain and Relief</a>
+            <a href="/Medical and HealthCare/Allergy and Coldcare/allergy.html" data-i18n="allergy">Allergy</a>
+            <a href="/Medical and HealthCare/Digestive Health/digestive.html" data-i18n="digestive">Digestive</a>
+            <a href="/Medical and HealthCare/Mens Health/men.html" data-i18n="men">Men</a>
+          </div>
+        </li>
+        <!-- Wellness -->
+        <li class="nav-item dropdown">
+          <a href="wellness.html" data-i18n="wellness">Wellness</a>
+          <div class="submenu">
+            <a href="/Wellness/VITAMINS AND SUPPLEMENTS/vitamins.html" data-i18n="vitamins">Vitamins</a>
+            <a href="/Wellness/SKIN AND HAIRCARE/skin.html" data-i18n="skin">Skin</a>
+            <a href="/Wellness/ORAL CARE/oral.html" data-i18n="oral">Oral</a>
+            <a href="/Wellness/MENSTRUAL/menstrualCare.html" data-i18n="menstrual">Menstrual</a>
+            <a href="/Wellness/FITNESS AND WEIGHT MANAGEMENT/fitness.html" data-i18n="fitness">Fitness</a>
+            <a href="/Wellness/SENIOR CARE/seniorCare.html" data-i18n="senior">Senior</a>
+            <a href="/Wellness/IMMUNITY BOOSTER/immunity.html" data-i18n="immunity">Immunity</a>
+            <a href="/Wellness/AYURVEDA/ayurved.html" data-i18n="ayurveda">Ayurveda</a>
+          </div>
+        </li>
+        <!-- Devices -->
+        <li class="nav-item dropdown">
+          <a href="devices.html" data-i18n="devices">Devices</a>
+          <div class="submenu">
+            <a href="/DEVICES/MONITORING DEVICES/monitor.html" data-i18n="bp">BP</a>
+            <a href="/DEVICES/MOBILITY AIDS/mobility.html" data-i18n="mobility">Mobility</a>
+            <a href="/DEVICES/RESPIRATORY CARE/respiratory.html" data-i18n="respiratory">Respiratory</a>
+          </div>
+        </li>
+        <!-- Surgical Items -->
+        <li class="nav-item">
+          <a href="surgical.html" data-i18n="surgical">Surgical Items</a>
+        </li>
+        <!-- About Us -->
+        <li class="nav-item">
+          <a href="../about.html" data-i18n="about">About Us</a>
+        </li>
+      </ul>
+
+      <!-- Dummy div to balance flex on mobile (keeps hamburger on left) -->
+      <div class="lg:hidden w-10"></div>
+    </div>
+
+    <!-- Mobile Menu (hidden by default) -->
+    <div id="mobile-menu" class="lg:hidden hidden border-t border-gray-200">
+      <ul class="nav-list-mobile">
+        <li><a href="/MotherCare/mother.html" class="block py-4 px-6 font-medium"><i class="fas fa-female mr-2"></i>Mother Care</a></li>
+        <li><a href="/BabyCare/baby.html" class="block py-4 px-6 font-medium"><i class="fas fa-baby mr-2"></i>Baby Care</a></li>
+        
+        <li class="border-t border-gray-200">
+          <button class="w-full text-left py-4 px-6 font-medium flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            <span><i class="fa-solid fa-prescription-bottle-alt mr-2" style="color:#1565c0;"></i>Medicine & HealthCare</span>
+            <i class="fas fa-chevron-down text-sm"></i>
+          </button>
+          <div class="bg-gray-50 hidden">
+            <a href="/Medical and HealthCare/Prescription/prescription.html" class="block py-3 pl-12 pr-6">Prescription Medicines</a>
+            <a href="/Medical and HealthCare/OTC/otc.html" class="block py-3 pl-12 pr-6">OTC</a>
+            <a href="/Medical and HealthCare/Chronic/chronic.html" class="block py-3 pl-12 pr-6">Chronic</a>
+            <a href="/Medical and HealthCare/FirstAid and Emergency/firstaid.html" class="block py-3 pl-12 pr-6">First Aid</a>
+            <a href="/Medical and HealthCare/PainRelief and Fever/painRelief.html" class="block py-3 pl-12 pr-6">Pain and Relief</a>
+            <a href="/Medical and HealthCare/Allergy and Coldcare/allergy.html" class="block py-3 pl-12 pr-6">Allergy</a>
+            <a href="/Medical and HealthCare/Digestive Health/digestive.html" class="block py-3 pl-12 pr-6">Digestive</a>
+            <a href="/Medical and HealthCare/Mens Health/men.html" class="block py-3 pl-12 pr-6">Men</a>
+          </div>
+        </li>
+
+        <li class="border-t border-gray-200">
+          <button class="w-full text-left py-4 px-6 font-medium flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            Wellness <i class="fas fa-chevron-down text-sm"></i>
+          </button>
+          <div class="bg-gray-50 hidden">
+            <a href="/Wellness/VITAMINS AND SUPPLEMENTS/vitamins.html" class="block py-3 pl-12 pr-6">Vitamins</a>
+            <a href="/Wellness/SKIN AND HAIRCARE/skin.html" class="block py-3 pl-12 pr-6">Skin</a>
+            <a href="/Wellness/ORAL CARE/oral.html" class="block py-3 pl-12 pr-6">Oral</a>
+            <a href="/Wellness/MENSTRUAL/menstrualCare.html" class="block py-3 pl-12 pr-6">Menstrual</a>
+            <a href="/Wellness/FITNESS AND WEIGHT MANAGEMENT/fitness.html" class="block py-3 pl-12 pr-6">Fitness</a>
+            <a href="/Wellness/SENIOR CARE/seniorCare.html" class="block py-3 pl-12 pr-6">Senior</a>
+            <a href="/Wellness/IMMUNITY BOOSTER/immunity.html" class="block py-3 pl-12 pr-6">Immunity</a>
+            <a href="/Wellness/AYURVEDA/ayurved.html" class="block py-3 pl-12 pr-6">Ayurveda</a>
+          </div>
+        </li>
+
+        <li class="border-t border-gray-200">
+          <button class="w-full text-left py-4 px-6 font-medium flex justify-between items-center" onclick="this.nextElementSibling.classList.toggle('hidden')">
+            Devices <i class="fas fa-chevron-down text-sm"></i>
+          </button>
+          <div class="bg-gray-50 hidden">
+            <a href="/DEVICES/MONITORING DEVICES/monitor.html" class="block py-3 pl-12 pr-6">BP</a>
+            <a href="/DEVICES/MOBILITY AIDS/mobility.html" class="block py-3 pl-12 pr-6">Mobility</a>
+            <a href="/DEVICES/RESPIRATORY CARE/respiratory.html" class="block py-3 pl-12 pr-6">Respiratory</a>
+          </div>
+        </li>
+
+        <li class="border-t border-gray-200"><a href="surgical.html" class="block py-4 px-6 font-medium">Surgical Items</a></li>
+        <li class="border-t border-gray-200"><a href="../about.html" class="block py-4 px-6 font-medium">About Us</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<script src="header.js"></script>
+</body>
+</html>

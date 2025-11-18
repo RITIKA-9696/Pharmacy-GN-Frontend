@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Baby Care - Product Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+<link rel="stylesheet" href="../Header/header.css">
+<link rel="stylesheet" href="../Footer/footer.css">
+    <style>
+      /* General Styling */
+      body {
+        background-color: #fcfdff; /* Light blue background */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      /* Product Image */
+      .product-image {
+        width: 100%;
+        height: 400px;
+        object-fit: contain;
+        background: #DBEAFE; /* Light blue background for images */
+        border-radius: 8px;
+        padding: 1rem;
+      }
+
+      /* Buttons */
+      .add-to-cart,
+      .add-to-wishlist {
+        padding: 0.75rem 1.5rem;
+        font-size: 1rem;
+        font-weight: 500;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .add-to-cart {
+        background: linear-gradient(135deg, #3B82F6, #93C5FD); /* Light blue gradient */
+        color: white;
+        border: none;
+      }
+
+      .add-to-cart:hover {
+        background: linear-gradient(135deg, #2563EB, #60A5FA);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+      }
+
+      .add-to-wishlist {
+        background: white;
+        color: #3B82F6;
+        border: 1px solid #3B82F6;
+      }
+
+      .add-to-wishlist:hover {
+        background: #DBEAFE;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+      }
+
+      .add-to-wishlist.active {
+        background: #3B82F6;
+        color: white;
+      }
+
+      /* Carousel Dots */
+      .carousel-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: #CBD5E1;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      .carousel-dot.active {
+        background-color: #3B82F6; /* Light blue active dot */
+        transform: scale(1.2);
+      }
+
+      /* Thumbnail Images */
+      .thumbnail {
+        width: 80px;
+        height: 80px;
+        object-fit: contain;
+        background: #DBEAFE;
+        border-radius: 8px;
+        padding: 0.5rem;
+        cursor: pointer;
+        border: 2px solid transparent;
+        transition: all 0.3s ease;
+      }
+
+      .thumbnail.active {
+        border-color: #3B82F6;
+        transform: scale(1.05);
+      }
+
+      /* Related Products */
+      .related-product-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        background: white;
+        overflow: hidden;
+      }
+
+      .related-product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        border-color: #3B82F6;
+      }
+
+      .related-product-card img {
+        height: 150px;
+        width: 100%;
+        object-fit: contain;
+        background: #DBEAFE; /* Light blue background */
+        padding: 0.5rem;
+      }
+
+      /* Quantity Selector */
+      .quantity-selector button {
+        background: #DBEAFE;
+        color: #3B82F6;
+        border: none;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .quantity-selector button:hover {
+        background: #93C5FD;
+        transform: scale(1.05);
+      }
+
+      .quantity-selector button:active {
+        transform: scale(0.95);
+      }
+
+      /* Size Selector */
+      .size-option {
+        display: inline-block;
+        padding: 0.5rem 1rem;
+        margin-right: 0.5rem;
+        margin-bottom: 0.5rem;
+        border: 1px solid #CBD5E1;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .size-option:hover {
+        border-color: #3B82F6;
+        background-color: #DBEAFE;
+      }
+
+      .size-option.selected {
+        background-color: #3B82F6;
+        color: white;
+        border-color: #3B82F6;
+      }
+
+      /* Stock Status */
+      .in-stock {
+        color: #10B981;
+        font-weight: 600;
+      }
+
+      .low-stock {
+        color: #F59E0B;
+        font-weight: 600;
+      }
+
+      .out-of-stock {
+        color: #EF4444;
+        font-weight: 600;
+      }
+
+      /* Modal Improvements */
+      #cartModal, #wishlistModal {
+        transition: opacity 0.3s ease;
+      }
+
+      .modal-content {
+        animation: modalFadeIn 0.3s ease;
+      }
+
+      @keyframes modalFadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Cart & Wishlist Items */
+      .cart-item, .wishlist-item {
+        display: flex;
+        align-items: center;
+        padding: 1rem 0;
+        border-bottom: 1px solid #E2E8F0;
+      }
+
+      .cart-item:last-child, .wishlist-item:last-child {
+        border-bottom: none;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        transition: max-height 0.3s ease-in-out;
+        max-height: 0;
+        overflow: hidden;
+      }
+
+      .mobile-menu.open {
+        max-height: 300px;
+      }
+
+      /* Responsive Adjustments */
+      @media (max-width: 640px) {
+        .product-image {
+          height: 250px; /* Reduced height for mobile */
+          padding: 0.5rem;
+        }
+
+        .thumbnail {
+          width: 60px;
+          height: 60px;
+          padding: 0.25rem;
+        }
+
+        .add-to-cart,
+        .add-to-wishlist {
+          width: 100%;
+          margin-bottom: 0.75rem;
+          font-size: 0.9rem;
+          padding: 0.6rem 1rem;
+        }
+
+        .button-group {
+          flex-direction: column;
+        }
+
+        .quantity-selector button {
+          width: 32px;
+          height: 32px;
+        }
+
+        .quantity-selector span {
+          font-size: 1rem;
+          width: 40px;
+        }
+
+        .related-product-card {
+          padding: 0.5rem;
+        }
+
+        .related-product-card img {
+          height: 120px;
+        }
+
+        .modal-content {
+          width: 95%;
+          max-height: 85vh;
+        }
+
+        .cart-item, .wishlist-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 0.5rem;
+        }
+
+        .cart-item img, .wishlist-item img {
+          width: 50px;
+          height: 50px;
+        }
+
+        .mobile-menu a {
+          display: block;
+          padding: 0.5rem 0;
+          color: #3B82F6;
+          font-size: 0.9rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .product-image {
+          height: 200px;
+        }
+
+        .thumbnail {
+          width: 50px;
+          height: 50px;
+        }
+
+        .related-product-card h3 {
+          font-size: 0.85rem;
+        }
+
+        .related-product-card button {
+          font-size: 0.8rem;
+          padding: 0.5rem;
+        }
+
+        .modal-content {
+          width: 98%;
+        }
+
+        .cart-item .flex-1,
+        .wishlist-item .flex-1 {
+          width: 100%;
+        }
+      }
+
+      /* Loading States */
+      .loading {
+        opacity: 0.7;
+        pointer-events: none;
+      }
+
+      /* Empty States */
+      .empty-state {
+        text-align: center;
+        padding: 2rem;
+        color: #64748B;
+      }
+
+      .empty-state i {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        color: #CBD5E1;
+      }
+    </style>
+  </head>
+  <body class="bg-white">
+    <div id="header-placeholder"></div>
+    
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- Breadcrumb -->
+      <div class="mb-6 text-sm text-gray-500">
+        <a href="../index.html" class="hover:text-blue-600">Home</a> 
+        <span class="mx-2">/</span>
+        <a href="./baby.html" class="hover:text-blue-600">Baby Products</a>
+        <span class="mx-2">/</span>
+        <span id="breadcrumbCategory" class="text-gray-900">Product Details</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <!-- Product Images -->
+        <div>
+          <div class="relative">
+            <div id="mainImage" class="product-image flex items-center justify-center">
+              <div class="text-center text-gray-400">
+                <i class="fas fa-image text-6xl mb-2"></i>
+                <p>Loading image...</p>
+              </div>
+            </div>
+            <div
+              class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2"
+              id="carouselDots"
+            >
+              <!-- Carousel dots will be dynamically added -->
+            </div>
+            <button
+              id="prevImage"
+              class="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all"
+              aria-label="Previous Image"
+            >
+              <i class="fas fa-chevron-left text-gray-600"></i>
+            </button>
+            <button
+              id="nextImage"
+              class="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 shadow-md transition-all"
+              aria-label="Next Image"
+            >
+              <i class="fas fa-chevron-right text-gray-600"></i>
+            </button>
+          </div>
+          <div id="thumbnailImages" class="flex space-x-2 mt-4 overflow-x-auto py-2">
+            <!-- Thumbnails will be dynamically added -->
+          </div>
+        </div>
+
+        <!-- Product Details -->
+        <div>
+          <h1 id="productTitle" class="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
+            Loading...
+          </h1>
+          <div class="flex items-center mb-4">
+            <div id="productRating" class="flex text-yellow-400">
+              <!-- Stars will be dynamically added -->
+            </div>
+            <span id="reviewCount" class="ml-2 text-sm text-gray-600">(0 reviews)</span>
+          </div>
+          <div class="mb-4">
+            <span id="productPrice" class="text-2xl font-bold text-blue-600">₹0.00</span>
+            <span
+              id="originalPrice"
+              class="ml-2 text-sm text-gray-500 line-through"
+            ></span>
+            <span id="discountBadge" class="ml-2 text-sm text-red-500 font-semibold"></span>
+          </div>
+          <p id="productDescription" class="text-gray-600 mb-4">Loading description...</p>
+          
+          <div class="mb-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">Size:</h3>
+            <div id="productSizes" class="flex flex-wrap">
+              <!-- Size options will be dynamically added -->
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <span id="stockStatus" class="text-sm font-semibold">Checking stock...</span>
+          </div>
+          
+          <div class="flex items-center mb-6">
+            <span class="mr-4 font-medium">Quantity:</span>
+            <div class="quantity-selector flex items-center space-x-2">
+              <button
+                id="decreaseQty"
+                class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 transition-all"
+                aria-label="Decrease Quantity"
+              >
+                <i class="fas fa-minus"></i>
+              </button>
+              <span id="quantity" class="w-12 text-center font-semibold text-lg">1</span>
+              <button
+                id="increaseQty"
+                class="w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 transition-all"
+                aria-label="Increase Quantity"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="flex space-x-4 mb-6 button-group">
+            <button id="addToCart" class="add-to-cart">
+              <i class="fas fa-shopping-cart mr-2"></i>Add to Cart
+            </button>
+            <button id="addToWishlist" class="add-to-wishlist">
+              <i class="far fa-heart mr-2"></i>Add to Wishlist
+            </button>
+          </div>
+          
+          <div class="border-t pt-4">
+            <h3 class="text-lg font-semibold text-gray-900 mb-2">
+              Product Details
+            </h3>
+            <p id="productBrand" class="text-gray-600 mb-1"><span class="font-medium">Brand:</span> Loading...</p>
+            <p id="productCategory" class="text-gray-600"><span class="font-medium">Category:</span> Loading...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Related Products -->
+      <div class="mt-12">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6">
+          Related Products
+        </h2>
+        <div
+          id="relatedProducts"
+          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          <div class="text-center py-8 text-gray-500">
+            <i class="fas fa-spinner fa-spin text-3xl mb-2"></i>
+            <p>Loading related products...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cart Modal -->
+    <div
+      id="cartModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+    >
+      <div class="modal-content bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden">
+        <div class="flex items-center justify-between p-6 border-b">
+          <h2 class="text-2xl font-bold text-gray-900">Shopping Cart</h2>
+          <button
+            id="closeCartModal"
+            class="text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label="Close Cart"
+          >
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        <div id="cartContent" class="p-6 overflow-y-auto max-h-96">
+          <div class="empty-state">
+            <i class="fas fa-shopping-cart"></i>
+            <p>Your cart is empty</p>
+          </div>
+        </div>
+        <div id="cartFooter" class="border-t p-6 hidden">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-lg font-semibold">Total: </span>
+            <span id="cartTotal" class="text-2xl font-bold text-blue-600"
+              >₹0.00</span
+            >
+          </div>
+          <div class="flex space-x-4">
+            <button
+              id="clearCart"
+              class="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-300 transition-colors"
+            >
+              Clear Cart
+            </button>
+            <button
+              id="checkoutBtn"
+              class="flex-1 bg-blue-600 text-white py-3 px-4 rounded-md hover:bg-blue-700 transition-colors"
+            >
+              Checkout
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div
+      id="wishlistModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4"
+    >
+      <div class="modal-content bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div class="flex items-center justify-between p-6 border-b">
+          <h2 class="text-2xl font-bold text-gray-900">My Wishlist</h2>
+          <button
+            id="closeWishlistModal"
+            class="text-gray-500 hover:text-gray-700 transition-colors"
+            aria-label="Close Wishlist"
+          >
+            <i class="fas fa-times text-xl"></i>
+          </button>
+        </div>
+        <div id="wishlistContent" class="p-6 overflow-y-auto max-h-96">
+          <div class="empty-state">
+            <i class="fas fa-heart"></i>
+            <p>Your wishlist is empty</p>
+          </div>
+        </div>
+        <div id="wishlistFooter" class="border-t p-6 hidden">
+          <button
+            id="clearWishlist"
+            class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+          >
+            Clear Wishlist
+          </button>
+        </div>
+      </div>
+    </div>
+
+<div id="footer-placeholder"></div>
+    
+
+ <script>
+    function loadHeader() {
+        fetch('../Header/header.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../Header/header.js';
+                script.onload = () => console.log('Header JS loaded');
+                document.body.appendChild(script);
+            })
+            .catch(err => console.error('Header load failed:', err));
+    }
+
+    function loadFooter() {
+        fetch('../Footer/footer.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('footer-placeholder').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load failed:', err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHeader();
+        loadFooter();
+        // ... rest of your code
+    });
+</script>
+  <script src="./baby-product-details.js"></script>
+  
+  
+  </body>
+</html>

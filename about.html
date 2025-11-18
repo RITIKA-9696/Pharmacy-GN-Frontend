@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dr. Alok Gandhi - Obstetrician & Gynecologist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=DM+Serif+Text:ital@0;1&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+      :root {
+        --primary-pink: #ec4899;
+        --primary-blue: #3b82f6;
+        --light-pink: #fdf2f8;
+        --light-blue: #eff6ff;
+        --dark-pink: #db2777;
+        --dark-blue: #1d4ed8;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        scroll-behavior: smooth;
+      }
+
+      .gradient-bg {
+        background: linear-gradient(
+          135deg,
+          var(--primary-pink) 0%,
+          var(--primary-blue) 100%
+        );
+      }
+
+      .gradient-text {
+        background: linear-gradient(
+          135deg,
+          var(--primary-pink) 0%,
+          var(--primary-blue) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .pink-gradient-bg {
+        background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+      }
+
+      .blue-gradient-bg {
+        background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+      }
+
+      .card-hover {
+        transition: all 0.3s ease;
+      }
+
+      .card-hover:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(
+          135deg,
+          var(--dark-pink) 0%,
+          var(--dark-blue) 100%
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Floating animation for background icons */
+      @keyframes float {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.8;
+        }
+        50% {
+          transform: translateY(-15px) rotate(10deg);
+          opacity: 1;
+        }
+        100% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 0.8;
+        }
+      }
+
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Custom animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in-up {
+        animation: fadeInUp 0.8s ease-out forwards;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .pulse-animation {
+        animation: pulse 2s infinite;
+      }
+
+      /* Loading animation */
+      .loading-bar {
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(
+          90deg,
+          var(--primary-pink),
+          var(--primary-blue)
+        );
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.3s ease;
+      }
+
+      /* Navigation */
+      .nav-scrolled {
+        background-color: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .section-divider {
+        height: 4px;
+        width: 80px;
+        background: linear-gradient(
+          90deg,
+          var(--primary-pink),
+          var(--primary-blue)
+        );
+        border-radius: 2px;
+        margin: 0 auto;
+      }
+
+      .curved-section {
+        border-radius: 0 0 50% 50% / 0 0 30px 30px;
+      }
+
+      .blob {
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      }
+
+      .testimonial-card {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        box-shadow: 10px 10px 20px #d9d9d9, -10px -10px 20px #ffffff;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-50 text-gray-800">
+    <!-- Loading Bar -->
+    <div class="loading-bar" id="loadingBar"></div>
+
+    <!-- Hero Section -->
+   <section
+  id="home"
+  class="pt-24 pb-16 md:pt-32 md:pb-24 pink-gradient-bg curved-section relative overflow-hidden">
+  <!-- Floating SVG Elements -->
+  <div class="absolute inset-0 overflow-hidden pointer-events-none">
+    <!-- Floating Heart -->
+    <svg class="absolute animate-float" style="top:10%; left:5%; width:40px; height:40px; animation-delay: 0s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#ec4899" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Baby -->
+    <svg class="absolute animate-float" style="top:20%; right:8%; width:35px; height:35px; animation-delay: 1s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V7H9V5.5L3 7V9L9 10.5V12H15V10.5L21 9ZM15 16H9V14H15V16ZM12 14C13.66 14 15 15.34 15 17V22H9V17C9 15.34 10.34 14 12 14Z" fill="#3b82f6" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Stethoscope -->
+    <svg class="absolute animate-float" style="bottom:25%; left:8%; width:45px; height:45px; animation-delay: 2s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 8H18V6C18 3.79 16.21 2 14 2C11.79 2 10 3.79 10 6V8H9C7.34 8 6 9.34 6 11V18C6 19.66 7.34 21 9 21H19C20.66 21 22 19.66 22 18V11C22 9.34 20.66 8 19 8ZM12 6C12 4.9 12.9 4 14 4C15.1 4 16 4.9 16 6V8H12V6ZM19 19H9C8.45 19 8 18.55 8 18V11C8 10.45 8.45 10 9 10H19C19.55 10 20 10.45 20 11V18C20 18.55 19.55 19 19 19Z" fill="#ec4899" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Medical Cross -->
+    <svg class="absolute animate-float" style="bottom:15%; right:12%; width:30px; height:30px; animation-delay: 3s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#3b82f6" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Flower -->
+    <svg class="absolute animate-float" style="top:35%; left:12%; width:25px; height:25px; animation-delay: 4s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM17.5 7C18.33 7 19 7.67 19 8.5C19 9.33 18.33 10 17.5 10C16.67 10 16 9.33 16 8.5C16 7.67 16.67 7 17.5 7ZM6.5 7C7.33 7 8 7.67 8 8.5C8 9.33 7.33 10 6.5 10C5.67 10 5 9.33 5 8.5C5 7.67 5.67 7 6.5 7ZM12 22C13.1 22 14 21.1 14 20C14 18.9 13.1 18 12 18C10.9 18 10 18.9 10 20C10 21.1 10.9 22 12 22ZM17.5 14C18.33 14 19 14.67 19 15.5C19 16.33 18.33 17 17.5 17C16.67 17 16 16.33 16 15.5C16 14.67 16.67 14 17.5 14ZM6.5 14C7.33 14 8 14.67 8 15.5C8 16.33 7.33 17 6.5 17C5.67 17 5 16.33 5 15.5C5 14.67 5.67 14 6.5 14Z" fill="#ec4899" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Medical Star -->
+    <svg class="absolute animate-float" style="top:15%; left:25%; width:20px; height:20px; animation-delay: 5s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="#3b82f6" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Medical Plus -->
+    <svg class="absolute animate-float" style="bottom:30%; right:25%; width:35px; height:35px; animation-delay: 6s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#ec4899" fill-opacity="0.3"/>
+    </svg>
+
+    <!-- Floating Medical Circle -->
+    <svg class="absolute animate-float" style="top:45%; right:15%; width:40px; height:40px; animation-delay: 7s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 8 12 8C16.41 8 20 11.59 20 16C20 16.41 16.41 20 12 20Z" fill="#3b82f6" fill-opacity="0.3"/>
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="flex flex-col md:flex-row items-center">
+      <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
+        <h1
+          class="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold mb-6"
+        >
+          <span class="text-gray-800">Expert Care for</span>
+          <span class="block gradient-text">Women's Health</span>
+        </h1>
+        <p
+          class="text-lg md:text-xl text-gray-600 font-serif mb-8 leading-relaxed"
+        >
+          Dr. Alok Gandhi specializes in maternal healthcare, infertility,
+          and high-risk pregnancies with over 8 years of dedicated practice.
+        </p>
+        <div
+          class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
+        >
+          <a
+            href="#specializations"
+            class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all transform hover:-translate-y-1 text-center"
+          >
+            View Specializations
+          </a>
+
+          <a
+            href="#about"
+            class="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-semibold px-8 py-3 rounded-full transition-all transform hover:-translate-y-1 text-center"
+          >
+            Learn More
+          </a>
+        </div>
+      </div>
+      <div
+        class="md:w-1/2 flex justify-center"
+        data-aos="fade-left"
+        data-aos-delay="200"
+      >
+        <div class="relative">
+          <!-- Blob card with doctor image -->
+          <div
+            class="w-64 h-64 md:w-80 md:h-80 gradient-bg blob flex items-center justify-center overflow-hidden"
+          >
+            <img
+              src="./Images/IMG/image.png"
+              alt="Dr. Alok Gandhi"
+              class="w-full h-full object-cover"
+            />
+          </div>
+
+          <!-- Experience Badge -->
+          <div
+            class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 w-32"
+          >
+            <div class="text-center">
+              <div class="text-2xl font-bold text-pink-500">8+</div>
+              <div class="text-xs text-gray-600">Years Experience</div>
+            </div>
+          </div>
+
+          <!-- Deliveries Badge -->
+          <div
+            class="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg p-4 w-32"
+          >
+            <div class="text-center">
+              <div class="text-2xl font-bold text-blue-500">8,000+</div>
+              <div class="text-xs text-gray-600">Deliveries</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    /* Floating animation for SVG elements */
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      50% { transform: translateY(-20px) rotate(5deg); opacity: 1; }
+      100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    }
+    
+    .animate-float {
+      animation: float 8s ease-in-out infinite;
+    }
+  </style>
+</section>
+
+    <!-- Stats Section -->
+  <section class="py-12 relative overflow-hidden" data-aos="fade-up">
+  <!-- Background Pattern & Bubbles -->
+  <div class="absolute inset-0">
+    <!-- Large Pink & Blue Blur Circles -->
+    <div class="absolute top-5 left-5 w-12 h-12 bg-pink-500 rounded-full blur-lg opacity-20"></div>
+    <div class="absolute bottom-5 right-5 w-14 h-14 bg-blue-500 rounded-full blur-lg opacity-20"></div>
+
+    <!-- Light Blue Floating Bubbles -->
+    <div class="absolute top-20 left-10 w-6 h-6 bg-blue-300 rounded-full opacity-40 animate-float" style="animation-delay: 0s;"></div>
+    <div class="absolute top-40 right-20 w-8 h-8 bg-blue-200 rounded-full opacity-30 animate-float" style="animation-delay: 1s;"></div>
+    <div class="absolute bottom-20 left-1/3 w-5 h-5 bg-blue-400 rounded-full opacity-40 animate-float" style="animation-delay: 2s;"></div>
+    <div class="absolute bottom-10 right-1/4 w-6 h-6 bg-blue-300 rounded-full opacity-35 animate-float" style="animation-delay: 3s;"></div>
+  </div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <!-- Heading & Subheading -->
+    <div class="text-center mb-10" data-aos="fade-down">
+      <h2 class="text-3xl md:text-4xl font-bold font-serif text-gray-800 mb-3">Our Achievements</h2>
+      <p class="text-gray-600 text-lg md:text-xl">Providing expert care and building happy families over the years</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Years Experience Card -->
+      <div
+        class="group p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden"
+      >
+        <!-- Animated Border -->
+        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+        <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
+        
+        <!-- Icon Container -->
+        <div
+          class="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md"
+        >
+          <i class="fas fa-calendar-alt text-white text-xl"></i>
+        </div>
+        
+        <!-- Content -->
+        <div class="text-center">
+          <div class="stat-number text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">8+</div>
+          <p class="text-gray-600 font-medium text-sm">Years Experience</p>
+        </div>
+      </div>
+
+      <!-- Successful Deliveries Card -->
+      <div
+        class="group p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden"
+        data-aos-delay="100"
+      >
+        <!-- Animated Border -->
+        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-pink-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+        <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
+        
+        <!-- Icon Container -->
+        <div
+          class="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md"
+        >
+          <i class="fas fa-baby text-white text-xl"></i>
+        </div>
+        
+        <!-- Content -->
+        <div class="text-center">
+          <div class="stat-number text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">8,000+</div>
+          <p class="text-gray-600 font-medium text-sm">Successful Deliveries</p>
+        </div>
+      </div>
+
+      <!-- Happy Families Card -->
+      <div
+        class="group p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden"
+        data-aos-delay="200"
+      >
+        <!-- Animated Border -->
+        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+        <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
+        
+        <!-- Icon Container -->
+        <div
+          class="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md"
+        >
+          <i class="fas fa-smile text-white text-xl"></i>
+        </div>
+        
+        <!-- Content -->
+        <div class="text-center">
+          <div class="stat-number text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">1000+</div>
+          <p class="text-gray-600 font-medium text-sm">Happy Families</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .blue-gradient-bg {
+      background: linear-gradient(135deg, #f0f9ff 0%, #fdf2f8 100%);
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #db2777 0%, #1d4ed8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .group:hover .stat-number {
+      background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* Floating animation for bubbles */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-15px); }
+    }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+  </style>
+</section>
+
+
+    <!-- About Section -->
+  <section id="about" class="py-12 bg-white">
+  <div class="container mx-auto px-4">
+    <!-- Heading -->
+    <h2 class="text-3xl font-bold font-serif text-pink-700 text-center mb-4 text-gray-800" data-aos="fade-down">
+      About Dr. Gandhi
+    </h2>
+    <div class="section-divider mb-10"></div>
+
+    <div class="flex flex-col lg:flex-row items-center gap-8">
+      <!-- Image Section -->
+      <div class="lg:w-1/2 mb-8 lg:mb-0" data-aos="fade-right">
+  <div class="relative">
+    <div class="w-full h-96 bg-gradient-to-r from-pink-100 to-blue-100 rounded-2xl flex items-center justify-center overflow-hidden">
+      <img 
+        src="IMG/image.png" 
+        alt="Dr. Alok Gandhi" 
+        class="w-full h-full object-contain"
+        onerror="this.style.display='none'"
+      >
+    </div>
+
+    <!-- Award Badge -->
+    <div class="absolute -bottom-5 -right-5 bg-white rounded-xl shadow-lg p-4 w-56">
+      <div class="flex items-center">
+        <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mr-3">
+          <i class="fas fa-award text-pink-500"></i>
+        </div>
+        <div>
+          <div class="font-bold text-gray-800 text-sm">Award Winner</div>
+          <div class="text-xs text-gray-600">MyFm Sangli Excellence</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+      <!-- Content Section -->
+      <div class="lg:w-1/2 lg:pl-8" data-aos="fade-left" data-aos-delay="150">
+        <h3 class="text-2xl font-semibold mb-4 text-gray-800">
+          Compassionate & Expert Care
+        </h3>
+        <p class="text-gray-600 mb-3 leading-relaxed text-sm">
+          Dr. Alok Gandhi provides patient-centered care with clinical expertise. He specializes in advanced obstetric and gynecological procedures, including laparoscopy and sonography, ensuring precise diagnosis and optimal outcomes.
+        </p>
+        <p class="text-gray-600 mb-4 leading-relaxed text-sm">
+          Actively attending seminars and workshops, Dr. Gandhi stays updated with the latest reproductive medicine advancements, emphasizing evidence-based practice and holistic support.
+        </p>
+
+        <!-- Clinical Experience Highlight -->
+        <div class="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r-lg mb-4 text-sm">
+          <h4 class="text-lg font-semibold mb-1 text-gray-800">Clinical Experience</h4>
+          <p class="text-gray-600">
+            With 8+ years of practice, he has extensive experience in managing high-risk pregnancies and complicated deliveries, performing over 8,000 successful deliveries.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+    <!-- Specializations Section -->
+    <section id="specializations" class="py-16 pink-gradient-bg">
+      <div class="container mx-auto px-6">
+        <h2
+          class="text-3xl font-bold font-serif text-center mb-4 text-gray-800"
+          data-aos="fade-down"
+        >
+          Our Specializations
+        </h2>
+        <div class="section-divider mb-12"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
+            data-aos="zoom-in"
+          >
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-baby text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">
+              Infertility Management
+            </h3>
+            <p class="text-gray-600">
+              Advanced treatments and compassionate care for couples facing
+              fertility challenges.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
+            data-aos="zoom-in"
+            data-aos-delay="100"
+          >
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-procedures text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">
+              High-Risk Pregnancies
+            </h3>
+            <p class="text-gray-600">
+              Expert management of complex pregnancies ensuring safety for
+              mother and baby.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
+            data-aos="zoom-in"
+            data-aos-delay="200"
+          >
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-stethoscope text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">
+              Complicated Deliveries
+            </h3>
+            <p class="text-gray-600">
+              Skilled in cesarean, vaginal, forceps, vacuum-assisted, preterm,
+              and post-date deliveries.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
+            data-aos="zoom-in"
+            data-aos-delay="300"
+          >
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-laptop-medical text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">
+              Laparoscopy
+            </h3>
+            <p class="text-gray-600">
+              Minimally invasive surgical procedures for faster recovery and
+              better outcomes.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
+            data-aos="zoom-in"
+            data-aos-delay="400"
+          >
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-wave-square text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">Sonography</h3>
+            <p class="text-gray-600">
+              Advanced ultrasound imaging for accurate diagnosis and monitoring
+              during pregnancy.
+            </p>
+          </div>
+
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
+            data-aos="zoom-in"
+            data-aos-delay="500"
+          >
+            <div
+              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
+            >
+              <i class="fas fa-award text-white text-xl"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-3 text-gray-800">
+              Award-Winning Care
+            </h3>
+            <p class="text-gray-600">
+              Recipient of MyFm Sangli's Award for excellence in infertility
+              management.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Qualifications Section -->
+    <section id="qualifications" class="py-16 blue-gradient-bg">
+      <div class="container mx-auto px-6">
+        <h2
+          class="text-3xl font-serif font-bold text-center mb-4 text-gray-800"
+          data-aos="fade-down"
+        >
+          Qualifications & Credentials
+        </h2>
+        <div class="section-divider mb-12"></div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
+            data-aos="flip-left"
+          >
+            <div
+              class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-graduation-cap text-pink-600 text-2xl"></i>
+            </div>
+            <p class="text-xl font-bold text-gray-800">MBBS</p>
+            <p class="text-gray-600 text-sm mt-1">
+              Bachelor of Medicine, Bachelor of Surgery
+            </p>
+          </div>
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
+            data-aos="flip-left"
+            data-aos-delay="100"
+          >
+            <div
+              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-user-md text-blue-600 text-2xl"></i>
+            </div>
+            <p class="text-xl font-bold text-gray-800">DGO</p>
+            <p class="text-gray-600 text-sm mt-1">
+              Diploma in Obstetrics & Gynecology
+            </p>
+          </div>
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
+            data-aos="flip-left"
+            data-aos-delay="200"
+          >
+            <div
+              class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-hand-holding-medical text-pink-600 text-2xl"></i>
+            </div>
+            <p class="text-xl font-bold text-gray-800">IMA</p>
+            <p class="text-gray-600 text-sm mt-1">
+              Indian Medical Association Membership
+            </p>
+          </div>
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
+            data-aos="flip-left"
+            data-aos-delay="300"
+          >
+            <div
+              class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4"
+            >
+              <i class="fas fa-trophy text-yellow-600 text-2xl"></i>
+            </div>
+            <p class="text-xl font-bold text-gray-800">Award</p>
+            <p class="text-gray-600 text-sm mt-1">
+              MyFm Sangli Excellence Award in Infertility Management
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+      // Initialize AOS (Animate On Scroll)
+      document.addEventListener("DOMContentLoaded", function () {
+        AOS.init({
+          duration: 800,
+          easing: "ease-in-out",
+          once: true,
+          mirror: false,
+        });
+
+        // Loading bar animation
+        const loadingBar = document.getElementById("loadingBar");
+        window.addEventListener("load", () => {
+          loadingBar.style.transform = "scaleX(1)";
+          setTimeout(() => {
+            loadingBar.style.opacity = "0";
+          }, 500);
+        });
+
+        // Navbar scroll effect
+        const navbar = document.getElementById("navbar");
+        window.addEventListener("scroll", () => {
+          if (window.scrollY > 50) {
+            navbar.classList.add("nav-scrolled");
+          } else {
+            navbar.classList.remove("nav-scrolled");
+          }
+        });
+
+        // Mobile menu toggle
+        const mobileMenuButton = document.getElementById("mobileMenuButton");
+        const mobileMenu = document.getElementById("mobileMenu");
+
+        mobileMenuButton.addEventListener("click", () => {
+          mobileMenu.classList.toggle("hidden");
+        });
+
+        // Close mobile menu when clicking on a link
+        const mobileMenuLinks = mobileMenu.querySelectorAll("a");
+        mobileMenuLinks.forEach((link) => {
+          link.addEventListener("click", () => {
+            mobileMenu.classList.add("hidden");
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

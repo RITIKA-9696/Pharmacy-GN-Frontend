@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/png" href="/IMG/LOGO_1-removebg-preview.png" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Orders - THB</title>
+
+  <!-- Tailwind + Font Awesome + Toastify + html2pdf -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css" />
+  
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <link rel="stylesheet" href="../Header/header.css">
+    <link rel="stylesheet" href="../Footer/footer.css">
+
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#36C2CE',
+            secondary: '#0ea5e9',
+            accent: '#10b981',
+            dark: '#1e293b',
+            neutral: '#F5F5F5'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Poppins', sans-serif; background: #ffffff; margin: 0; padding: 0; }
+    .order-card {
+      background: white; border: 1px solid #EDEDED; border-radius: 0.75rem; padding: 1.25rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1); transition: box-shadow 0.3s ease;
+    }
+    .order-card:hover { box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+    .status-badge {
+      font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 9999px; border: 1px solid;
+    }
+    .btn {
+      font-size: 0.75rem; font-weight: 500; padding: 0.5rem 1rem; border-radius: 0.375rem;
+      display: inline-flex; align-items: center; gap: 0.4rem; transition: all 0.2s ease;
+    }
+    .btn-primary { background: #36C2CE; color: white; }
+    .btn-primary:hover { background: #2AB1BD; }
+    .btn-danger { background: #EF4444; color: white; }
+    .btn-danger:hover { background: #DC2626; }
+    .btn-outline { background: transparent; color: #36C2CE; border: 1px solid #36C2CE; }
+    .btn-outline:hover { background: #36C2CE; color: white; }
+    .modal-card { transform: scale(0.95); opacity: 0; transition: all 0.3s ease; }
+    .modal-card.show { transform: scale(1); opacity: 1; }
+    #printableInvoice { display: none; }
+
+    @media print {
+      @page { size: A4 portrait; margin: 0; }
+      html, body { margin: 0; padding: 0; width: 210mm; height: 297mm; overflow: hidden; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      body * { visibility: hidden; }
+      #printableInvoice, #printableInvoice * { visibility: visible !important; }
+      #printableInvoice { position: absolute; left: 0; top: 0; width: 190mm; margin: 10mm; padding: 12mm; background: white; font-size: 12px; line-height: 1.5; }
+      .print-logo { width: 90px; height: auto; margin-bottom: 20px; }
+      table { width: 100%; border-collapse: collapse; font-size: 11.5px; table-layout: fixed; margin-bottom: 15px; }
+      th, td { border: 1px solid #ddd; padding: 7px 6px; word-wrap: break-word; font-size: 11.5px; }
+      th { background-color: #f5f5f5; font-weight: 600; font-size: 12px; }
+      .text-right { text-align: right; }
+      .text-center { text-align: center; }
+      .font-bold { font-weight: bold; }
+      .text-lg { font-size: 16px; font-weight: bold; }
+      .bg-gray-100 { background-color: #f5f5f5; }
+      .grid-cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-bottom: 15px; }
+      .mb-6 { margin-bottom: 12px; }
+      .mb-12 { margin-bottom: 25px; }
+      .pb-6 { padding-bottom: 12px; }
+      .border-b { border-bottom: 1px solid #ddd; }
+      * { -webkit-transform: none !important; transform: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-white">
+    <div id="header-placeholder"></div>
+  <div class="max-w-4xl mx-auto px-4">
+
+    <!-- Header -->
+    <div class="order-card mb-6">
+      <div class="flex items-center justify-between">
+        <button onclick="window.history.back()" class="p-2 rounded-lg bg-neutral hover:bg-gray-100">
+          <i class="fas fa-arrow-left text-primary text-lg"></i>
+        </button>
+        <div class="text-center flex-1">
+          <h1 class="text-2xl font-bold text-primary">My Orders</h1>
+          
+        </div>
+        <div class="w-10"></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b border-gray-200 mb-6">
+      <button id="tab-upcoming" class="tab-btn flex-1 py-3 text-sm font-medium text-primary border-b-2 border-primary" onclick="switchTab('upcoming')">Upcoming Orders (1)</button>
+      <button id="tab-cancelled" class="tab-btn flex-1 py-3 text-sm font-medium text-dark border-b-2 border-transparent" onclick="switchTab('cancelled')">Cancelled Orders (0)</button>
+    </div>
+
+    <!-- Orders List -->
+    <div id="ordersList" class="space-y-6"></div>
+    <div class="h-20"></div>
+  </div>
+
+  <!-- View Modal -->
+  <div id="viewModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 hidden">
+    <div class="bg-white rounded-xl max-w-md w-full max-h-[90vh] flex flex-col order-card modal-card">
+      <div class="flex justify-between items-center p-5 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-primary">Order Details</h2>
+        <button onclick="closeModal('viewModal')" class="text-dark hover:text-primary">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+      <div id="viewContent" class="flex-1 overflow-y-auto p-5 space-y-4 text-sm"></div>
+      <div class="p-5 border-t border-gray-200">
+        <button onclick="closeModal('viewModal')" class="w-full btn btn-primary">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancel Modal -->
+  <div id="cancelModal" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4 hidden">
+    <div class="bg-white rounded-xl p-6 max-w-md w-full order-card modal-card">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-bold text-primary">Cancel Order?</h2>
+        <button onclick="closeModal('cancelModal')" class="text-dark hover:text-primary">
+          <i class="fas fa-times text-lg"></i>
+        </button>
+      </div>
+      <div id="cancelWarningText" class="text-sm mb-5"></div>
+      <div class="flex gap-3">
+        <button onclick="confirmCancel()" class="flex-1 btn btn-danger">Yes, Cancel</button>
+        <button onclick="closeModal('cancelModal')" class="flex-1 btn btn-outline">No</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div id="loadingOverlay" class="fixed inset-0 bg-black/60 flex items-center justify-center z-50 hidden">
+    <div class="bg-white rounded-xl p-6 order-card text-center">
+      <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary mx-auto mb-3"></div>
+      <p class="text-primary font-semibold">Loading...</p>
+    </div>
+  </div>
+
+  <!-- Printable Invoice -->
+  <div id="printableInvoice" class="bg-white p-8 font-sans text-sm">
+    <!-- (Same as before - unchanged for brevity) -->
+  </div>
+
+  <div id="footer-placeholder"></div>
+    
+
+   
+
+ <script>
+    function loadHeader() {
+        fetch('../Header/header.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../Header/header.js';
+                script.onload = () => console.log('Header JS loaded');
+                document.body.appendChild(script);
+            })
+            .catch(err => console.error('Header load failed:', err));
+    }
+
+    function loadFooter() {
+        fetch('../Footer/footer.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('footer-placeholder').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load failed:', err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHeader();
+        loadFooter();
+        // ... rest of your code
+    });
+</script>
+
+
+<script>
+  // Dynamically set current year
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+  <script>
+    'use strict';
+    let orders = [];
+    let currentOrderId = null;
+    let activeTab = 'upcoming';
+
+    const statusMap = {
+      'placed': { display: 'Placed', class: 'bg-sky-100 text-sky-800 border-sky-300' },
+      'cancelled': { display: 'Cancelled', class: 'bg-red-100 text-red-800 border-red-300' },
+    };
+
+    function parseDate(dateStr) {
+      const [y, m, d] = dateStr.split('-');
+      return new Date(Date.UTC(y, m - 1, d));
+    }
+
+    function isWithinCancellationWindow(dateStr) {
+      const orderTime = parseDate(dateStr);
+      const now = new Date();
+      const diffHours = (now - orderTime) / (1000 * 60 * 60);
+      return diffHours < 24 && diffHours > -6;
+    }
+
+    function getWarning(dateStr) {
+      const orderTime = parseDate(dateStr);
+      const now = new Date();
+      const elapsedMs = now - orderTime;
+      const windowMs = 24 * 3600000;
+      if (elapsedMs >= windowMs) return "Cancellation expired.";
+      const remainingMs = windowMs - elapsedMs;
+      const h = Math.floor(remainingMs / 3600000);
+      const m = Math.floor((remainingMs % 3600000) / 60000);
+      return `Cancel within ${h}h ${m}m`;
+    }
+
+    function showModal(id) {
+      const modal = document.getElementById(id);
+      modal.classList.remove('hidden');
+      setTimeout(() => modal.querySelector('.modal-card').classList.add('show'), 10);
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      const card = modal.querySelector('.modal-card');
+      card.classList.remove('show');
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    function switchTab(tab) {
+      activeTab = tab;
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('text-primary', 'border-primary');
+        btn.classList.add('text-dark', 'border-transparent');
+      });
+      document.getElementById(`tab-${tab}`).classList.add('text-primary', 'border-primary');
+      document.getElementById(`tab-${tab}`).classList.remove('text-dark', 'border-transparent');
+      renderOrders();
+    }
+
+    function fetchOrders() {
+      const loading = document.getElementById('loadingOverlay');
+      const container = document.getElementById('ordersList');
+      loading.classList.remove('hidden');
+
+      const raw = JSON.parse(localStorage.getItem('sweetOrders') || '[]');
+
+      const filteredRaw = raw.filter(order => {
+        return !order.items.some(item => item.name.toLowerCase().includes('chocolate cake'));
+      });
+
+      orders = filteredRaw.map(o => {
+        const items = o.items || [];
+        const statusKey = (o.status || 'Placed').toLowerCase();
+        const status = statusMap[statusKey] || { display: statusKey, class: 'bg-gray-100 text-gray-800' };
+        const canCancel = statusKey === 'placed' && isWithinCancellationWindow(o.placedOn);
+
+        return {
+          id: o.id,
+          date: new Date(o.placedOn).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          status: status.display,
+          statusClass: status.class,
+          canCancel,
+          items: items.map(item => ({
+            name: item.name || 'Unknown',
+            qty: item.qty || 1,
+            weight: item.weight || '',
+            price: (item.price || 0).toFixed(2),
+            image: item.img || 'https://via.placeholder.com/120?text=No+Image',
+          })),
+          total: o.total.toFixed(2),
+          warning: getWarning(o.placedOn),
+          api: o
+        };
+      }).sort((a, b) => b.id - a.id);
+
+      updateTabCounts();
+      renderOrders();
+      loading.classList.add('hidden');
+    }
+
+    function updateTabCounts() {
+      const upcoming = orders.filter(o => o.status.toLowerCase() !== 'cancelled').length;
+      const cancelled = orders.filter(o => o.status.toLowerCase() === 'cancelled').length;
+
+      document.getElementById('tab-upcoming').innerHTML = `Upcoming Orders (${upcoming})`;
+      document.getElementById('tab-cancelled').innerHTML = `Cancelled Orders (${cancelled})`;
+    }
+
+    function renderOrders() {
+      const container = document.getElementById('ordersList');
+      container.innerHTML = '';
+
+      const filteredOrders = activeTab === 'upcoming'
+        ? orders.filter(o => o.status.toLowerCase() !== 'cancelled')
+        : orders.filter(o => o.status.toLowerCase() === 'cancelled');
+
+      if (!filteredOrders.length) {
+        const emptyMsg = activeTab === 'upcoming' ? 'No active orders' : 'No cancelled orders';
+        container.innerHTML = `<div class="text-center py-20 order-card">
+          <i class="fas fa-shopping-bag text-7xl text-primary mb-6"></i>
+          <h2 class="text-3xl font-bold text-primary mb-4">${emptyMsg}</h2>
+          <a href="/shop" class="btn btn-primary">Shop Now</a>
+        </div>`;
+        return;
+      }
+
+      filteredOrders.forEach(order => {
+        const isCancelled = order.status.toLowerCase() === 'cancelled';
+        const cancelBtn = !isCancelled && order.canCancel
+          ? `<button class="btn btn-danger cancel-btn" data-id="${order.id}">Cancel Order</button>`
+          : `<button class="btn btn-outline opacity-50 cursor-not-allowed" disabled>Cancel Order</button>`;
+
+        const viewBtn = `<button class="btn btn-primary view-btn" data-id="${order.id}">Order Details</button>`;
+
+        // Items List (same for both tabs)
+        let itemsHtml = '';
+        order.items.forEach((item, idx) => {
+          itemsHtml += `
+            <div class="flex gap-3 items-center ${idx > 0 ? 'mt-3' : ''}">
+              <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover shadow-sm">
+              <div class="flex-1">
+                <p class="font-medium text-primary text-sm">${item.name}</p>
+                <p class="text-xs text-dark">Qty: ${item.qty} × ${item.weight}</p>
+              </div>
+              <p class="text-sm font-medium text-primary">EGP ${item.price}</p>
+            </div>
+          `;
+        });
+
+        container.innerHTML += `
+          <div class="order-card">
+            <div class="flex justify-between items-center mb-3">
+              <div>
+                <h3 class="text-lg font-bold text-primary">Order #${order.id}</h3>
+                <p class="text-sm text-dark">EGP ${order.total}</p>
+              </div>
+              <div class="flex gap-2">
+                ${viewBtn}
+                ${isCancelled ? '' : cancelBtn}
+              </div>
+            </div>
+
+            <!-- Items List -->
+            <div class="mb-4">
+              ${itemsHtml}
+            </div>
+
+            <!-- Cancelled Message (only for cancelled tab) -->
+            ${isCancelled ? `<p class="text-sm font-medium text-red-600 mb-3">This order was cancelled.</p>` : ''}
+
+            <!-- Footer Info -->
+            <div class="text-xs text-gray-600">
+              <p>2 Items • Cash on Delivery • Ordered 2 mins ago • Delivery within 25 mins</p>
+            </div>
+          </div>
+        `;
+      });
+      attachButtons();
+    }
+
+    function attachButtons() {
+      document.querySelectorAll('.cancel-btn').forEach(btn => {
+        btn.onclick = () => handleCancel(btn.dataset.id);
+      });
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.onclick = () => handleView(btn.dataset.id);
+      });
+    }
+
+    function handleCancel(id) {
+      const order = orders.find(o => o.id == id);
+      if (!order?.canCancel) return toast('Cancellation not allowed', 'error');
+      currentOrderId = id;
+      document.getElementById('cancelWarningText').innerHTML = `<p class="mb-2">Are you sure you want to cancel?</p>`;
+      showModal('cancelModal');
+    }
+
+    function confirmCancel() {
+      if (!currentOrderId) return;
+      closeModal('cancelModal');
+      const idx = orders.findIndex(o => o.id == currentOrderId);
+      orders[idx].status = 'Cancelled';
+      orders[idx].statusClass = statusMap.cancelled.class;
+      orders[idx].canCancel = false;
+
+      const raw = JSON.parse(localStorage.getItem('sweetOrders') || '[]');
+      const rawIdx = raw.findIndex(o => o.id == currentOrderId);
+      raw[rawIdx].status = 'Cancelled';
+      localStorage.setItem('sweetOrders', JSON.stringify(raw));
+
+      updateTabCounts();
+      renderOrders();
+      toast('Order cancelled successfully!', 'success');
+    }
+
+    function handleView(id) {
+      const order = orders.find(o => o.id == id);
+      if (!order) return;
+
+      const items = order.items;
+      let itemsHtml = '';
+      items.forEach(item => {
+        itemsHtml += `
+          <div class="flex gap-4 items-start pb-3 border-b border-gray-100 last:border-0">
+            <img src="${item.image}" alt="${item.name}" class="w-16 h-16 rounded-lg object-cover shadow-sm">
+            <div class="flex-1">
+              <p class="font-medium text-primary">${item.name}</p>
+              <p class="text-xs text-dark">Qty: ${item.qty} × ${item.weight}</p>
+            </div>
+            <p class="text-sm font-medium text-primary">EGP ${item.price}</p>
+          </div>
+        `;
+      });
+
+      document.getElementById('viewContent').innerHTML = `
+        <div class="space-y-4">
+          ${itemsHtml}
+        </div>
+        <div class="mt-4 space-y-2 text-sm pt-3 border-t border-gray-200">
+          <div class="flex justify-between font-bold text-base">
+            <span class="text-primary">Total</span>
+            <span class="text-primary">EGP ${order.total}</span>
+          </div>
+        </div>
+        <div class="mt-5 pt-4 border-t border-gray-200 space-y-2 text-sm">
+          <div class="flex justify-between"><span class="text-dark">Status</span><span class="${order.status.toLowerCase() === 'cancelled' ? 'text-red-600' : 'text-green-600'} font-medium">${order.status}</span></div>
+          <div class="flex justify-between"><span class="text-dark">Placed</span><span>${order.date}</span></div>
+        </div>
+      `;
+      showModal('viewModal');
+    }
+
+    function toast(message, type = 'info') {
+      Toastify({
+        text: message,
+        duration: 3000,
+        gravity: "top",
+        position: "right",
+        backgroundColor: type === 'success' ? "#10b981" : type === 'error' ? "#EF4444" : "#3B82F6",
+      }).showToast();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchOrders();
+    });
+  </script>
+
+          <!-- Placeholder for Footer -->
+  
+
+    
+
+</body>
+</html>

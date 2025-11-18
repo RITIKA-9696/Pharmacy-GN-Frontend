@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OTC Medicines – WhatsApp Order</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="../../Header/header.css">
+  <link rel="stylesheet" href="../../Footer/footer.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#36C2CE',
+            secondary: '#0ea5e9',
+            accent: '#10b981',
+            dark: '#1e293b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    .subcategory.hidden{display:none;}
+    .product-card{transition:transform .2s ease,box-shadow .2s ease;border:1px solid #36C2CE !important;}
+    .product-card:hover{transform:translateY(-5px);box-shadow:0 8px 16px rgba(0,0,0,.1);}
+    .product-image{object-fit:contain;width:100%;height:160px;}
+    .nav-sidebar{border:1px solid #36C2CE !important;}
+  </style>
+</head>
+<body class="bg-white" onload="initializePage()">
+ <div id="header-placeholder"></div>
+
+<!-- Hero -->
+<section class="w-full h-48 relative bg-center bg-cover"
+         style="background-image:url('https://i.pinimg.com/1200x/52/40/cf/5240cff0fb3479c7adc3351a22acc765.jpg');">
+  <div class="absolute inset-0 bg-black/30"></div>
+  <div class="relative z-10 flex items-center justify-center h-full">
+    <h1 class="text-white text-2xl sm:text-3xl font-bold">Bloom with Confidence</h1>
+  </div>
+</section>
+
+<div class="container mx-auto px-1 py-6">
+  <div class="flex flex-col md:flex-row gap-6">
+
+    <!-- Sidebar -->
+    <aside class="w-full md:w-1/5 md:h-[calc(90vh-4rem)] md:sticky md:top-16 overflow-y-auto bg-white p-3 rounded-lg shadow nav-sidebar">
+      <!-- Sort -->
+      <div class="flex justify-start mb-6">
+        <select id="sortSelect" class="w-52 border border-gray-300 p-2 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-primary">
+          <option>Sort By: Relevance</option>
+          <option>Price: Low to High</option>
+          <option>Price: High to Low</option>
+        </select>
+      </div>
+
+      <!-- Categories -->
+      <h2 class="text-lg font-bold mb-2">Categories</h2>
+      <ul id="categoryList" class="space-y-2">
+        <li><a href="#" class="category-link font-medium">Pain Killers</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Infertility, OBS & Gynac</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Cough Syrup</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Antacids</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Wellness & Supplements</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Anti-Infective</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Laxative</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+        <li><a href="#" class="category-link font-medium">Flatulant</a><span class="expand-toggle cursor-pointer ml-2 text-lg font-bold text-primary">+</span></li>
+      </ul>
+
+      <!-- Brands -->
+      <div class="mt-6">
+        <h2 class="text-lg font-bold mb-2">Brands <span class="expand-toggle cursor-pointer">+</span></h2>
+        <div id="brandList" class="hidden space-y-2">
+          <!-- Dynamic brand filters will be populated here -->
+        </div>
+      </div>
+    </aside>
+
+    <!-- Product Grid -->
+    <section class="w-full md:w-5/6">
+      <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <!-- JS fills this -->
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div id="footer-placeholder"></div>
+    
+
+
+ <script>
+    function loadHeader() {
+        fetch('../../Header/header.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../../Header/header.js';
+                script.onload = () => console.log('Header JS loaded');
+                document.body.appendChild(script);
+            })
+            .catch(err => console.error('Header load failed:', err));
+    }
+
+    function loadFooter() {
+        fetch('../../Footer/footer.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('footer-placeholder').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load failed:', err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHeader();
+        loadFooter();
+        // ... rest of your code
+    });
+</script>
+
+<script>
+/* ==============================================================
+   1. DATA & CONFIG
+   ============================================================== */
+let products = [];
+const API_BASE_URL = 'http://localhost:8083/api/products';
+let activeCategory = null;
+let activeSort = null;
+let allBrands = new Set();
+
+/* ==============================================================
+   2. DOM & State
+   ============================================================== */
+const productGrid = document.getElementById('productGrid');
+const categoryList = document.getElementById('categoryList');
+const brandList = document.getElementById('brandList');
+const brandToggle = brandList?.previousElementSibling?.querySelector('span');
+const sortSelect = document.getElementById('sortSelect');
+
+/* ==============================================================
+   3. API Functions
+   ============================================================== */
+async function fetchProducts() {
+  try {
+    showLoadingState();
+    const encodedSubCategory = encodeURIComponent('OTC');
+    const response = await fetch(`${API_BASE_URL}/get-by-sub-category/${encodedSubCategory}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    products = Array.isArray(data) ? data.map(product => transformProductData(product)) : [];
+
+    // Populate brands for filtering
+    allBrands = new Set(products.map(p => p.brand).filter(Boolean));
+    updateBrandFilters();
+    updateCategoryList();
+    render(products);
+  } catch (error) {
+    console.error('Error fetching OTC products:', error);
+    showErrorState('Failed to load OTC products. Please try again later.');
+  }
+}
+
+function transformProductData(backendProduct) {
+  const currentPrice = backendProduct.productPrice || backendProduct.price || 0;
+  const originalPrice = backendProduct.productOldPrice || backendProduct.mrp || backendProduct.originalPrice || null;
+  // Construct image URL: use product-specific endpoint if productMainImage is relative or missing
+  const imageUrl = backendProduct.productMainImage && !backendProduct.productMainImage.startsWith('http')
+    ? `${API_BASE_URL}/${backendProduct.productId}/image`
+    : backendProduct.productMainImage || 'https://via.placeholder.com/150';
+  return {
+    id: backendProduct.productId,
+    name: backendProduct.productName,
+    price: currentPrice,
+    originalPrice: originalPrice,
+    discount: calculateDiscount(currentPrice, originalPrice),
+    category: backendProduct.productCategory,
+    subCategory: backendProduct.productSubCategory,
+    brand: backendProduct.brandName || backendProduct.brand,
+    image: imageUrl,
+    prescription: backendProduct.prescriptionRequired || false,
+    ...backendProduct // Include all backend fields for compatibility
+  };
+}
+
+function calculateDiscount(currentPrice, originalPrice) {
+  if (!originalPrice || originalPrice <= currentPrice) return '';
+  const discountPercent = Math.round(((originalPrice - currentPrice) / originalPrice) * 100);
+  return `${discountPercent}% off`;
+}
+
+/* ==============================================================
+   4. UI Helpers
+   ============================================================== */
+function showLoadingState() {
+  if (!productGrid) return;
+  productGrid.innerHTML = `
+    <div class="col-span-full flex justify-center items-center py-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      <span class="ml-3 text-gray-600">Loading OTC products...</span>
+    </div>
+  `;
+}
+
+function showErrorState(message) {
+  if (!productGrid) return;
+  productGrid.innerHTML = `
+    <div class="col-span-full text-center py-8">
+      <p class="text-red-600 mb-4">${message}</p>
+      <button onclick="fetchProducts()" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">
+        Retry
+      </button>
+    </div>
+  `;
+}
+
+function updateBrandFilters() {
+  if (!brandList) return;
+  brandList.innerHTML = '<div class="space-y-2"></div>';
+  const brandFilterContainer = brandList.querySelector('.space-y-2');
+  allBrands.forEach(brand => {
+    if (brand) {
+      const label = document.createElement('label');
+      label.className = 'flex items-center space-x-2';
+      label.innerHTML = `
+        <input type="checkbox" class="brand-filter rounded text-blue-600" value="${escapeHtml(brand)}">
+        <span class="text-sm text-gray-700">${escapeHtml(brand)}</span>
+      `;
+      brandFilterContainer.appendChild(label);
+    }
+  });
+
+  // Reattach event listeners to brand filters
+  const newBrandFilters = brandList.querySelectorAll('.brand-filter');
+  newBrandFilters.forEach(filter => {
+    filter.addEventListener('change', () => applyFilters(products));
+  });
+}
+
+function updateCategoryList() {
+  if (!categoryList) return;
+  const categories = [...new Set(products.map(p => p.category).filter(Boolean))];
+  const categoryLinks = categoryList.querySelectorAll('.category-link');
+  categoryLinks.forEach(link => {
+    const categoryText = link.textContent.trim();
+    link.parentElement.style.display = categories.includes(categoryText) ? 'block' : 'none';
+  });
+}
+
+/* ==============================================================
+   5. Card Creation
+   ============================================================== */
+function createProductCard(p) {
+  const div = document.createElement('div');
+  div.className = 'product-card bg-white p-4 shadow rounded-lg flex flex-col justify-between relative';
+
+  const rxBadge = p.prescription ? `<div class="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full">Rx</div>` : '';
+
+  const waMsg = encodeURIComponent(`Hi, I want to buy:\n*${p.name}* – ₹${p.price}\n${p.prescription ? '(Prescription required)' : ''}`);
+
+  div.innerHTML = `
+    ${rxBadge}
+    <img src="${p.image}" alt="${escapeHtml(p.name)}" class="product-image w-full h-32 rounded-lg mb-3">
+    <p class="text-sm text-gray-600 font-medium">${escapeHtml(p.name)}</p>
+    <p class="text-xs text-gray-500">${escapeHtml(p.brand)}</p>
+    ${p.prescription ? '<p class="text-red-600 text-xs mt-1 font-semibold">Prescription needed</p>' : ''}
+    <p class="text-green-600 font-bold mt-2">₹${p.price.toFixed(2)}
+      ${p.originalPrice ? `<span class="text-gray-500 line-through text-sm">₹${p.originalPrice.toFixed(2)}</span> <span class="text-green-600 text-sm">${escapeHtml(p.discount)}</span>` : ''}
+    </p>
+    <button class="mt-3 w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition flex items-center justify-center gap-2 whatsapp-btn"
+            data-product='${escapeHtml(JSON.stringify(p))}'>
+      <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.52.149-.174.198-.298.297-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.626.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.262c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297C11.416.882 3.007 9.292 3.007 18.752c0 2.883.783 5.57 2.14 7.866l-2.24 6.48 6.62-2.18a11.95 11.95 0 005.561 1.39c6.614 0 12-5.387 12-12 0-3.204-1.238-6.217-3.486-8.486-2.248-2.27-5.26-3.524-8.486-3.524z"/></svg>
+      Order on WhatsApp
+    </button>
+  `;
+
+  return div;
+}
+
+/* ==============================================================
+   6. Rendering
+   ============================================================== */
+function render(list) {
+  if (!productGrid) return;
+  productGrid.innerHTML = '';
+  if (list.length === 0) {
+    productGrid.innerHTML = `
+      <div class="col-span-full text-center py-8">
+        <p class="text-gray-500">No OTC products found.</p>
+        <p class="text-sm text-gray-400 mt-2">Try checking back later or browse other categories</p>
+      </div>
+    `;
+    return;
+  }
+  list.forEach(p => productGrid.appendChild(createProductCard(p)));
+}
+
+/* ==============================================================
+   7. Filters & Sort
+   ============================================================== */
+categoryList?.addEventListener('click', async e => {
+  if (e.target.classList.contains('expand-toggle')) {
+    const li = e.target.parentElement;
+    const sub = li.querySelector('.subcategory');
+    if (sub) {
+      sub.classList.toggle('hidden');
+    } else {
+      const cat = li.querySelector('.category-link')?.textContent.trim();
+      const items = [...new Set(products.filter(p => p.category === cat).map(p => p.name))];
+      if (items.length) {
+        const ul = document.createElement('ul');
+        ul.className = 'subcategory hidden ml-4 space-y-1';
+        items.forEach(i => {
+          const li2 = document.createElement('li');
+          li2.innerHTML = `<a href="#" class="subcategory-link text-sm text-gray-600 hover:text-primary">${escapeHtml(i)}</a>`;
+          ul.appendChild(li2);
+        });
+        li.appendChild(ul);
+        ul.classList.toggle('hidden');
+      }
+    }
+    e.target.textContent = e.target.textContent === '+' ? '-' : '+';
+    return;
+  }
+  if (e.target.classList.contains('category-link') || e.target.classList.contains('subcategory-link')) {
+    e.preventDefault();
+    const txt = e.target.textContent.trim();
+    const filtered = e.target.classList.contains('subcategory-link')
+      ? products.filter(p => p.name === txt)
+      : products.filter(p => p.category === txt);
+    activeCategory = txt;
+    applyFilters(filtered);
+  }
+});
+
+brandToggle?.addEventListener('click', () => {
+  brandList.classList.toggle('hidden');
+  brandToggle.textContent = brandToggle.textContent === '+' ? '-' : '+';
+});
+
+sortSelect?.addEventListener('change', () => {
+  activeSort = sortSelect.value;
+  applyFilters(products);
+});
+
+function applyFilters(start) {
+  let list = start ? [...start] : [...products];
+  const sel = Array.from(document.querySelectorAll('.brand-filter:checked')).map(f => f.value);
+  if (sel.length) list = list.filter(p => sel.includes(p.brand));
+
+  if (activeSort === 'Price: Low to High') list.sort((a, b) => a.price - b.price);
+  else if (activeSort === 'Price: High to Low') list.sort((a, b) => b.price - a.price);
+
+  render(list);
+}
+
+/* ==============================================================
+   8. WhatsApp Button Delegation
+   ============================================================== */
+document.body.addEventListener('click', e => {
+  const btn = e.target.closest('.whatsapp-btn');
+  if (!btn) return;
+  e.stopPropagation();
+  const raw = btn.getAttribute('data-product');
+  const prod = JSON.parse(unescapeHtml(raw));
+  const phone = '919876543210'; // Update with your WhatsApp number
+  const msg = encodeURIComponent(`Hi, I want to buy:\n*${prod.name}* – ₹${prod.price}\n${prod.prescription ? '(Prescription required)' : ''}`);
+  window.open(`https://wa.me/${phone}?text=${msg}`, '_blank');
+});
+
+/* ==============================================================
+   9. Utility Functions
+   ============================================================== */
+function escapeHtml(s) {
+  if (typeof s !== 'string') return s;
+  return s.replace(/[&<>"']/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m]));
+}
+
+function unescapeHtml(s) {
+  const div = document.createElement('div');
+  div.innerHTML = s;
+  return div.textContent;
+}
+
+/* ==============================================================
+   10. Initialize
+   ============================================================== */
+document.addEventListener('DOMContentLoaded', fetchProducts);
+</script>
+
+
+     
+
+</body>
+</html>

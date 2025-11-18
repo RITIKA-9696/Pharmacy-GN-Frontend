@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="title">DEMO GOODNEEWZ</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="Header/header.css">
+    <link rel="stylesheet" href="/Footer/footer.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#36C2CE',
+                        secondary: '#0ea5e9',
+                        accent: '#10b981',
+                        dark: '#1e293b',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+
+        .category-scroll {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+       /* Custom animations */
+        @keyframes subtle-float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        @keyframes smooth-scale {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.03); }
+        }
+        
+        @keyframes quick-bounce {
+            0%, 20%, 53%, 80%, 100% { transform: scale(1); }
+            40%, 43% { transform: scale(1.1); }
+        }
+
+       /* Product card styles */
+        .product-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid #f1f5f9;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+            border-color: #e2e8f0;
+        }
+
+        .product-image {
+            transition: all 0.4s ease;
+            transform-origin: center;
+        }
+        
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+        }
+        
+        .wishlist-icon {
+            transition: all 0.2s ease;
+        }
+        
+        
+        .wishlist-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        .wishlist-icon.active {
+            color: #ef4444;
+            animation: quick-bounce 0.6s;
+        }
+        
+        .action-btn {
+            transition: all 0.2s ease;
+            font-weight: 500;
+            letter-spacing: 0.025em;
+        }
+        
+         .view-btn {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+        }
+        
+        .view-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e40af);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+         .add-btn {
+            background: linear-gradient(135deg, #10b981, #059669);
+        }
+        
+        .add-btn:hover {
+            background: linear-gradient(135deg, #059669, #047857);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        
+        .add-btn.added {
+            background: linear-gradient(135deg, #059669, #047857);
+            animation: quick-bounce 0.6s;
+        }
+        
+        .discount-badge {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        
+        .product-card:hover .discount-badge {
+            animation: subtle-float 2s ease-in-out infinite;
+        }
+
+        /* Scroll buttons */
+        .scroll-btn {
+            transition: all 0.3s ease;
+            background: white;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .scroll-btn:hover {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+            transform: scale(1.1);
+        }
+
+         /* Custom scrollbar */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+       /* Professional typography */
+        .product-name {
+            font-weight: 600;
+            color: #1f2937;
+            line-height: 1.4;
+        }
+        
+        .product-price {
+            font-weight: 700;
+            color: #111827;
+        }
+
+         .original-price {
+            color: #6b7280;
+        }
+        
+        /* Loading state */
+        .skeleton {
+            background: linear-gradient(90deg, #f3f4f6 25%, #e5e7eb 50%, #f3f4f6 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: -200px 0; }
+            100% { background-position: 200px 0; }
+        }
+        
+       
+        
+        /* Loading animation for images */
+        .image-placeholder {
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200px 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .product-card:hover {
+                transform: translateY(-5px) scale(1.01);
+            }
+        }
+        
+       /* Custom responsive styles */
+        @media (max-width: 768px) {
+            /* Main Banner */
+            #mainBannerSection {
+                height: 500px !important;
+            }
+            
+            .search-container {
+                padding: 1rem !important;
+            }
+            
+            .search-container h1 {
+                font-size: 1.5rem !important;
+                margin-bottom: 1rem !important;
+            }
+            
+            .search-container h4 {
+                font-size: 1.1rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            #searchInput {
+                padding: 0.75rem 1rem !important;
+                font-size: 0.875rem !important;
+            }
+            
+            /* Order Options */
+            .order-options-container p {
+                font-size: 0.875rem !important;
+            }
+            
+            .order-buttons-container {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+            }
+            
+            .order-button {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.875rem !important;
+                width: 100% !important;
+                max-width: 250px !important;
+            }
+            
+            /* Carousel */
+            .carousel-container {
+                padding: 0.5rem !important;
+                margin-top: 1rem !important;
+            }
+            
+            .carousel-image {
+                height: 200px !important;
+                object-fit: cover !important;
+            }
+            
+            #prev, #next {
+                padding: 0.25rem !important;
+                width: 2rem !important;
+                height: 2rem !important;
+            }
+            
+            #prev {
+                left: 0.5rem !important;
+            }
+            
+            #next {
+                right: 0.5rem !important;
+            }
+            
+            .dot {
+                width: 0.5rem !important;
+                height: 0.5rem !important;
+            }
+            
+            /* Categories Grid */
+            #categoryGrid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 0.75rem !important;
+            }
+            
+            .category-card {
+                padding: 0.75rem !important;
+            }
+            
+            .category-card img {
+                height: 100px !important;
+            }
+            
+            .category-card p {
+                font-size: 0.75rem !important;
+            }
+            
+            /* Doctor Section */
+            #doctorSection {
+                min-height: 350px !important;
+            }
+            
+            .doctor-grid {
+                grid-template-columns: 1fr !important;
+            }
+            
+            .doctor-image {
+                height: 300px !important;
+            }
+            
+            .doctor-content {
+                padding: 1rem !important;
+            }
+            
+            .doctor-content h1 {
+                font-size: 1.5rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+            .doctor-content p {
+                font-size: 0.875rem !important;
+                line-height: 1.4 !important;
+            }
+            
+           
+            
+            
+            
+            /* Secondary Banner */
+            #secondaryBannerSection {
+                padding: 0.5rem 0 !important;
+            }
+            
+            #secondaryBannerImage {
+                max-height: 200px !important;
+            }
+            
+            /* Articles */
+            #articlesSection {
+                padding: 2rem 0 !important;
+            }
+            
+            #articlesSection h2 {
+                font-size: 1.5rem !important;
+                margin-bottom: 1.5rem !important;
+            }
+            
+            .articles-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .article-card img {
+                height: 150px !important;
+            }
+            
+            .article-card-content {
+                padding: 1rem !important;
+            }
+            
+            .article-card h3 {
+                font-size: 1.1rem !important;
+                margin-bottom: 0.5rem !important;
+            }
+            
+            .article-card p {
+                font-size: 0.875rem !important;
+                margin-bottom: 0.75rem !important;
+            }
+            
+        
+            /* Modals */
+            #uploadModal .modal-content,
+            #validPrescriptionModal .modal-content {
+                width: 95% !important;
+                margin: 1rem !important;
+                padding: 1rem !important;
+            }
+            
+            .modal-grid {
+                grid-template-columns: 1fr !important;
+                gap: 1rem !important;
+            }
+            
+            .upload-steps li {
+                margin-bottom: 1rem !important;
+            }
+            
+            .upload-steps img {
+                width: 2.5rem !important;
+                height: 2.5rem !important;
+            }
+            
+            .prescription-icons-grid {
+                grid-template-columns: repeat(2, 1fr) !important;
+                gap: 1rem !important;
+            }
+            
+            .prescription-icon {
+                font-size: 1.5rem !important;
+            }
+            
+            .prescription-icon span {
+                font-size: 0.75rem !important;
+            }
+            
+            /* Search Suggestions */
+            .search-suggestions {
+                max-height: 300px !important;
+            }
+            
+            .suggestion-item {
+                padding: 0.75rem !important;
+            }
+            
+            .suggestion-item svg {
+                width: 1rem !important;
+                height: 1rem !important;
+                margin-right: 0.75rem !important;
+            }
+            
+            .suggestion-item p {
+                font-size: 0.875rem !important;
+            }
+            
+            .suggestion-item .text-xs {
+                font-size: 0.75rem !important;
+            }
+        }
+
+       
+
+       
+
+        /* Custom scrollbar hiding */
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Smooth transitions */
+        .transition-all {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-white">
+    <!-- Header Placeholder (loads header.html dynamically) -->
+    <div id="header-placeholder"></div>
+    <!-- Main container -->
+    <div class="max-w-9xl mx-auto px-2">
+        <!-- Enhanced Banner Section with Search and Carousel -->
+        <section class="relative w-full h-[800px] mt-1" id="mainBannerSection">
+            <!-- Image Background -->
+            <div class="absolute inset-0 overflow-hidden">
+                <img id="mainBackgroundImage" src="" alt="Background" class="w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/10"></div>
+            </div>
+            <!-- Content Container -->
+            <div class="relative z-10 px-1 py-1 md:py-1">
+                <!-- Search Container -->
+                <div class="flex items-start justify-center mb-1">
+                    <div class="search-container w-full max-w-4xl p-6 rounded-2xl">
+                        <h1 class="text-white text-2xl md:text-4xl font-bold text-center mb-6 md:mb-8 drop-shadow-lg">
+                            Find Your Medications
+                        </h1>
+                        <h4 class="text-white text-2xl md:text-2xl font-bold text-center mb-6 md:mb-8">
+                            <span class="text-yellow-300">Get Medicines Fast</span> With Superfast Delivery In Your City
+                        </h4>
+                        <!-- Search Bar -->
+                        <div class="relative">
+                            <div class="relative">
+                                <input
+                                    type="text"
+                                    id="searchInput"
+                                    placeholder="Search medicines, vitamins, health products..."
+                                    class="w-full px-6 py-4 pr-12 text-lg rounded-full border-2 border-white/30 bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 shadow-lg">
+                                <button class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-colors duration-200 shadow-md">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                            <!-- Search Suggestions -->
+                            <div id="suggestions" class="search-suggestions absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-2xl border border-gray-200 hidden max-h-80 overflow-y-auto z-50">
+                                <div class="p-4">
+                                    <h3 class="text-sm font-semibold text-gray-600 mb-3">Popular Searches</h3>
+                                    <div class="space-y-1">
+                                        <div class="suggestion-item">
+                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-6 0H5m2 0h4M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="font-medium">Vitamin D3</p>
+                                                <p class="text-xs text-gray-500">Supplements</p>
+                                            </div>
+                                        </div>
+                                        <div class="suggestion-item">
+                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="font-medium">Blood Pressure Monitor</p>
+                                                <p class="text-xs text-gray-500">Medical Devices</p>
+                                            </div>
+                                        </div>
+                                        <div class="suggestion-item">
+                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6a2 2 0 012-2zm5-3a3 3 0 11-6 0 3 3 0 016 0zm6.5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="font-medium">Omega-3 Fish Oil</p>
+                                                <p class="text-xs text-gray-500">Supplements</p>
+                                            </div>
+                                        </div>
+                                        <div class="suggestion-item">
+                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="font-medium">Pain Relievers</p>
+                                                <p class="text-xs text-gray-500">Medications</p>
+                                            </div>
+                                        </div>
+                                        <div class="suggestion-item">
+                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                                            </svg>
+                                            <div>
+                                                <p class="font-medium">First Aid Kit</p>
+                                                <p class="text-xs text-gray-500">Medical Supplies</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+<!-- Order Options (Below Search Bar) -->
+<div class="flex flex-col items-center mt-2 space-y-3">
+  <p class="text-white font-medium text-sm tracking-wide">OR YOU CAN ORDER VIA</p>
+  <div class="flex flex-wrap justify-center gap-3">
+    <!-- WhatsApp Button -->
+    <a href="https://wa.me/1234567890" target="_blank"
+       class="flex items-center px-4 py-2 border rounded-lg shadow-md bg-white/50 hover:bg-green-500 hover:text-black transition">
+        <svg class="w-5 h-5 text-white mr-2" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 .5C5.65.5.5 5.65.5 12c0 2.1.55 4.14 1.6 5.95L.5 23.5l5.7-1.55A11.4 11.4 0 0 0 12 23.5c6.35 0 11.5-5.15 11.5-11.5S18.35.5 12 .5zM12 21c-1.86 0-3.66-.5-5.2-1.45l-.37-.22-3.38.92.9-3.29-.24-.39A8.96 8.96 0 0 1 3 12c0-5 4-9 9-9s9 4 9 9-4 9-9 9zm4.71-6.29c-.26-.13-1.53-.76-1.77-.84-.24-.09-.41-.13-.58.13s-.66.84-.81 1.01-.3.2-.56.07c-.26-.13-1.1-.41-2.1-1.31-.78-.69-1.3-1.54-1.45-1.8-.15-.26-.02-.4.11-.53.12-.12.26-.3.39-.45.13-.15.17-.26.26-.43.09-.17.04-.32-.02-.45-.07-.13-.58-1.39-.8-1.91-.21-.51-.42-.44-.58-.45-.15-.01-.32-.01-.49-.01s-.45.06-.68.32c-.24.26-.9.88-.9 2.15s.92 2.5 1.05 2.67c.13.17 1.81 2.77 4.38 3.89.61.26 1.08.41 1.45.52.61.19 1.16.16 1.6.1.49-.07 1.53-.62 1.75-1.22.21-.6.21-1.11.15-1.22-.06-.11-.24-.18-.5-.31z"/>
+        </svg>
+        <span class="font-medium text-white">Doctor Consultation</span>
+    </a>
+    <!-- Upload Prescription Button -->
+    <a href="#upload-prescription"
+       class="flex items-center px-4 py-2 border rounded-lg shadow-md bg-white/50 hover:bg-green-500 hover:text-black transition">
+        <svg class="w-5 h-5 text-white mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M12 16v-8m0 0l-4 4m4-4l4 4M4 20h16"/>
+        </svg>
+        <span class="font-medium text-white">Upload Prescription</span>
+    </a>
+  </div>
+</div>
+<!-- Upload Prescription Modal -->
+<div id="uploadModal" class="hidden fixed inset-0 flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-2xl w-11/12 max-w-3xl p-8 mt-[90px] relative">
+   
+    <!-- Close Button -->
+    <button onclick="document.getElementById('uploadModal').classList.add('hidden')"
+            class="absolute top-3 right-3 text-gray-500 hover:text-black text-xl font-bold">
+      ✕
+    </button>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Left Section -->
+      <div class="border rounded-xl p-5 shadow-md">
+        <h2 class="text-lg font-semibold mb-4">Enjoy Easy and Hassle Free Ordering</h2>
+       
+        <!-- Upload Box -->
+        <label class="border rounded-lg p-4 mb-3 flex items-center justify-between cursor-pointer hover:bg-gray-50">
+          <div class="flex items-center gap-3">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M12 16v-8m0 0l-4 4m4-4l4 4M4 20h16"/>
+            </svg>
+            <span class="font-medium text-gray-700">Upload Prescription</span>
+          </div>
+          <input type="file" class="hidden" />
+          <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+          </svg>
+        </label>
+       <!-- Valid Prescription Info (trigger button) -->
+<p id="validPrescriptionBtn" class="text-sm text-gray-600 mb-3 flex items-center gap-2 cursor-pointer border-b border-blue-600 inline-block pb-1 w-fit">
+  <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+          d="M13 16h-1v-4h-1m1-4h.01M12 2a10 10 0 100 20 10 10 0 000-20z"/>
+  </svg>
+  What is valid prescription?
+</p>
+<!-- Urgent Order Info Box with Call Button -->
+<div class="bg-blue-50 border border-blue-200 rounded-lg p-4 text-blue-600 font-semibold text-center">
+  <p class="mb-3">For urgent orders, please contact us directly:</p>
+  <button onclick="window.location.href='tel:1234567890'"
+          class="px-5 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition">
+    📞1234567890
+  </button>
+</div>
+      </div>
+      <!-- Right Section -->
+      <div>
+        <h2 class="text-lg font-semibold mb-4">How will the Pharmacist help you?</h2>
+        <ul class="space-y-5 text-gray-700">
+          <li class="flex items-start gap-3">
+            <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep1.png?dim=64x64&q=75" alt="Step 1" class="w-12 h-12">
+            <span>Pharmacist will check items on prescription and add to cart</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep2.png?dim=64x64&q=75" alt="Step 2" class="w-12 h-12">
+            <span>You can ask for additional items if needed</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep3.png?dim=64x64&q=75" alt="Step 3" class="w-12 h-12">
+            <span>They will apply the best coupon & get you the max savings</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep4.png?dim=64x64&q=75" alt="Step 4" class="w-12 h-12">
+            <span>Choose the earliest delivery date</span>
+          </li>
+          <li class="flex items-start gap-3">
+            <img src="https://assets.pharmeasy.in/web-assets/images/uploadStep5.png?dim=64x64&q=75" alt="Step 5" class="w-12 h-12">
+            <span>Finally, Share payment methods options</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Valid Prescription Modal -->
+<div id="validPrescriptionModal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-2xl shadow-2xl w-11/12 max-w-xl p-12 relative">
+    <!-- Close Button -->
+    <button onclick="document.getElementById('validPrescriptionModal').classList.add('hidden')"
+            class="absolute top-13 right-3 text-gray-500 hover:text-black text-xl font-bold">
+      ✕
+    </button>
+    <!-- Modal Content -->
+    <h2 class="text-xl font-semibold mb-6 text-center">A valid prescription contains:</h2>
+    <!-- Icons Row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center mb-6">
+      <div class="flex flex-col items-center">
+        <svg class="w-8 h-8 text-blue-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422A12.083 12.083 0 0118 20.944V21l-6-3-6 3v-.056a12.083 12.083 0 01-.16-10.366L12 14z"/>
+        </svg>
+        <span class="text-sm font-medium">Doctor Details</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <svg class="w-8 h-8 text-green-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10m-11 4h12M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+        </svg>
+        <span class="text-sm font-medium">Date of Prescription</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <svg class="w-8 h-8 text-purple-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9.969 9.969 0 0112 15c2.21 0 4.242.72 5.879 1.928M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span class="text-sm font-medium">Patient Details</span>
+      </div>
+      <div class="flex flex-col items-center">
+        <svg class="w-8 h-8 text-red-500 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13V7H9V1L1 9l8 8z"/>
+        </svg>
+        <span class="text-sm font-medium">Dosage Details</span>
+      </div>
+    </div>
+   <!-- Divider -->
+<hr class="my-4 border-t-4 border-blue-500 rounded">
+    <!-- Do's and Don'ts -->
+    <h3 class="text-lg font-semibold mb-4">DO’S AND DON’Ts</h3>
+    <ul class="space-y-3 text-sm">
+      <li class="flex items-start gap-2">
+        <span class="text-green-600 font-bold">✔</span>
+        <span><b>Upload Clear Image</b> — Ensure picture is taken with clear visible handwriting/type. Place prescription on a flat surface to get better focus and clear image.</span>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-red-600 font-bold">✘</span>
+        <span><b>No Picture of Medicines</b></span>
+      </li>
+      <li class="flex items-start gap-2">
+        <span class="text-red-600 font-bold">✘</span>
+        <span><b>Do not crop the Image</b></span>
+      </li>
+    </ul>
+  </div>
+</div>
+ <!-- Carousel Container -->
+                <div class="w-full max-w-5xl mx-auto">
+                    <div class="carousel-container p-4 rounded-2xl ">
+                        <!-- Carousel -->
+                        <div class="relative w-full overflow-hidden rounded-xl">
+                            <!-- Slides (will be inserted dynamically) -->
+                            <div id="carousel" class="flex transition-transform duration-700 ease-in-out">
+                            </div>
+                            <!-- Prev Button -->
+                            <button id="prev" class="absolute top-1/2 left-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10">
+                                &#10094;
+                            </button>
+                            <!-- Next Button -->
+                            <button id="next" class="absolute top-1/2 right-3 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors z-10">
+                                &#10095;
+                            </button>
+                            <!-- Indicators (will be inserted dynamically) -->
+                            <div id="dotsContainer" class="absolute bottom-3 left-1/2 -translate-x-1/2 flex space-x-2">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+         <div class="container mx-auto px-4 mt-32">
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-12 ">Browse by Health Categories</h2>
+        
+        <!-- Categories Section -->
+        <div class="relative max-w-7xl mx-auto">
+            <!-- Navigation Arrows -->
+            <button id="scrollLeft" class="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-500 hover:text-white transition-all duration-300">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+        <button id="scrollRight" class="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 z-10 bg-white rounded-full w-12 h-12 flex items-center justify-center shadow-lg hover:bg-blue-500 hover:text-white transition-all duration-300">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+            
+            <!-- Categories Container -->
+            <div id="categoryContainer" class="category-scroll flex overflow-x-auto py-6 px-2 gap-8 scroll-smooth">
+                <!-- Categories will be dynamically inserted here -->
+            </div>
+            
+            <!-- Scroll Indicator -->
+            <div id="scrollIndicator" class="flex justify-center mt-8 space-x-2">
+                <!-- Indicator dots will be added dynamically -->
+            </div>
+        </div>
+    </div>
+
+        
+       
+
+<!-- Feminine Hygiene Section -->
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900 mb-3">Feminine Hygiene</h2>
+                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Premium quality products for your intimate care needs. Designed with comfort and safety in mind.
+                </p>
+            </div>
+            
+            <div class="relative">
+                <!-- Scroll Buttons -->
+                <button id="scrollLeft" class="scroll-btn absolute left-0 top-1/2 transform -translate-y-1/2 p-3 rounded-full shadow-lg z-10 -ml-4">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                
+                <!-- Product Grid -->
+                <div id="productGrid" class="flex overflow-x-auto scrollbar-hide space-x-6 pb-8 pt-2 px-2">
+                    <!-- Products will be dynamically inserted here -->
+                </div>
+                
+                <button id="scrollRight" class="scroll-btn absolute right-0 top-1/2 transform -translate-y-1/2 p-3 rounded-full shadow-lg z-10 -mr-4">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Medicine & Healthcare Products Section -->
+        <section class="container mx-auto py-2 mb-12 cursor-pointer">
+            <h2 class="text-2xl font-bold text-center mb-6">Medicine & Healthcare Products</h2>
+            <div class="relative">
+                <button id="medScrollLeft" class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 p-2 rounded-full z-10">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <div id="medicineGrid" class="flex overflow-x-auto scrollbar-hide space-x-4 pb-1">
+                    <!-- Products will be dynamically inserted here -->
+                </div>
+                <button id="medScrollRight" class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-gray-200 hover:bg-gray-300 p-2 rounded-full z-10">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+        </section>
+        
+        <!-- Articles Section -->
+        <section class="container mx-auto py-14" id="articlesSection">
+            <!-- Dynamic articles will be inserted here -->
+        </section>
+        
+        <!-- Footer Section -->
+        <!-- Placeholder for Footer -->
+  <div id="footer-placeholder"></div>
+    </div>
+
+ <script>
+        // Function to load header and initialize
+        function loadHeader() {
+            fetch('./Header/header.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Header not found');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('header-placeholder').innerHTML = data;
+                    console.log('✓ Header HTML loaded');
+                    
+                    // Load header.js after HTML is inserted
+                    return new Promise((resolve, reject) => {
+                        const script = document.createElement('script');
+                        script.src = './Header/header.js';
+                        script.onload = () => {
+                            console.log('✓ Header JS loaded');
+                            resolve();
+                        };
+                        script.onerror = () => reject(new Error('Failed to load header.js'));
+                        document.body.appendChild(script);
+                    });
+                })
+                .catch(error => console.error('✗ Error loading header:', error));
+        }
+
+        // Function to load footer
+        function loadFooter() {
+            fetch('./Footer/footer.html')
+                .then(response => {
+                    if (!response.ok) throw new Error('Footer not found');
+                    return response.text();
+                })
+                .then(data => {
+                    document.getElementById('footer-placeholder').innerHTML = data;
+                    console.log('✓ Footer loaded');
+                })
+                .catch(error => console.error('✗ Error loading footer:', error));
+        }
+
+        // Initialize when DOM is ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', () => {
+                loadHeader();
+                loadFooter();
+            });
+        } else {
+            loadHeader();
+            loadFooter();
+        }
+    </script>
+     <script src="./index.js"></script>
+       
+</body>
+</html>

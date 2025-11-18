@@ -1,0 +1,750 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      Mother Care & Maternity - Premium Products for Expecting Mothers
+    </title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+      <link rel="stylesheet" href="../Header/header.css">
+      <link rel="stylesheet" href="../Footer/footer.css">
+      
+       
+        <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#36C2CE',
+            secondary: '#0ea5e9',
+            accent: '#10b981',
+            dark: '#1e293b',
+          }
+        }
+      }
+    }
+  </script>
+    <style>
+      /* ==========================
+   General Hover Effects
+========================== */
+      .product-card:hover {
+        transform: translateY(-6px);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .image-zoom:hover {
+        transform: scale(1.05);
+        transition: transform 0.3s ease;
+      }
+
+      /* ==========================
+   Filter Sidebar
+========================== */
+      .filter-sidebar {
+        transition: transform 0.3s ease;
+      }
+      .filter-sidebar.hidden-mobile {
+        transform: translateX(-100%);
+      }
+      @media (min-width: 768px) {
+        .filter-sidebar.hidden-mobile {
+          transform: translateX(0);
+        }
+      }
+
+      /* ==========================
+   Product Card
+========================== */
+      .product-card {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 280px; /* wider card */
+        min-height: 360px; /* balanced height */
+        background: #fff;
+        border: 1px solid #f9a8d4; /* pink border */
+        border-radius: 16px; /* smooth rounded edges */
+        overflow: hidden;
+        margin: 0;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      /* Card Image */
+      .product-card img,
+      .product-image {
+        width: 100%;
+        height: 250px;
+        object-fit: contain; /* ensures full image visible */
+        background: #fdf2f8; /* soft pink background for empty space */
+        padding: 0.5rem;
+      }
+
+      /* Card Content */
+      .product-card .content {
+        padding: 1rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      /* Text Content */
+      .text-content {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem; /* Consistent spacing between text elements */
+      }
+
+      /* Left-align text */
+      .text-content h3,
+      .text-content p,
+      .text-content .flex {
+        text-align: left;
+        margin-bottom: 0; /* Reset margins for consistency */
+      }
+
+      /* Button Container */
+      .button-container {
+        display: flex;
+        justify-content: center;
+        margin-top: auto;
+        padding: 0.75rem;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+      }
+
+      /* View Details Button Only */
+      .view-details {
+        padding: 0.6rem 1.5rem; /* more padding */
+        font-size: 0.95rem; /* slightly larger text */
+        font-weight: 400; /* bold for contrast */
+        border-radius: 25px; /* pill shape */
+        background: linear-gradient(
+          135deg,
+          #ffe4ec,
+          #f9a8d4
+        ); /* baby pink gradient */
+        color: #485468; /* dark font */
+        border: 1px solid #f9a8d4; /* pink border */
+        transition: all 0.3s ease;
+        flex: none;
+        min-width: 220px; /* wider button */
+        text-align: center;
+      }
+
+      .view-details:hover {
+        background: linear-gradient(
+          135deg,
+          #f9a8d4,
+          #fbcfe8
+        ); /* brighter pink gradient */
+        color: #111827; /* darker font on hover */
+      }
+
+      /* Animation*/
+      @keyframes fade-in-up {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .animate-fade-in-up {
+        animation: fade-in-up 1s ease forwards;
+      }
+
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+
+      /* Banner Navigation Dots*/
+      .active-dot {
+        width: 0.75rem;
+        height: 0.75rem;
+        opacity: 1 !important;
+      }
+
+      /* Responsive Cards & Buttons */
+      @media (max-width: 640px) {
+        .button-container {
+          flex-direction: column; /* Stack buttons on mobile */
+          align-items: center;
+        }
+
+        .view-details {
+          width: 100%; /* full width on mobile */
+          max-width: 250px; /* limit width */
+        }
+
+        .product-card {
+          width: 100%; /* full width for smaller screens */
+          min-height: auto;
+        }
+      }
+
+      /* Sidebar background gradient for the categories section */
+      .filter-sidebar {
+        background: linear-gradient(
+          135deg,
+          #ffe4ec,
+          #ffc7e6
+        ); /* baby pink gradient */
+      }
+
+      /* Optional: make inner labels background slightly transparent for better readability */
+      .filter-sidebar label {
+        background-color: rgba(
+          255,
+          255,
+          255,
+          0.856
+        ); /* semi-transparent white */
+        padding: 0.35rem 0.8rem;
+        border-radius: 10px;
+        display: block;
+      }
+    </style>
+
+    
+    
+  </head>
+ <body class="bg-white">
+    
+
+    <div id="header-placeholder"></div>
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- ✅ Auto Scrolling Banner with Dots -->
+      <section
+        class="relative w-full h-[300px] sm:h-[350px] mb-6 overflow-hidden rounded-xl shadow-lg"
+      >
+        <!-- Slides wrapper -->
+        <div id="bannerWrapper" class="w-full h-full relative">
+          <!-- Slide 1 -->
+          <div
+            class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 opacity-100 slide"
+            style="background-image: url('../Images/IMG/banner1.png')"
+          >
+            <!-- <div class="absolute inset-0 bg-white/20"></div> -->
+            <div
+              class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4"
+            >
+              <!-- <h2
+                class="text-2xl sm:text-3xl text-gray-600 font-bold animate-fade-in-up"
+              >
+                Mother Care & Maternity
+              </h2> -->
+              <!-- <p
+                class="mt-2 text-gray-600 text-sm sm:text-base max-w-xl animate-fade-in-up delay-200"
+              >
+                Comfort and confidence through every stage of motherhood.
+              </p> -->
+            </div>
+          </div>
+
+          <!-- Slide 2 -->
+          <div
+            class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 opacity-0 slide"
+            style="
+              background-image: url('../Images/IMG/banner2.png');
+            "
+          >
+            <!-- <div class="absolute inset-0 bg-white/40"></div> -->
+            <div
+              class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4"
+            >
+              <!-- <h2 class="text-2xl sm:text-3xl font-bold text-gray-600 animate-fade-in-up">
+                Because Motherhood Has Many Moods
+              </h2>
+              <p
+                class="mt-2 text-sm text-gray-600 sm:text-base max-w-xl animate-fade-in-up delay-200"
+              >
+                Soft wear, soothing care, and joyful essentials to match every stage and feeling.
+              </p> -->
+            </div>
+          </div>
+
+          <!-- Slide 3 -->
+          <div
+            class="absolute inset-0 w-full h-full bg-cover bg-center transition-opacity duration-1000 opacity-0 slide"
+            style="
+              background-image: url('../Images/IMG/banner3.png');
+            "
+          >
+            <!-- <div class="absolute inset-0 bg-black/40"></div> -->
+            <div
+              class="relative z-10 flex flex-col items-center justify-center h-full text-center text-white px-4"
+            >
+              <!-- <h2 class="text-2xl sm:text-3xl font-bold animate-fade-in-up">
+                Caring for Mothers
+              </h2>
+              <p
+                class="mt-2 text-sm sm:text-base max-w-xl animate-fade-in-up delay-200"
+              >
+                Essentials to make your journey stress-free and joyful.
+              </p> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- ✅ Navigation Dots -->
+        <div
+          class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20"
+        >
+          <button
+            class="w-3 h-3 rounded-full bg-white opacity-70 active-dot transition-all duration-300"
+          ></button>
+          <button
+            class="w-3 h-3 rounded-full bg-white/50 hover:opacity-80 transition-all duration-300"
+          ></button>
+          <button
+            class="w-3 h-3 rounded-full bg-white/50 hover:opacity-80 transition-all duration-300"
+          ></button>
+        </div>
+      </section>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Sidebar Filters -->
+        <aside
+          id="filterSidebar"
+          class="filter-sidebar lg:w-64 bg-white rounded-lg shadow-md p-6 h-fit lg:sticky lg:top-24"
+        >
+          <div class="flex justify-between items-center mb-6 lg:hidden">
+            <h2 class="text-lg font-semibold text-gray-900">Filters</h2>
+            <button
+              id="closeSidebarBtn"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <!-- <i class="fas fa-times"></i> -->
+            </button>
+          </div>
+
+          <!-- Categories -->
+          <div class="mb-6">
+            <h3
+              class="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide"
+            >
+              Categories
+            </h3>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="all"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                  checked
+                />
+                <span class="ml-2 text-sm text-gray-700">All Products</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="maternity-wear"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                />
+                <span class="ml-2 text-sm text-gray-700">Maternity Wear</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="nutrition"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                />
+                <span class="ml-2 text-sm text-gray-700"
+                  >Pregnancy Nutrition</span
+                >
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="skincare"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                />
+                <span class="ml-2 text-sm text-gray-700"
+                  >Skincare for Moms</span
+                >
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="trimester-kits"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                />
+                <span class="ml-2 text-sm text-gray-700">Trimester Kits</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="postpartum"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                />
+                <span class="ml-2 text-sm text-gray-700"
+                  >Postpartum Recovery</span
+                >
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="radio"
+                  name="category"
+                  value="breastfeeding"
+                  class="category-filter text-pink-600 focus:ring-pink-500"
+                />
+                <span class="ml-2 text-sm text-gray-700"
+                  >Breastfeeding Essentials</span
+                >
+              </label>
+            </div>
+          </div>
+
+          <!-- Price Range -->
+          <div class="mb-6">
+            <h3
+              class="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide"
+            >
+              Price Range
+            </h3>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="price-filter text-pink-600 focus:ring-pink-500"
+                  data-min="0"
+                  data-max="2075"
+                />
+                <span class="ml-2 text-sm text-gray-700">Under ₹4000</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="price-filter text-pink-600 focus:ring-pink-500"
+                  data-min="2075"
+                  data-max="4150"
+                />
+                <span class="ml-2 text-sm text-gray-700">₹2075 - ₹4150</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="price-filter text-pink-600 focus:ring-pink-500"
+                  data-min="4150"
+                  data-max="8300"
+                />
+                <span class="ml-2 text-sm text-gray-700">₹4150 - ₹8300</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="price-filter text-pink-600 focus:ring-pink-500"
+                  data-min="8300"
+                  data-max="82917"
+                />
+                <span class="ml-2 text-sm text-gray-700">Over ₹8300</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Customer Rating -->
+          <div class="mb-6">
+            <h3
+              class="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide"
+            >
+              Customer Rating
+            </h3>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="rating-filter text-pink-600 focus:ring-pink-500"
+                  data-rating="4"
+                />
+                <span class="ml-2 text-sm text-gray-700 flex items-center">
+                  <span class="text-yellow-400">★★★★</span>
+                  <span class="ml-1">& Up</span>
+                </span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="rating-filter text-pink-600 focus:ring-pink-500"
+                  data-rating="3"
+                />
+                <span class="ml-2 text-sm text-gray-700 flex items-center">
+                  <span class="text-yellow-400">★★★</span>
+                  <span class="ml-1">& Up</span>
+                </span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Discount -->
+          <div class="mb-6">
+            <h3
+              class="text-sm font-semibold text-gray-900 mb-3 uppercase tracking-wide"
+            >
+              Discount
+            </h3>
+            <div class="space-y-2">
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="discount-filter text-pink-600 focus:ring-pink-500"
+                  data-discount="10"
+                />
+                <span class="ml-2 text-sm text-gray-700">10% Off or More</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="discount-filter text-pink-600 focus:ring-pink-500"
+                  data-discount="20"
+                />
+                <span class="ml-2 text-sm text-gray-700">20% Off or More</span>
+              </label>
+              <label class="flex items-center">
+                <input
+                  type="checkbox"
+                  class="discount-filter text-pink-600 focus:ring-pink-500"
+                  data-discount="50"
+                />
+                <span class="ml-2 text-sm text-gray-700">50% Off or More</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Clear Filters -->
+          <button
+            id="clearFilters"
+            class="w-full bg-pink-400 text-white-800 py-2 px-4 rounded-lg hover:bg-pink-600 hover:text-white  transition-colors"
+          >
+            Clear All Filters
+          </button>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="flex-1">
+          <!-- Sort and Results Info -->
+          <div
+            class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4"
+          >
+            <div>
+              <h2 id="categoryTitle" class="text-2xl font-bold text-gray-900">All Products</h2>
+              <p id="resultsCount" class="text-gray-600">
+                Showing all products
+              </p>
+            </div>
+            <div class="flex items-center gap-4">
+              <button
+                id="filterToggleBtn"
+                class="lg:hidden bg-pink-600 text-white px-4 py-2 rounded-md hover:bg-pink-700 transition-colors"
+              >
+                <i class="fas fa-filter mr-2"></i>Filters
+              </button>
+              <select
+                id="sortSelect"
+                class="border cursor-pointer rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              >
+                <option value="default">Sort by: Featured</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+                <option value="rating">Customer Rating</option>
+                <option value="newest">Newest First</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Products Grid -->
+          <div
+            id="productsGrid"
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <!-- Products will be dynamically loaded here -->
+          </div>
+
+          <!-- Pagination -->
+          <div
+            id="pagination"
+            class="flex justify-center items-center mt-12 space-x-2"
+          >
+            <!-- Pagination will be dynamically generated -->
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <!-- Mobile Filter Overlay -->
+    <div
+      id="filterOverlay"
+      class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden lg:hidden"
+    ></div>
+
+    <!-- Cart Modal -->
+    <div
+      id="cartModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"
+    >
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div
+          class="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
+        >
+          <!-- Cart Header -->
+          <div class="flex items-center justify-between p-6 border-b">
+            <h2 class="text-2xl font-bold text-gray-900">Shopping Cart</h2>
+            <button
+              id="closeCartModal"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <!-- Cart Content -->
+          <div id="cartContent" class="p-6 overflow-y-auto max-h-96">
+            <!-- Cart items will be dynamically loaded here -->
+          </div>
+
+          <!-- Cart Footer -->
+          <div id="cartFooter" class="border-t p-6">
+            <div class="flex items-center justify-between mb-4">
+              <span class="text-lg font-semibold">Total: </span>
+              <span id="cartTotal" class="text-2xl font-bold text-pink-600"
+                >₹0.00</span
+              >
+            </div>
+            <div class="flex space-x-4">
+              <button
+                id="clearCart"
+                class="flex-1 bg-gray-200 text-gray-700 py-3 px-4 rounded-md hover:bg-gray-300 transition-colors"
+              >
+                Clear Cart
+              </button>
+              <button
+                id="checkoutBtn"
+                class="flex-1 bg-pink-600 text-white py-3 px-4 rounded-md hover:bg-pink-700 transition-colors"
+              >
+                Checkout
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Wishlist Modal -->
+    <div
+      id="wishlistModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden"
+    >
+      <div class="flex items-center justify-center min-h-screen p-4">
+        <div
+          class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-hidden"
+        >
+          <!-- Wishlist Header -->
+          <div class="flex items-center justify-between p-6 border-b">
+            <h2 class="text-2xl font-bold text-gray-900">My Wishlist</h2>
+            <button
+              id="closeWishlistModal"
+              class="text-gray-500 hover:text-gray-700"
+            >
+              <i class="fas fa-times text-xl"></i>
+            </button>
+          </div>
+
+          <!-- Wishlist Content -->
+          <div id="wishlistContent" class="p-6 overflow-y-auto max-h-96">
+            <!-- Wishlist items will be dynamically loaded here -->
+          </div>
+
+          <!-- Wishlist Footer -->
+          <div id="wishlistFooter" class="border-t p-6">
+            <button
+              id="clearWishlist"
+              class="bg-gray-200 text-gray-700 py-2 px-4 rounded-md hover:bg-gray-300 transition-colors"
+            >
+              Clear Wishlist
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="footer-placeholder"></div>
+    
+
+   
+
+ <script>
+    function loadHeader() {
+        fetch('../Header/header.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('header-placeholder').innerHTML = html;
+                const script = document.createElement('script');
+                script.src = '../Header/header.js';
+                script.onload = () => console.log('Header JS loaded');
+                document.body.appendChild(script);
+            })
+            .catch(err => console.error('Header load failed:', err));
+    }
+
+    function loadFooter() {
+        fetch('../Footer/footer.html')
+            .then(r => { if (!r.ok) throw r; return r.text(); })
+            .then(html => {
+                document.getElementById('footer-placeholder').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load failed:', err));
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        loadHeader();
+        loadFooter();
+        // ... rest of your code
+    });
+</script>
+
+    
+    
+    <script>
+      // Initialize mother page after DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+        if (typeof initializeMotherPage === 'function') {
+          initializeMotherPage();
+        } else {
+          console.error('initializeMotherPage function not found');
+        }
+      });
+    </script>
+
+   
+
+    <script>
+      // Set current year in footer
+      document.getElementById('year').textContent = new Date().getFullYear();
+    </script>  
+    
+   
+    <script src="./mother.js"></script>
+   
+  </body>
+</html>
