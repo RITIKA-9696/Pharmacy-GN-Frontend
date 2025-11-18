@@ -299,6 +299,7 @@
             /* Search Suggestions */
             .search-suggestions {
                 max-height: 300px !important;
+                background: blue;
             }
             
             .suggestion-item {

@@ -6,7 +6,7 @@ const translations = {
     contact: "Contact",
     wishlist: "Wishlist",
     cart: "Cart",
-    profile: "Profile",
+    profile: "Account",
     signupLogin: "Sign Up / Login",
     orders: "Orders",
     logout: "Logout",
@@ -246,15 +246,7 @@ function toggleProfileDropdown() {
   }
 }
 
-// Close dropdown when clicking outside
-function closeDropdownOnClickOutside(event) {
-  const profileDropdown = document.querySelector('.profile-dropdown');
-  const profileMenu = document.getElementById('profile-menu');
-  
-  if (profileDropdown && profileMenu && !profileDropdown.contains(event.target)) {
-    profileMenu.classList.remove('show');
-  }
-}
+
 
 // Main initialization function
 function initializeHeader() {
@@ -300,9 +292,7 @@ function initializeHeader() {
     });
   }
   
-  // Close dropdown when clicking outside
-  document.addEventListener('click', closeDropdownOnClickOutside);
-  
+ 
   // Logout functionality
   const logoutBtn = document.getElementById('logout-btn');
   if (logoutBtn) {
@@ -331,26 +321,42 @@ if (document.readyState === 'interactive' || document.readyState === 'complete')
     setTimeout(initializeHeader, 0);
 }
 
-// Mobile Profile Dropdown
-document.getElementById('mobile-profile-btn')?.addEventListener('click', function(e) {
+
+// DESKTOP PROFILE DROPDOWN – CLICK TO TOGGLE
+document.getElementById('profile-btn')?.addEventListener('click', function(e) {
   e.stopPropagation();
-  document.getElementById('mobile-profile-menu').classList.toggle('hidden');
+  const menu = document.getElementById('profile-menu');
+  const isHidden = menu.classList.contains('hidden');
+  
+
+  // Toggle current menu
+  if (isHidden) {
+    menu.classList.remove('hidden');
+    setTimeout(() => menu.classList.remove('opacity-0'), 10); // smooth fade-in
+  } else {
+    menu.classList.add('opacity-0');
+    setTimeout(() => menu.classList.add('hidden'), 200);
+  }
 });
 
-// Close mobile profile dropdown when clicking outside
-document.addEventListener('click', function() {
-  document.getElementById('mobile-profile-menu')?.classList.add('hidden');
-});
+
+
+
+// Mobile & Desktop Profile Dropdown
+  document.getElementById('mobile-profile-btn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('mobile-profile-menu').classList.toggle('hidden');
+  });
+
+  document.getElementById('desktop-profile-btn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('desktop-profile-menu').classList.toggle('hidden');
+  });
+
 
 // Mobile Menu Toggle
-document.getElementById('mobile-menu-btn')?.addEventListener('click', function() {
-  document.getElementById('mobile-menu').classList.toggle('hidden');
-});
-
-// Close mobile menu on link click
-document.querySelectorAll('#mobile-menu a').forEach(link => {
-  link.addEventListener('click', () => {
-    document
-System: document.getElementById('mobile-menu').classList.add('hidden');
+document.getElementById('mobile-menu-btn')?.addEventListener('click', (e) => {
+    e.stopPropagation();
+    document.getElementById('mobile-menu').classList.toggle('hidden');
   });
-});
+

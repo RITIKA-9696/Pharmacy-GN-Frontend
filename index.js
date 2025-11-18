@@ -160,10 +160,11 @@
             });
         });
         const searchInput = document.getElementById('searchInput');
-        const suggestionsContainer = document.getElementById('suggestions');
+        const suggestions = document.getElementById('searchSuggestions');
+
         function createSuggestionItem(item, isMainCategory = false, icon = '🔍', parentIcon = '') {
             const div = document.createElement('div');
-            div.className = 'suggestion-item flex items-center p-3 cursor-pointer rounded-lg transition-colors duration-150 hover:bg-blue-50';
+            div.className = 'suggestion-item flex items-center p-3 cursor-pointer rounded-lg transition-colors bg-white-50 duration-150 hover:bg-blue-50';
            
             let displayIcon = icon;
             let textColor = 'text-gray-800';
@@ -192,81 +193,24 @@
             div.addEventListener('click', () => {
                 const searchValue = displayText;
                 searchInput.value = searchValue;
-                suggestionsContainer.classList.add('hidden');
+                suggestions.classList.add('hidden');
                 performSearch(searchValue);
             });
            
             return div;
         }
-        function showSuggestions(query = '') {
-            const suggestionsContent = suggestionsContainer.querySelector('.space-y-1');
-            suggestionsContent.innerHTML = '';
-            if (query.length === 0) {
-                // Show main categories
-                suggestionsContainer.querySelector('h3').textContent = 'Browse Categories';
-                Object.keys(pharmacyCategories).forEach(category => {
-                    const categoryData = pharmacyCategories[category];
-                    const categoryItem = {
-                        term: category,
-                        type: 'main_category',
-                        icon: categoryData.icon
-                    };
-                    suggestionsContent.appendChild(
-                        createSuggestionItem(categoryItem, true)
-                    );
-                });
-            } else {
-                // Filter and show matching items
-                suggestionsContainer.querySelector('h3').textContent = 'Search Results';
-               
-                // Smart search: check for matches in term, keywords, and partial matches
-                const filtered = allProducts.filter(product => {
-                    const searchTerm = query.toLowerCase();
-                    const productTerm = (product.term || product).toLowerCase();
-                   
-                    // Direct match
-                    if (productTerm.includes(searchTerm)) return true;
-                   
-                    // Keyword match
-                    if (product.keyword && product.keyword.toLowerCase().includes(searchTerm)) return true;
-                   
-                    // Partial word match
-                    const words = productTerm.split(/[\s,()&-]+/);
-                    return words.some(word => word.includes(searchTerm) && word.length > 2);
-                }).slice(0, 10);
-                if (filtered.length > 0) {
-                    // Remove duplicates and prioritize main categories
-                    const seen = new Set();
-                    const uniqueFiltered = filtered.filter(item => {
-                        const key = item.term || item;
-                        if (seen.has(key)) return false;
-                        seen.add(key);
-                        return true;
-                    });
-                    // Sort: main categories first, then subcategories, then keywords
-                    uniqueFiltered.sort((a, b) => {
-                        const typeOrder = { 'main_category': 0, 'subcategory': 1, 'keyword': 2 };
-                        return (typeOrder[a.type] || 3) - (typeOrder[b.type] || 3);
-                    });
-                    uniqueFiltered.forEach(item => {
-                        const isMainCategory = item.type === 'main_category';
-                        suggestionsContent.appendChild(
-                            createSuggestionItem(item, isMainCategory, item.icon)
-                        );
-                    });
-                } else {
-                    const noResults = document.createElement('div');
-                    noResults.className = 'p-3 text-gray-500 text-center';
-                    noResults.innerHTML = `
-                        <div class="text-2xl mb-2">🔍</div>
-                        <div>No products found for "${query}"</div>
-                        <div class="text-sm mt-1">Try searching for "Vitamins", "Baby Care", "Diabetes" or "Prescription"</div>
-                    `;
-                    suggestionsContent.appendChild(noResults);
-                }
+        // Show suggestions when clicking/focusing the input
+             function showSuggestions() {
+                suggestions.classList.remove('hidden');
             }
-            suggestionsContainer.classList.remove('hidden');
-        }
+
+            // Hide suggestions when clicking outside
+function hideSuggestions(e) {
+  // If the click is NOT inside the search input OR the suggestions box → hide it
+  if (!searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+    suggestions.classList.add('hidden');
+  }
+}
         function performSearch(query) {
             console.log('Searching for:', query);
             // Here you would typically make an API call or redirect to search results
@@ -282,12 +226,36 @@
                 showSuggestions();
             }
         });
+
+        // Show suggestions when input is focused
+        searchInput.addEventListener('focus', () => {
+            suggestions.classList.remove('hidden');
+         });
         searchInput.addEventListener('blur', (e) => {
             // Delay hiding suggestions to allow clicks
             setTimeout(() => {
-                suggestionsContainer.classList.add('hidden');
+                suggestions.classList.add('hidden');
             }, 150);
         });
+
+        searchInput.addEventListener('focus', showSuggestions);
+searchInput.addEventListener('click', showSuggestions);
+
+// Hide when clicking anywhere else on the page
+document.addEventListener('click', hideSuggestions);
+
+// Optional: Also hide on Escape key
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    suggestions.classList.add('hidden');
+    searchInput.blur();
+  }
+});
+
+// Optional: Keep open if user clicks inside suggestions (prevents closing when selecting)
+suggestions.addEventListener('click', (e) => {
+  e.stopPropagation(); // This stops the click from bubbling up to document
+});
         // Search button functionality
         document.querySelector('button[class*="bg-blue-600"]').addEventListener('click', () => {
             performSearch(searchInput.value);
@@ -298,6 +266,13 @@
                 performSearch(searchInput.value);
             }
         });
+        // Optional: Hide on Escape key
+  searchInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      suggestions.classList.add('hidden');
+      searchInput.blur();
+    }
+  });
         // Category button functionality
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', () => {
@@ -319,8 +294,8 @@
         });
         // Click outside to close suggestions
         document.addEventListener('click', (e) => {
-            if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
-                suggestionsContainer.classList.add('hidden');
+            if (!searchInput.contains(e.target) && !suggestions.contains(e.target)) {
+                suggestions.classList.add('hidden');
             }
         });
         // Dynamic data for banners (can be fetched from backend)

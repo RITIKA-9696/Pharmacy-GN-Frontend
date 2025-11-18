@@ -396,48 +396,14 @@
             .prescription-icon span {
                 font-size: 0.75rem !important;
             }
-            
-            /* Search Suggestions */
-            .search-suggestions {
-                max-height: 300px !important;
-            }
-            
-            .suggestion-item {
-                padding: 0.75rem !important;
-            }
-            
-            .suggestion-item svg {
-                width: 1rem !important;
-                height: 1rem !important;
-                margin-right: 0.75rem !important;
-            }
-            
-            .suggestion-item p {
-                font-size: 0.875rem !important;
-            }
-            
-            .suggestion-item .text-xs {
-                font-size: 0.75rem !important;
-            }
+           
         }
 
        
 
        
 
-        /* Custom scrollbar hiding */
-        .scrollbar-hide {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-        .scrollbar-hide::-webkit-scrollbar {
-            display: none;
-        }
-
-        /* Smooth transitions */
-        .transition-all {
-            transition: all 0.3s ease;
-        }
+        
     </style>
 </head>
 <body class="bg-white">
@@ -464,73 +430,107 @@
                             <span class="text-yellow-300">Get Medicines Fast</span> With Superfast Delivery In Your City
                         </h4>
                         <!-- Search Bar -->
-                        <div class="relative">
-                            <div class="relative">
-                                <input
-                                    type="text"
-                                    id="searchInput"
-                                    placeholder="Search medicines, vitamins, health products..."
-                                    class="w-full px-6 py-4 pr-12 text-lg rounded-full border-2 border-white/30 bg-white focus:outline-none focus:ring-4 focus:ring-blue-500/50 focus:border-blue-500 transition-all duration-300 shadow-lg">
-                                <button class="absolute right-2 top-2 bg-blue-600 hover:bg-blue-700 text-white p-3 rounded-full transition-colors duration-200 shadow-md">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                                    </svg>
-                                </button>
-                            </div>
-                            <!-- Search Suggestions -->
-                            <div id="suggestions" class="search-suggestions absolute top-full left-0 right-0 mt-2 rounded-2xl shadow-2xl border border-gray-200 hidden max-h-80 overflow-y-auto z-50">
-                                <div class="p-4">
-                                    <h3 class="text-sm font-semibold text-gray-600 mb-3">Popular Searches</h3>
-                                    <div class="space-y-1">
-                                        <div class="suggestion-item">
-                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-6 0H5m2 0h4M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-                                            </svg>
-                                            <div>
-                                                <p class="font-medium">Vitamin D3</p>
-                                                <p class="text-xs text-gray-500">Supplements</p>
-                                            </div>
-                                        </div>
-                                        <div class="suggestion-item">
-                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                                            </svg>
-                                            <div>
-                                                <p class="font-medium">Blood Pressure Monitor</p>
-                                                <p class="text-xs text-gray-500">Medical Devices</p>
-                                            </div>
-                                        </div>
-                                        <div class="suggestion-item">
-                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 14v6m-3-3h6M6 10h2a2 2 0 012 2v6a2 2 0 01-2 2H6a2 2 0 01-2-2v-6a2 2 0 012-2zm5-3a3 3 0 11-6 0 3 3 0 016 0zm6.5 0a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
-                                            </svg>
-                                            <div>
-                                                <p class="font-medium">Omega-3 Fish Oil</p>
-                                                <p class="text-xs text-gray-500">Supplements</p>
-                                            </div>
-                                        </div>
-                                        <div class="suggestion-item">
-                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 100 4m0-4v2m0-6V4"></path>
-                                            </svg>
-                                            <div>
-                                                <p class="font-medium">Pain Relievers</p>
-                                                <p class="text-xs text-gray-500">Medications</p>
-                                            </div>
-                                        </div>
-                                        <div class="suggestion-item">
-                                            <svg class="w-5 h-5 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
-                                            </svg>
-                                            <div>
-                                                <p class="font-medium">First Aid Kit</p>
-                                                <p class="text-xs text-gray-500">Medical Supplies</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!-- SEARCH BAR WITH WHITE TEXT DROPDOWN (like your screenshot) -->
+<div class="relative max-w-4xl mx-auto px-6 mt-12">
+  <div class="relative">
+    <input 
+      type="text" 
+      id="searchInput"
+      placeholder="Search medicines, vitamins, health products..."
+      class="w-full px-8 py-5 pr-16 text-lg rounded-full bg-white border-4 border-white shadow-2xl focus:outline-none focus:ring-4 focus:ring-blue-400/30 transition-all duration-300 text-gray-800 placeholder-gray-500"
+      autocomplete="off"
+    >
+    <button class="absolute right-3 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full transition-all duration-200 shadow-lg">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+      </svg>
+    </button>
+  </div>
+
+  <!-- SEARCH SUGGESTIONS DROPDOWN (WHITE TEXT ON DARK BLUE) -->
+  <div id="searchSuggestions" class="absolute top-full left-0 right-0 mt-3 bg-gradient-to-b from-white to-white rounded-3xl shadow-sm border-2 border-white/20 overflow-hidden hidden z-50">
+    
+    <!-- Header -->
+    <div class="px-8 py-5 border-b border-white/10">
+      <h3 class="text-gray-700 font-bold text-lg">Popular Searches</h3>
+    </div>
+
+    <!-- Suggestions List -->
+    <div class="py-4">
+      <!-- Vitamin D3 -->
+      <div class="flex items-center px-8 py-4 hover:bg-white/30 cursor-pointer transition-all group">
+        <div class="bg-yellow-400/30 p-3 rounded-xl mr-5 group-hover:bg-yellow-400/30 transition">
+          <svg class="w-6 h-6 text-yellow-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.66-11.66l-.7.7m-13.32 0l-.7-.7m14.02 7.36l-.7-.7m-13.32 0l-.7.7M12 7a5 5 0 100 10 5 5 0 000-10z"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-700 font-semibold text-lg">Vitamin D3</p>
+          <p class="text-gray-500 text-sm">Supplements • Immunity Booster</p>
+        </div>
+      </div>
+
+      <!-- Blood Pressure Monitor -->
+      <div class="flex items-center px-8 py-4 hover:bg-white/10 cursor-pointer transition-all group">
+        <div class="bg-red-400/30 p-3 rounded-xl mr-5 group-hover:bg-red-500/30 transition">
+          <svg class="w-6 h-6 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.5 19.5l15-15m-15 0l15 15"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-700 font-semibold text-lg">Blood Pressure Monitor</p>
+          <p class="text-gray-500 text-sm">Medical Devices • Home Use</p>
+        </div>
+      </div>
+
+      <!-- Omega-3 Fish Oil -->
+      <div class="flex items-center px-8 py-4 hover:bg-white/10 cursor-pointer transition-all group">
+        <div class="bg-green-400/30 p-3 rounded-xl mr-5 group-hover:bg-green-500/30 transition">
+          <svg class="w-6 h-6 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m0 0V7a2 2 0 012-2h14a2 2 0 012 2v10m-18 0h18"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-700 font-semibold text-lg">Omega-3 Fish Oil</p>
+          <p class="text-gray-500 text-sm">Heart Health • Joint Support</p>
+        </div>
+      </div>
+
+      <!-- Pain Relievers -->
+      <div class="flex items-center px-8 py-4 hover:bg-white/10 cursor-pointer transition-all group">
+        <div class="bg-orange-400/30 p-3 rounded-xl mr-5 group-hover:bg-orange-500/30 transition">
+          <svg class="w-6 h-6 text-orange-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-700 font-semibold text-lg">Pain Relievers</p>
+          <p class="text-gray-500 text-sm">Headache • Body Pain • Fever</p>
+        </div>
+      </div>
+
+      <!-- First Aid Kit -->
+      <div class="flex items-center px-8 py-4 hover:bg-white/10 cursor-pointer transition-all group">
+        <div class="bg-purple-400/30 p-3 rounded-xl mr-5 group-hover:bg-purple-500/30 transition">
+          <svg class="w-6 h-6 text-purple-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-4m-6 0H5m2 0h4"></path>
+          </svg>
+        </div>
+        <div>
+          <p class="text-gray-700 font-semibold text-lg">First Aid Kit</p>
+          <p class="text-gray-500 text-sm">Emergency • Home & Travel</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-8 py-5 bg-gray-300 border-t border-white/10">
+      <p class="text-black-300 text-sm">Press Enter to search • Use ↑↓ arrows to navigate</p>
+    </div>
+  </div>
+</div>
+
+
                     </div>
                 </div>
 <!-- Order Options (Below Search Bar) -->
@@ -742,11 +742,9 @@
 
 <!-- Feminine Hygiene Section -->
         <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
+            <div class="text-center mb-12 mt-16">
                 <h2 class="text-3xl font-bold text-gray-900 mb-3">Feminine Hygiene</h2>
-                <p class="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Premium quality products for your intimate care needs. Designed with comfort and safety in mind.
-                </p>
+                
             </div>
             
             <div class="relative">
