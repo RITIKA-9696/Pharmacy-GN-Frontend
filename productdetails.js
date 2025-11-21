@@ -18,47 +18,49 @@ function logWarn(message, data = null) {
 }
 
 // Function to update cart count in the UI
+// Update Cart Count in Header (Desktop + Mobile)
 function updateCartCount() {
-    try {
-        const cartCountElement = document.querySelector('.fa-shopping-cart + span');
-        if (cartCountElement) {
-            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-            cartCountElement.textContent = totalItems;
-            logInfo(`Cart count updated: ${totalItems} items`);
-        } else {
-            logWarn('Cart count element not found on this page');
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+
+    // Update both desktop and mobile cart badges
+    const desktopCount = document.getElementById('desktop-cart-count');
+    const mobileCount = document.getElementById('mobile-cart-count');
+
+    if (desktopCount) desktopCount.textContent = totalItems;
+    if (mobileCount) mobileCount.textContent = totalItems;
+
+    // Hide badge if count is 0
+    [desktopCount, mobileCount].forEach(el => {
+        if (el) {
+            el.style.display = totalItems > 0 ? 'flex' : 'none';
         }
-    } catch (error) {
-        logError('Error updating cart count:', error);
-    }
+    });
 }
 
 // Function to add product to cart
 function addToCart(product) {
     try {
-        logInfo('Adding product to cart:', { id: product.id, name: product.name });
-        
-        // Check for existing item based on id, variant, and size
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
         const existingItem = cart.find(item => 
             item.id === product.id && 
             item.variant === product.variant && 
             item.size === product.size
         );
-        
+
         if (existingItem) {
             existingItem.quantity += 1;
-            logInfo(`Incremented quantity for existing item: ${product.name}`, { newQuantity: existingItem.quantity });
         } else {
             cart.push({ ...product, quantity: 1 });
-            logInfo(`Added new item to cart: ${product.name}`);
         }
-        
+
         localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-        
+        updateCartCount();  // This line updates the header badge
+
+        console.log('Added to cart:', product.name);
     } catch (error) {
-        logError('Error adding product to cart:', error);
-        throw error;
+        console.error('Error adding to cart:', error);
     }
 }
 
@@ -506,18 +508,15 @@ function loadProductFromUrlParams() {
     try {
         const params = getUrlParams();
         
-        logInfo('Loading product from URL parameters', params);
-        
-        // Check if we have the necessary data from URL
         if (!params.name || !params.price) {
-            logWarn('Insufficient product data in URL parameters, will try backend API');
+            logWarn('Insufficient product data in URL parameters');
             return false;
         }
-        
+
         // Update product details
         document.getElementById('product-name').textContent = params.name;
         document.getElementById('selling-price').textContent = params.price;
-        
+
         if (params.originalPrice && params.discount) {
             document.getElementById('original-price').textContent = params.originalPrice;
             document.getElementById('discount').textContent = params.discount;
@@ -527,31 +526,63 @@ function loadProductFromUrlParams() {
             document.getElementById('original-price').style.display = 'none';
             document.getElementById('discount').style.display = 'none';
         }
-        
-        // Set product description
+
         if (params.description) {
             document.getElementById('product-description').textContent = params.description;
         }
-        
-        // Set main product image
+
         const mainImage = document.getElementById('main-product-image');
         if (params.image) {
             mainImage.src = params.image;
             mainImage.alt = params.name;
-            logInfo('Main product image set from URL params');
-            
-            // Create thumbnails using the same image
             renderThumbnails([params.image, params.image, params.image], params.id);
         }
-        
-        // Load placeholder related products
-        loadRelatedProductsPlaceholder();
-        
-        logInfo('Product loaded successfully from URL parameters');
+
+        // KEY PART: Show only related products from same category
+        const relatedContainer = document.getElementById('related-products');
+        if (relatedContainer && params.category) {
+            let relatedList = [];
+            if (params.category === 'feminine') {
+                relatedList = productsData.filter(p => p.id != params.id);
+            } else if (params.category === 'medicine') {
+                relatedList = medicinesData.filter(p => p.id != params.id);
+            }
+
+            // Limit to 4
+            relatedList = relatedList.slice(0, 4);
+
+            relatedContainer.innerHTML = '';
+            if (relatedList.length === 0) {
+                relatedContainer.innerHTML = '<p class="text-center text-gray-500 col-span-4">No related products found.</p>';
+            } else {
+                relatedList.forEach(prod => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all cursor-pointer';
+                    card.innerHTML = `
+                        <img src="${prod.image}" alt="${prod.name}" class="w-full h-48 object-cover">
+                        <div class="p-4">
+                            <h4 class="font-semibold text-gray-800 truncate">${prod.name}</h4>
+                            <div class="flex items-center gap-2 mt-2">
+                                <span class="text-pharmacy-blue font-bold">${prod.price}</span>
+                                ${prod.originalPrice ? `<span class="text-sm text-gray-500 line-through">${prod.originalPrice}</span>` : ''}
+                            </div>
+                            <button onclick="openProductDetails(${prod.id}); event.stopPropagation();" 
+                                    class="mt-3 w-full bg-pharmacy-blue text-white py-2 rounded-lg text-sm hover:bg-blue-700 transition">
+                                View Details
+                            </button>
+                        </div>
+                    `;
+                    card.addEventListener('click', () => openProductDetails(prod.id));
+                    relatedContainer.appendChild(card);
+                });
+            }
+        }
+
+        logInfo('Product loaded from URL params with correct related products');
         return true;
-        
+
     } catch (error) {
-        logError('Error loading product from URL parameters:', error);
+        logError('Error loading from URL params:', error);
         return false;
     }
 }
@@ -795,6 +826,7 @@ function init() {
     try {
         logInfo('Initializing product details page (called from onload)');
         loadProductData();
+        updateCartCount();
         initTabs();
         initSelectionButtons();
         initCart();

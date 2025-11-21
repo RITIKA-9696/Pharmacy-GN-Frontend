@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MediCart - Cart</title>
-    <link rel="stylesheet" href="./Header/header.css">
-    <link rel="stylesheet" href="./Footer/footer.css">
-    
+
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -22,72 +20,37 @@
             }
         }
     </script>
-    
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari&display=swap" rel="stylesheet">
-    
+    <!-- Safe CSS loading – removes the MIME error completely -->
+<link rel="stylesheet" href="./Header/header.css" onerror="this.remove()">
+    <link rel="stylesheet" href="./Footer/footer.css" onerror="this.remove()">
+
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        
-        #cart-loading {
-            transition: opacity 0.3s;
-        }
-        
-        .opacity-0 {
-            opacity: 0;
-        }
-        
-        /* Loading animation */
-        .loader {
-            border: 3px solid #f3f4f6;
-            border-top: 3px solid #2563eb;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Cart item animations */
-        .cart-item {
-            transition: all 0.3s ease;
-        }
-        
-        .cart-item:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-        }
+        body { font-family: 'Inter', sans-serif; }
+        .cart-item:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); transition: all 0.3s ease; }
     </style>
 </head>
-<body class="bg-white">
+<body class="bg-gray-50">
 
     <!-- HEADER PLACEHOLDER -->
     <div id="header-placeholder"></div>
 
-    
-
     <!-- MAIN CART CONTENT -->
-    <main class="container mx-auto px-4 py-8 mt-16">
-        <!-- EMPTY CART STATE -->
+    <main class="container mx-auto px-4 py-8 mt-16 max-w-6xl">
+        <!-- EMPTY CART -->
         <div id="empty-cart-fullscreen" class="hidden">
-            <div class="max-w-md mx-auto text-center py-16">
-                <div class="bg-pharmacy-light-blue rounded-full w-32 h-32 flex items-center justify-center mx-auto mb-6">
-                    <i class="fas fa-shopping-cart text-4xl text-pharmacy-blue"></i>
+            <div class="text-center py-20">
+                <div class="bg-pharmacy-light-blue w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fas fa-shopping-cart text-5xl text-pharmacy-blue"></i>
                 </div>
-                <h2 class="text-2xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
-                <p class="text-gray-600 mb-8">Looks like you haven't added anything to your cart yet.</p>
-                <a href="./index.html" 
-                   class="inline-block bg-pharmacy-blue hover:bg-blue-700 text-white font-semibold px-8 py-3 rounded-lg transition duration-200">
+                <h2 class="text-3xl font-bold text-gray-800 mb-4">Your cart is empty</h2>
+                <p class="text-gray-600 mb-8">Add some medicines and come back!</p>
+                <a href="./index.html" class="bg-pharmacy-blue hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-lg">
                     Browse Products
                 </a>
             </div>
@@ -97,85 +60,66 @@
         <div id="cart-with-items" class="hidden">
             <div class="flex justify-between items-center mb-8">
                 <h1 class="text-3xl font-bold text-gray-900">Shopping Cart</h1>
-                <span id="cart-count-badge" class="bg-pharmacy-blue text-white px-3 py-1 rounded-full text-sm font-medium hidden">
+                <span id="cart-count-badge" class="bg-pharmacy-blue text-white px-4 py-2 rounded-full text-sm font-bold hidden">
                     <span id="cart-count">0</span> items
                 </span>
             </div>
 
-            <div class="flex flex-col lg:flex-row gap-8">
+            <div class="grid lg:grid-cols-3 gap-8">
                 <!-- Cart Items -->
-                <div class="lg:w-2/3">
+                <div class="lg:col-span-2">
                     <div class="bg-white rounded-xl shadow-sm p-6">
                         <div class="flex justify-between items-center mb-6">
-                            <h2 class="text-xl font-semibold text-gray-800">Cart Items</h2>
+                            <h2 class="text-xl font-semibold">Cart Items</h2>
                             <span class="text-gray-500" id="item-count">0 items</span>
                         </div>
-                        
+
                         <!-- Prescription Notice -->
-                        <div id="prescription-notice" class="hidden bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
-                            <div class="flex items-start">
-                                <i class="fas fa-exclamation-triangle text-yellow-500 mt-1 mr-3"></i>
+                        <div id="prescription-notice" class="hidden bg-yellow-50 border border-yellow-300 rounded-lg p-4 mb-6">
+                            <div class="flex items-start gap-3">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 text-xl"></i>
                                 <div>
-                                    <p class="text-yellow-800 font-medium">Prescription Required</p>
-                                    <p class="text-yellow-700 text-sm mt-1">
-                                        Some items in your cart require a prescription. You'll need to upload it during checkout.
-                                    </p>
+                                    <p class="font-semibold text-yellow-900">Prescription Required</p>
+                                    <p class="text-sm text-yellow-800">You need to upload a valid prescription during checkout.</p>
                                 </div>
                             </div>
                         </div>
-                        
-                        <!-- Cart Items Container -->
+
+                        <!-- Items Container -->
                         <div id="cart-items-container" class="space-y-4"></div>
                     </div>
                 </div>
 
                 <!-- Order Summary -->
-                <div class="lg:w-1/3">
+                <div class="lg:col-span-1">
                     <div class="bg-white rounded-xl shadow-sm p-6 sticky top-24">
-                        <h2 class="text-xl font-semibold text-gray-800 mb-6">Order Summary</h2>
-                        
-                        <div class="space-y-3 mb-6">
-                            <div class="flex justify-between text-gray-600">
-                                <span>Subtotal</span>
-                                <span id="subtotal">₹0.00</span>
-                            </div>
-                            <div class="flex justify-between text-gray-600">
-                                <span>Shipping</span>
-                                <span>₹49.00</span>
-                            </div>
-                            <div class="flex justify-between text-gray-600">
-                                <span>Tax (18%)</span>
-                                <span id="tax">₹0.00</span>
-                            </div>
-                            <div class="flex justify-between text-green-600">
-                                <span>Discount</span>
-                                <span id="discount">-₹0.00</span>
-                            </div>
-                            <div class="border-t pt-3"></div>
-                            <div class="flex justify-between text-lg font-bold text-gray-900">
-                                <span>Total</span>
-                                <span id="total" class="text-pharmacy-blue">₹0.00</span>
+                        <h2 class="text-xl font-bold mb-6">Order Summary</h2>
+                        <div class="space-y-3 text-gray-700">
+                            <div class="flex justify-between"><span>Subtotal</span><span id="subtotal">₹0.00</span></div>
+                            <div class="flex justify-between"><span>Shipping</span><span id="shipping-text">₹49.00</span></div>
+                            <div class="flex justify-between"><span>Tax (18%)</span><span id="tax">₹0.00</span></div>
+                            <div class="flex justify-between text-green-600"><span>Discount</span><span id="discount">-₹0.00</span></div>
+                            <div class="border-t pt-4 mt-4">
+                                <div class="flex justify-between text-xl font-bold">
+                                    <span>Total</span>
+                                    <span id="total" class="text-pharmacy-blue">₹0.00</span>
+                                </div>
                             </div>
                         </div>
 
                         <button onclick="proceedToCheckout()" 
-                                class="w-full bg-pharmacy-blue hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-200 mb-4">
-                                <a href="./checkout.html">
+                                class="w-full mt-6 bg-pharmacy-blue hover:bg-blue-700 text-white font-bold py-4 rounded-lg text-lg transition">
                             Proceed to Checkout
-                            </a>
                         </button>
-                        
-                        <p class="text-xs text-gray-500 text-center">
-                            <i class="fas fa-lock mr-1"></i>
-                            Secure checkout · Free shipping on orders over ₹499
+
+                        <p class="text-center text-xs text-gray-500 mt-4">
+                            <i class="fas fa-lock"></i> Secure Checkout • Free shipping above ₹499
                         </p>
                     </div>
-                    
-                    <!-- Continue Shopping -->
-                    <div class="mt-6 text-center">
-                        <a href="./index.html" class="text-pharmacy-blue hover:text-blue-700 font-medium inline-flex items-center">
-                            <i class="fas fa-arrow-left mr-2"></i>
-                            Continue Shopping
+
+                    <div class="text-center mt-6">
+                        <a href="./index.html" class="text-pharmacy-blue hover:underline font-medium">
+                            ← Continue Shopping
                         </a>
                     </div>
                 </div>
@@ -183,11 +127,8 @@
         </div>
     </main>
 
-    <!-- Placeholder for Footer -->
-  <div id="footer-placeholder"></div>
-    </div>
-
-    
+    <!-- Footer Placeholder -->
+    <div id="footer-placeholder"></div>
 
     <script>
     function loadHeader() {
@@ -219,113 +160,7 @@
     });
 </script>
 
-    <!-- SCRIPTS -->
-    <script>
-        // Simple script loader with error handling
-        function loadScript(src) {
-            return new Promise((resolve, reject) => {
-                const script = document.createElement('script');
-                script.src = src;
-                script.onload = () => {
-                    console.log('✅ Loaded:', src);
-                    resolve();
-                };
-                script.onerror = () => {
-                    console.error('❌ Failed to load:', src);
-                    reject(new Error(`Script load failed: ${src}`));
-                };
-                document.body.appendChild(script);
-            });
-        }
-
-        // Initialize the page
-        async function initializePage() {
-            try {
-                console.log('🚀 Starting page initialization...');
-                
-                // 1. Load header
-                console.log('📥 Loading header...');
-                const headerResponse = await fetch('/header.html');
-                if (!headerResponse.ok) {
-                    throw new Error(`HTTP ${headerResponse.status}: Failed to load header`);
-                }
-                const headerHTML = await headerResponse.text();
-                
-                const headerPlaceholder = document.getElementById('header-placeholder');
-                if (headerPlaceholder) {
-                    headerPlaceholder.innerHTML = headerHTML;
-                    console.log('✅ Header loaded successfully');
-                }
-
-                // 2. Load required scripts
-                console.log('📥 Loading scripts...');
-                await loadScript('./header.js');
-                await loadScript('./cart.js');
-                console.log('✅ All scripts loaded');
-
-                // 3. Initialize cart
-                console.log('🛒 Initializing cart...');
-                if (typeof window.initCart === 'function') {
-                    await window.initCart();
-                    console.log('✅ Cart initialized');
-                } else {
-                    throw new Error('initCart function not found');
-                }
-
-            } catch (error) {
-                console.error('💥 Initialization failed:', error);
-                
-                // Show error message to user
-                const loadingEl = document.getElementById('cart-loading');
-                if (loadingEl) {
-                    loadingEl.innerHTML = `
-                        <div class="text-center">
-                            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg max-w-md mx-auto">
-                                <i class="fas fa-exclamation-triangle text-xl mb-2"></i>
-                                <h3 class="font-bold mb-2">Failed to load cart</h3>
-                                <p class="text-sm mb-4">${error.message}</p>
-                                <button onclick="location.reload()" 
-                                        class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded text-sm">
-                                    Try Again
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-            }
-        }
-
-        // Start initialization when DOM is ready
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initializePage);
-        } else {
-            initializePage();
-        }
-
-        // Global functions for cart operations
-        window.updateQty = function(idx, newQty) {
-            if (window.updateCartItem) {
-                window.updateCartItem(idx, newQty);
-            }
-        };
-
-        window.removeItem = function(idx) {
-            if (window.removeCartItem) {
-                window.removeCartItem(idx);
-            }
-        };
-
-        window.proceedToCheckout = function() {
-            if (window.cart && window.cart.length === 0) {
-                alert('Your cart is empty!');
-                return;
-            }
-            
-            // For now, just show a message since checkout might not be implemented
-            alert('Checkout functionality would be implemented here!');
-            // window.location.href = 'checkout.html';
-        };
-    </script>
+    <!-- Main Cart Logic – FINAL FIXED VERSION -->
     <script src="./cart.js"></script>
 </body>
 </html>

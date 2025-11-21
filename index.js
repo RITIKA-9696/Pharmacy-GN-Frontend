@@ -309,17 +309,8 @@ suggestions.addEventListener('click', (e) => {
         const secondaryBanner = "Images/IMG/farmasi banner 8th.jpg";
         // Sample data for 6 categories (can be fetched from backend)
         let categoriesData = [
-            { name: "Medicines and Healthcare", image: "Images/IMG/Medicines & Healthcare.jpg", url: "./Medical and HealthCare/OTC/otc.html"},
-            { name: "Ayurvedic Products", image: "Images/IMG/AyurvedicProducts.jpg" },
-            { name: "Mother Care", image: "Images/IMG/Mother_Care[1].jpg", url: "./MotherCare/mother.html"},
-            { name: "Baby Care", image: "Images/IMG/Baby Care.jpg", url: "./BabyCare/baby.html" },
-            { name: "Monitoring Devices", image: "Images/IMG/Monitoring Devices.jpg" },
-            { name: "Wellness", image: "Images/IMG/Wellness.jpg" },
-            { name: "Mother Care", image: "Images/IMG/Mother_Care[1].jpg" },
-            { name: "Baby Care", image: "Images/IMG/Baby Care.jpg" },
-            { name: "Monitoring Devices", image: "Images/IMG/Monitoring Devices.jpg" },
-            { name: "Wellness", image: "Images/IMG/Wellness.jpg" },
-        ];
+        { name: "Allergy and ColdCare", image: "Images/category/allergy and cold care.png", url: "./Medical and HealthCare/OTC/otc.html"},             { name: "Ayurvedic Products", image: "Images/category/Ayurveda.png" },             { name: "Chronic Care", image: "Images/category/CHRONIC 1.png", url: "./MotherCare/mother.html"},             { name: "Digestive Health", image: "Images/category/Digestive Health.png", url: "./BabyCare/baby.html" },             { name: "First Aid", image: "Images/category/FIRST AID & EMERGENCY.png" },             { name: "Fitness Management", image: "Images/category/fitness and weight mangement.png" },             { name: "Immunity Boosters", image: "Images/category/immunity Boosters.png" },             { name: "Men's Health", image: "Images/category/Men's Health.png" },             { name: "Menstrual care", image: "Images/category/Menstrual & intimate care.png" },             { name: "Mobility Aids", image: "Images/category/mobility aids (1).png" },             { name: "Monitoring Devices", image: "Images/category/monitoring devices.png" },             { name: "Oral Care", image: "Images/category/Oral care.png" },             { name: "OTC", image: "Images/category/OTC.png" },             { name: "Pain Relief", image: "Images/category/PAIN RELIEF AND FEVER.png" },             { name: "Prescription Based", image: "Images/category/Prescription based.png" },             { name: "Senior Care", image: "Images/category/Senior Care.png" },             { name: "Skin & Hair", image: "Images/category/skin & hair care.png" },             { name: "Vitamins", image: "Images/category/vitamins.png" },          ]
+        
         // Sample data for Feminine Hygiene Products with IDs starting from 40 (can be fetched from backend)
         let productsData = [
             {
@@ -472,34 +463,116 @@ suggestions.addEventListener('click', (e) => {
         ];
 
         // Card template
-    function createHoverCard(product, isHighlight = false) {
-      return `
-        <div class="hover-card ${isHighlight ? 'highlight' : ''}">
-          <div class="card-inner">
-            <div class="card-front" data-title="${product.name.split(' ')[0]}">
-              <img src="${product.image}" alt="${product.name}">
-            </div>
-            <div class="card-back">
-              <h3>${product.name}</h3>
-              <p>${product.description}</p>
-              <a href="product-details.html?id=${product.id}" class="read-more">Read More</a>
-            </div>
-          </div>
+ function createCard(p) {
+  return `
+    <div class="card">
+      <div class="discount-badge">${p.discount}</div>
+      <div class="wishlist">
+        <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+      </div>
+      <img src="${p.image}" alt="${p.name}" class="card-img">
+      <div class="card-content">
+        <div class="product-name">${p.name}</div>
+        <div class="price-row">
+          <span class="current-price">${p.price}</span>
+          <span class="original-price">${p.originalPrice}</span>
         </div>
-      `;
+        
+        <div class="button-group">
+          <button class="icon-btn view-btn" title="Quick View" onclick="event.stopPropagation(); openProductDetails(${p.id})">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+          <button class="icon-btn cart-btn add-to-cart-btn" title="Add to Cart" onclick="event.stopPropagation(); addToCart(${JSON.stringify(p).replace(/'/g, "\\'")})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+              <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+// Global function to open product details page
+// GLOBAL FUNCTION – Put this in your main index.js (above renderInfinite)
+function openProductDetails(productId) {
+    const allProducts = [...productsData, ...medicinesData];
+    const product = allProducts.find(p => p.id === productId);
+
+    if (!product) {
+        alert("Product not found!");
+        return;
     }
 
-    // Render cards
-    function renderCards(containerId, data) {
-      const container = document.getElementById(containerId);
-      if (!container) return;
+    // Determine category for related products
+    let category = '';
+    if (productsData.some(p => p.id === productId)) {
+        category = 'feminine';
+    } else if (medicinesData.some(p => p.id === productId)) {
+        category = 'medicine';
+    }
 
-      const cardsHTML = data.map((item, index) => {
-        const isMiddle = index === Math.floor(data.length / 2);
-        return createHoverCard(item, isMiddle);
-      }).join('');
+    const params = new URLSearchParams({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        originalPrice: product.originalPrice || '',
+        discount: product.discount || '',
+        image: product.image,
+        description: product.description || 'No description available.',
+        category: category  // This tells productdetails.html which section to show related from
+    });
 
-      container.innerHTML = cardsHTML;
+    window.location.href = `productdetails.html?${params.toString()}`;
+}
+
+function renderInfinite(id, data) {
+  const el = document.getElementById(id);
+  const duplicated = [...data, ...data];
+  el.innerHTML = duplicated.map(createCard).join('');
+}
+
+// Render both sections
+renderInfinite('feminine-track', productsData);
+renderInfinite('medicine-track', medicinesData);
+
+
+let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      updateCartCount();
+    }
+
+    function updateCartCount() {
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.querySelectorAll('#desktop-cart-count, #mobile-cart-count, .cart-count').forEach(el => {
+        if (el) {
+          el.textContent = total;
+          el.style.display = total > 0 ? 'flex' : 'none';
+        }
+      });
+    }
+
+    function showToast(message, type = 'success') {
+      const toast = document.createElement('div');
+      toast.className = `fixed top-20 right-5 z-50 px-8 py-4 rounded-xl text-white font-bold shadow-2xl transition-all ${
+        type === 'success' ? 'bg-green-600' : 'bg-red-600'
+      }`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    function addToCart(product) {
+      const existing = cart.find(item => item.id === product.id);
+      if (existing) {
+        existing.quantity += 1;
+      } else {
+        cart.push({ ...product, quantity: 1 });
+      }
+      saveCart();
+      showToast(`${product.name} added to cart!`);
     }
 
     // Smooth scroll

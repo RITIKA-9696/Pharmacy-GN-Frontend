@@ -47,10 +47,17 @@
         </select>
         <a href="/contact.html" class="hover:text-blue-700" data-i18n="contact"><i class="fas fa-headset"></i> Contact</a>
         <a href="../Wishlist/wishlist.html" class="hover:text-red-600"><i class="fas fa-heart text-xl"></i></a>
-        <a href="/cart.html" class="relative hover:text-blue-600">
-          <i class="fas fa-shopping-cart text-xl"></i>
-          
-        </a>
+        <!-- Desktop Cart Icon with Count -->
+<a href="/cart.html" class="relative hover:text-blue-600 hidden lg:block">
+  <i class="fas fa-shopping-cart text-xl"></i>
+  <span id="desktop-cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+</a>
+
+<!-- Mobile Cart Icon with Count -->
+<a href="/cart.html" class="relative lg:hidden">
+  <i class="fas fa-shopping-cart text-xl"></i>
+  <span id="mobile-cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">0</span>
+</a>
 
         <!-- Desktop Profile Dropdown -->
         <div class="relative">
@@ -71,11 +78,11 @@
 </header>
 
 <!-- NAVIGATION BAR -->
-<nav class="bg-white shadow-md sticky top-16 lg:top-0 z-40 border-t lg:border-t-0">
-  <div class="max-w-7xl mx-auto px-4">
+<nav class="bg-white shadow-md sticky top-10 lg:top-0 z-40 border-t lg:border-t-0 mb-8">
+  <div class="max-w-7xl mx-auto px-2">
 
     <!-- Desktop Nav - Centered -->
-    <div class="hidden lg:flex justify-center py-4">
+    <div class="hidden lg:flex justify-center py-4 mb-12">
       <ul class="flex space-x-8 text-sm font-medium">
         <li><a href="/MotherCare/mother.html" data-i18n="motherCare" class="px-5 py-3 rounded-lg border-2 border-pink-100 text-pink-700 hover:bg-pink-50 "><i class="fas fa-female mr-2"></i>Mother Care</a></li>
         <li><a href="/BabyCare/baby.html" data-i18n="babyCare" class="px-5 py-3 rounded-lg border-2 border-blue-100 text-blue-700 hover:bg-blue-50 transition"><i class="fas fa-baby mr-2"></i>Baby Care</a></li>
@@ -120,7 +127,7 @@
         </li>
 
         <li><a href="surgical.html" data-i18n="surgical" class="px-5 py-3 hover:bg-gray-100 rounded transition">Surgical Items</a></li>
-        <li><a href="../about.html" data-i18n="about" class="px-5 py-3 hover:bg-gray-100 rounded transition">About Us</a></li>
+        <li><a href="/about.html" data-i18n="about" class="px-5 py-3 hover:bg-gray-100 rounded transition">About Us</a></li>
       </ul>
     </div>
 
