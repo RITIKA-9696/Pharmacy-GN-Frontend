@@ -6,53 +6,38 @@
   <title>Contact Us | MediCare</title>
   <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
-</style>
+  </style>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="https://kit.fontawesome.com/a2d9a64efb.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="./Footer/footer.css">
-      <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#36C2CE',
-                        secondary: '#0ea5e9',
-                        accent: '#10b981',
-                        dark: '#1e293b',
-                    }
-                }
-            }
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#36C2CE',
+            secondary: '#0ea5e9',
+            accent: '#10b981',
+            dark: '#1e293b',
+          }
         }
-    </script>
+      }
+    }
+  </script>
   <style>
-     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .fade-in-up {
-      animation: fadeInUp 1s ease-out forwards;
-    }
+    .fade-in-up { animation: fadeInUp 1s ease-out forwards; }
     
     @keyframes slideInLeft {
-      from {
-        opacity: 0;
-        transform: translateX(-20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateX(0);
-      }
+      from { opacity: 0; transform: translateX(-20px); }
+      to { opacity: 1; transform: translateX(0); }
     }
-    .slide-in-left {
-      animation: slideInLeft 0.5s ease-out forwards;
-    }
-     .floating-back-arrow {
+    .slide-in-left { animation: slideInLeft 0.5s ease-out forwards; }
+    
+    .floating-back-arrow {
       position: fixed;
       top: 100px;
       left: 30px;
@@ -68,153 +53,197 @@
       box-shadow: 0 4px 12px rgba(8, 145, 178, 0.4);
       transition: all 0.3s ease;
     }
-
     .floating-back-arrow:hover {
       background: #9edbec;
       transform: scale(1.1);
       box-shadow: 0 6px 16px rgba(8, 145, 178, 0.6);
     }
-
     .floating-back-arrow svg {
       width: 24px;
       height: 24px;
       color: white;
     }
+    
+    /* Success/Error message styles */
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 15px 25px;
+      border-radius: 8px;
+      color: white;
+      font-weight: 500;
+      z-index: 9999;
+      animation: slideInLeft 0.5s ease-out;
+    }
+    .success { background-color: #10b981; }
+    .error { background-color: #ef4444; }
   </style>
 </head>
-<body class=" top-0 mt-40 bg-gradient-to-b from-cyan-50 via-white to-cyan-100 min-h-screen flex flex-col">
+<body class="top-0 mt-40 bg-gradient-to-b from-cyan-50 via-white to-cyan-100 min-h-screen flex flex-col">
   <div id="header-placeholder"></div>
 
-   <!-- Floating Back Arrow -->
+  <!-- Floating Back Arrow -->
   <div class="floating-back-arrow" onclick="window.history.back()">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
       <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
     </svg>
   </div>
 
-<!-- Main Section -->
-<main class="flex-grow flex flex-col lg:flex-row items-center justify-center max-w-[1200px] mx-auto py-10 px-14 sm:px-6 gap-10">
-
-  
-
-
-  <!-- Left Side - Image with Text Overlay -->
-  <div class="lg:w-[88%] relative fade-in-up flex justify-center items-center">
-    <div class="relative w-[560px] sm:h-[540px] lg:h-[590px]">
-      <img 
-        src="https://i.pinimg.com/736x/69/f7/1d/69f71d88609cb0881627de9f98296c5f.jpg"
-        alt="Contact Us Illustration"
-        class="w-full h-full rounded-2xl shadow-lg object-cover transition-transform transform hover:scale-105 duration-500" />
-
-      <!-- Overlay Text -->
-      <div class="absolute inset-0 bg-black bg-opacity-40 rounded-2xl flex flex-col items-center justify-center text-center px-6">
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-3">We’d Love to Hear from You!</h2>
-        <p class="text-gray-100 text-base sm:text-lg lg:text-xl leading-relaxed max-w-lg">
-          Whether you have a question, feedback, or just want to connect — feel free to reach out.<br>
-          Our team will get back to you as soon as possible.
-        </p>
+  <!-- Main Section -->
+  <main class="flex-grow flex flex-col lg:flex-row items-center justify-center max-w-[1200px] mx-auto py-10 px-14 sm:px-6 gap-10">
+    <!-- Left Side - Image with Text Overlay -->
+    <div class="lg:w-[88%] relative fade-in-up flex justify-center items-center">
+      <div class="relative w-[560px] sm:h-[540px] lg:h-[590px]">
+        <img 
+          src="https://i.pinimg.com/736x/69/f7/1d/69f71d88609cb0881627de9f98296c5f.jpg"
+          alt="Contact Us Illustration"
+          class="w-full h-full rounded-2xl shadow-lg object-cover transition-transform transform hover:scale-105 duration-500" />
+        
+        <!-- Overlay Text -->
+        <div class="absolute inset-0 bg-black bg-opacity-40 rounded-2xl flex flex-col items-center justify-center text-center px-6">
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white mb-3">We'd Love to Hear from You!</h2>
+          <p class="text-gray-100 text-base sm:text-lg lg:text-xl leading-relaxed max-w-lg">
+            Whether you have a question, feedback, or just want to connect — feel free to reach out.<br>
+            Our team will get back to you as soon as possible.
+          </p>
+          <p class="text-gray-200 text-sm mt-4">
+            All messages are sent directly to the MediCare team.
+          </p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Right Side - Form -->
-  <div class="lg:w-[88%] bg-white shadow-xl rounded-2xl p-8 fade-in-up flex justify-center items-center">
-    <form id="contactForm" class="space-y-5 w-[560px] sm:h-[540px] lg:h-[590px] flex flex-col justify-center">
-      <h3 class="text-2xl font-bold text-cyan-700 mb-6 text-center">Get In Touch</h3>
+    <!-- Right Side - Form -->
+    <div class="lg:w-[88%] bg-white shadow-xl rounded-2xl p-8 fade-in-up flex justify-center items-center">
+      <form id="contactForm" class="space-y-5 w-[560px] sm:h-[540px] lg:h-[590px] flex flex-col justify-center">
+        <h3 class="text-2xl font-bold text-cyan-700 mb-6 text-center">Get In Touch</h3>
+        
+        <!-- Name -->
+        <div>
+          <label for="name" class="block text-gray-700 font-semibold mb-2">Full Name</label>
+          <input type="text" id="name" name="user_name" placeholder="Enter your full name"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required />
+        </div>
+        
+        <!-- Email -->
+        <div>
+          <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address</label>
+          <input type="email" id="email" name="user_email" placeholder="example@email.com"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required />
+        </div>
+        
+        <!-- Phone -->
+        <div>
+          <label for="phone" class="block text-gray-700 font-semibold mb-2">Phone Number</label>
+          <input type="tel" id="phone" name="phone" placeholder="+91 9876543210"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required />
+        </div>
+        
+        <!-- Message -->
+        <div>
+          <label for="message" class="block text-gray-700 font-semibold mb-2">Your Message</label>
+          <textarea id="message" name="message" rows="4" placeholder="Type your message here..."
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required></textarea>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="text-center">
+          <button type="submit" id="submitBtn"
+            class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+            <i class="fa-solid fa-paper-plane mr-2"></i> Send Message to GoodNeews
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
 
-      <!-- Name -->
-      <div>
-        <label for="name" class="block text-gray-700 font-semibold mb-2">Full Name</label>
-        <input type="text" id="name" name="name" placeholder="Enter your full name"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required />
-      </div>
+  <!-- Footer Section -->
+  <div id="footer-placeholder"></div>
 
-      <!-- Email -->
-      <div>
-        <label for="email" class="block text-gray-700 font-semibold mb-2">Email Address</label>
-        <input type="email" id="email" name="email" placeholder="example@email.com"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required />
-      </div>
-
-      <!-- Phone -->
-      <div>
-        <label for="phone" class="block text-gray-700 font-semibold mb-2">Phone Number</label>
-        <input type="tel" id="phone" name="phone" placeholder="+91 9876543210"
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required />
-      </div>
-
-      <!-- Message -->
-      <div>
-        <label for="message" class="block text-gray-700 font-semibold mb-2">Your Message</label>
-        <textarea id="message" name="message" rows="4" placeholder="Type your message here..."
-          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:outline-none transition" required></textarea>
-      </div>
-
-      <!-- Submit Button -->
-      <div class="text-center">
-        <button type="submit"
-          class="w-full bg-cyan-600 hover:bg-cyan-700 text-white font-semibold py-3 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
-          <i class="fa-solid fa-paper-plane mr-2"></i> Send Message
-        </button>
-      </div>
-    </form>
-  </div>
-</main>
-
-<!-- Footer Section -->
-
-  <!-- Footer Placeholder -->
-    <div id="footer-placeholder"></div>
-
-    <script>
+  <script>
     function loadHeader() {
-        fetch('../Header/header.html')
-            .then(r => { if (!r.ok) throw r; return r.text(); })
-            .then(html => {
-                document.getElementById('header-placeholder').innerHTML = html;
-                const script = document.createElement('script');
-                script.src = '../Header/header.js';
-                script.onload = () => console.log('Header JS loaded');
-                document.body.appendChild(script);
-            })
-            .catch(err => console.error('Header load failed:', err));
+      fetch('../Header/header.html')
+        .then(r => { if (!r.ok) throw r; return r.text(); })
+        .then(html => {
+          document.getElementById('header-placeholder').innerHTML = html;
+          const script = document.createElement('script');
+          script.src = '../Header/header.js';
+          script.onload = () => console.log('Header JS loaded');
+          document.body.appendChild(script);
+        })
+        .catch(err => console.error('Header load failed:', err));
     }
 
     function loadFooter() {
-        fetch('../Footer/footer.html')
-            .then(r => { if (!r.ok) throw r; return r.text(); })
-            .then(html => {
-                document.getElementById('footer-placeholder').innerHTML = html;
-            })
-            .catch(err => console.error('Footer load failed:', err));
+      fetch('../Footer/footer.html')
+        .then(r => { if (!r.ok) throw r; return r.text(); })
+        .then(html => {
+          document.getElementById('footer-placeholder').innerHTML = html;
+        })
+        .catch(err => console.error('Footer load failed:', err));
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-        loadHeader();
-        loadFooter();
-        // ... rest of your code
+      loadHeader();
+      loadFooter();
     });
-</script>
+  </script>
 
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script type="text/javascript">
+    // Initialize EmailJS with your public key
+    emailjs.init({
+      publicKey: "TgaIf0ESXRV4KNMfK",
+    });
 
-<script>
-  // Dynamically set current year
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+    function showNotification(message, type = 'success') {
+      const notification = document.createElement('div');
+      notification.className = `notification ${type}`;
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        notification.remove();
+      }, 5000);
+    }
 
-  <script>
-   // Contact form handler
     document.getElementById("contactForm").addEventListener("submit", function(e) {
       e.preventDefault();
-      const payload = {
-        name: document.getElementById("name").value,
-        email: document.getElementById("email").value,
-        phone: document.getElementById("phone").value,
-        message: document.getElementById("message").value,
-      };
-      console.log("Contact Us Payload:", payload);
-      alert("Thank you, " + payload.name + "! Your message has been submitted successfully.");
-      this.reset();
+      
+      const submitBtn = document.getElementById('submitBtn');
+      const originalText = submitBtn.innerHTML;
+      
+      // Show loading state
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Sending...';
+      submitBtn.disabled = true;
+      
+      const serviceID = "service_11q0dcy";
+      const templateID = "template_8t7rsat";
+      
+      // Send email to owner
+      emailjs.send(serviceID, templateID, {
+        to_email: "rairitika370@gmail.com", // Owner's email address
+        to_name: "MediCare Team",
+        user_name: this.user_name.value,
+        user_email: this.user_email.value,
+        phone: this.phone.value,
+        message: this.message.value,
+        timestamp: new Date().toLocaleString(),
+      })
+      .then(() => {
+        showNotification('Thank you! Your message has been sent to the GoodNeews.', 'success');
+        this.reset();
+      })
+      .catch((error) => {
+        console.error("EmailJS error:", error);
+        showNotification('Sorry, something went wrong. Please try again later.', 'error');
+      })
+      .finally(() => {
+        // Reset button state
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+      });
     });
 
     // Add keyboard shortcut for back navigation (Esc key)
@@ -225,8 +254,5 @@
     });
   </script>
   <script src="../cart-wishlist-system.js" defer></script>
-
-  
-       
 </body>
 </html>
