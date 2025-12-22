@@ -197,12 +197,12 @@
       filter: brightness(0.9);
     }
     
-    .product-card.out-of-stock .view-details-btn {
+    .product-card.out-of-stock .whatsapp-order-btn {
       background-color: #9ca3af !important;
       cursor: not-allowed !important;
     }
     
-    .product-card.out-of-stock .view-details-btn:hover {
+    .product-card.out-of-stock .whatsapp-order-btn:hover {
       background-color: #9ca3af !important;
       transform: none !important;
     }
@@ -220,7 +220,7 @@
     }
     @media (max-width: 640px) {
       .button-container { flex-direction: column; align-items: center; }
-      .view-details { width: 100%; max-width: 250px; }
+      .whatsapp-order-btn { width: 100%; max-width: 250px; }
       .product-card { width: 100%; min-height: auto; }
     }
     .filter-sidebar {
@@ -244,6 +244,32 @@
       width: 1rem;
       height: 1rem;
       background-color: #36C2CE;
+    }
+    
+    /* WhatsApp Button Styles */
+    .whatsapp-order-btn {
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+    
+    .whatsapp-order-btn:hover {
+      background: linear-gradient(135deg, #128C7E, #075E54);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
+    }
+    
+    .whatsapp-order-btn:active {
+      transform: translateY(0);
+    }
+    
+    .whatsapp-order-btn i {
+      font-size: 1.1em;
     }
   </style>
 </head>

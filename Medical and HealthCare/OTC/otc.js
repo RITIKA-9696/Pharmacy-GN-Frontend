@@ -1,5 +1,22 @@
 // ==================== otc.js – WITH CATEGORIZED PRODUCTS ====================
 
+// Global State
+let filteredProducts = [];
+let wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+let currentPage = 1;
+const pageSize = 12;
+
+// Persistent Filter State - MOVE THIS TO TOP
+let filterState = {
+  category: 'all',
+  brand: 'all',
+  discount: 0,
+  minPrice: 0,
+  maxPrice: 2000,
+  sort: 'default'
+};
+
 const allProducts = [
   // Ayurvedic Medicines
   { 
@@ -294,22 +311,8 @@ const allProducts = [
   }
 ];
 
-// Global State
-let filteredProducts = [...allProducts];
-let wishlist = JSON.parse(localStorage.getItem("wishlist") || "[]");
-let cart = JSON.parse(localStorage.getItem("cart") || "[]");
-let currentPage = 1;
-const pageSize = 12;
-
-// Persistent Filter State
-let filterState = {
-  category: 'all',
-  brand: 'all',
-  discount: 0,
-  minPrice: 0,
-  maxPrice: 2000,
-  sort: 'default'
-};
+// Initialize filteredProducts with all products
+filteredProducts = [...allProducts];
 
 // Category Display Names
 const categoryDisplayNames = {
@@ -387,18 +390,49 @@ function showToast(msg) {
   setTimeout(() => toast.remove(), 2000);
 }
 
+// ==================== ORDER ON WHATSAPP FUNCTION ====================
+function orderOnWhatsApp(productId) {
+  const product = allProducts.find(p => p.id === productId);
+  if (!product) return;
+  
+  if (!product.inStock) {
+    alert('This product is currently out of stock. Please check back later.');
+    return;
+  }
+  
+  // WhatsApp business number (replace with actual number)
+  const phoneNumber = "919876543210";
+  
+  // Create the message
+  const message = `Hello! I would like to order:\n\n` +
+                  `*${product.title}*\n` +
+                  `Price: ₹${product.price}\n` +
+                  (product.originalPrice ? `Original: ₹${product.originalPrice} (${product.discount}% OFF)\n` : '') +
+                  `Brand: ${product.brand}\n` +
+                  `Category: ${categoryDisplayNames[product.category] || product.category}\n\n` +
+                  `Please let me know about availability and delivery options.`;
+  
+  // Encode the message for URL
+  const encodedMessage = encodeURIComponent(message);
+  
+  // Create WhatsApp URL
+  const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+  
+  // Open in new tab
+  window.open(whatsappURL, '_blank');
+  
+  // Optional: Track this action
+  console.log(`WhatsApp order initiated for: ${product.title}`);
+}
+
 // ==================== PRODUCT CARD ====================
 function createProductCard(p) {
   const inWishlist = wishlist.some(x => x.id === p.id);
   const isOutOfStock = !p.inStock;
 
   return `
-    <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-blue-100
-                ${isOutOfStock ? 'opacity-60 grayscale cursor-not-allowed' : ''}"
-         ${!isOutOfStock ? `onclick="event.stopPropagation(); viewProductDetails(${p.id})"` : ''}
-         style="${isOutOfStock ? 'pointer-events: none;' : ''}">
-
-      <div class="relative bg-blue-50 cursor-pointer aspect-[6/4] overflow-hidden">
+    <div class="group relative bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 border border-blue-100">
+      <div class="relative bg-blue-50 aspect-[6/4] overflow-hidden">
         <img src="${p.image}" alt="${p.title}"
              class="w-full h-full object-contain p-5 transition-transform duration-500 ${!isOutOfStock ? 'group-hover:scale-110' : ''}">
 
@@ -426,12 +460,13 @@ function createProductCard(p) {
           ${p.discount ? `<span class="text-sm font-medium text-red-500">${p.discount}% OFF</span>` : ''}
         </div>
 
-        <button onclick="event.stopPropagation(); viewProductDetails(${p.id})"
-                class="mt-3 w-full font-medium text-sm py-2.5 rounded-lg transition
+        <button onclick="event.stopPropagation(); orderOnWhatsApp(${p.id})"
+                class="whatsapp-order-btn mt-3 w-full font-medium text-sm py-2.5 rounded-lg transition flex items-center justify-center gap-2
                         ${isOutOfStock 
                           ? 'bg-gray-300 text-gray-600 cursor-not-allowed' 
-                          : 'bg-[#4E56C0] hover:bg-[#4E56C0] text-white'}">
-          ${isOutOfStock ? 'Out of Stock' : 'View Details'}
+                          : ''}">
+          <i class="fab fa-whatsapp"></i>
+          ${isOutOfStock ? 'Out of Stock' : 'Order on WhatsApp'}
         </button>
       </div>
     </div>
@@ -498,8 +533,30 @@ function sortProducts(type) {
 function loadFiltersFromStorage() {
   try {
     const saved = localStorage.getItem('otcFilters');
-    if (saved) filterState = { ...filterState, ...JSON.parse(saved) };
-  } catch (e) { console.error("Failed to load filters", e); }
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      // Ensure all properties exist
+      filterState = {
+        category: parsed.category || 'all',
+        brand: parsed.brand || 'all',
+        discount: parsed.discount || 0,
+        minPrice: parsed.minPrice || 0,
+        maxPrice: parsed.maxPrice || 2000,
+        sort: parsed.sort || 'default'
+      };
+    }
+  } catch (e) { 
+    console.error("Failed to load filters", e);
+    // Reset to defaults on error
+    filterState = {
+      category: 'all',
+      brand: 'all',
+      discount: 0,
+      minPrice: 0,
+      maxPrice: 2000,
+      sort: 'default'
+    };
+  }
 }
 
 function saveFiltersToStorage() {
@@ -652,6 +709,7 @@ function initFiltersAndUI() {
     const sortSelect = document.getElementById("sortSelect");
     if (sortSelect) sortSelect.value = 'default';
     
+    // Reset slider values
     initPriceSliders();
     applyFilters();
   });
@@ -683,38 +741,6 @@ function initFiltersAndUI() {
   });
 
   applyFilters();
-}
-
-// ==================== VIEW PRODUCT DETAILS ====================
-function viewProductDetails(id) {
-  const product = allProducts.find(p => p.id === id);
-  if (!product) return;
-  
-  if (!product.inStock) {
-    alert('This product is currently out of stock. Please check back later.');
-    return;
-  }
-
-  // Store data for product details page
-  sessionStorage.setItem('selectedProduct', JSON.stringify(product));
-  sessionStorage.setItem('currentPageProducts', JSON.stringify(allProducts));
-  sessionStorage.setItem('currentPageName', 'OTC Medicines');
-
-  const params = new URLSearchParams({
-    id: product.id,
-    name: product.title,
-    brand: product.brand,
-    price: product.price,
-    originalPrice: product.originalPrice || '',
-    discount: product.discount || '',
-    image: product.image,
-    description: product.description || '',
-    category: product.category || '',
-    inStock: product.inStock,
-    sourcePage: 'OTC Medicines'
-  });
-
-  window.location.href = `/productdetails.html?${params.toString()}`;
 }
 
 // ==================== BANNER ====================
