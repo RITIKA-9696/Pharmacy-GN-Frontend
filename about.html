@@ -190,6 +190,60 @@
         background: linear-gradient(145deg, #ffffff, #f0f0f0);
         box-shadow: 10px 10px 20px #d9d9d9, -10px -10px 20px #ffffff;
       }
+
+      /* Gallery Styles */
+      .gallery-img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 12px 12px 0 0;
+        transition: transform 0.5s ease;
+      }
+
+      .gallery-item:hover .gallery-img {
+        transform: scale(1.05);
+      }
+
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 16px;
+        max-width: 700px;
+        width: 90%;
+        max-height: 90vh;
+        overflow-y: auto;
+        transform: scale(0.9);
+        transition: transform 0.3s ease;
+      }
+
+      .modal-overlay.active .modal-content {
+        transform: scale(1);
+      }
+
+      /* Gallery item hidden class */
+      .gallery-item.hidden {
+        display: none;
+      }
     </style>
   </head>
   <body class="bg-gray-50 text-gray-800 mt-32">
@@ -268,10 +322,10 @@
           class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
         >
           <a
-            href="#specializations"
+            href="#gallery"
             class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all transform hover:-translate-y-1 text-center"
           >
-            View Faculty
+            View Gallery
           </a>
 
           <a
@@ -508,132 +562,213 @@
       </div>
     </section>
 
-
-    <!-- Specializations Section -->
-    <section id="specializations" class="py-16 pink-gradient-bg">
-      <div class="container mx-auto px-6">
-        <h2
-          class="text-3xl font-bold font-serif text-center mb-4 text-gray-800"
-          data-aos="fade-down"
-        >
-          Our faculty
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 blue-gradient-bg">
+      <div class="container mx-auto px-4 md:px-6 lg:px-8 max-w-6xl">
+        <h2 class="text-3xl font-bold font-serif text-center mb-4 text-gray-800" data-aos="fade-down">
+          Medical Gallery
         </h2>
-        <div class="section-divider mb-12"></div>
+        <div class="section-divider mb-8"></div>
+        
+        <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto text-sm md:text-base" data-aos="fade-up">
+          Explore our collection of medical achievements, advanced procedures, and moments that showcase our commitment to women's healthcare.
+        </p>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
-            data-aos="zoom-in"
-          >
-            <div
-              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
-            >
-              <i class="fas fa-baby text-white text-xl"></i>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
+          <!-- Gallery Item 1 - Visible -->
+          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-image="1">
+            <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Advanced Laparoscopy Procedure" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Advanced Laparoscopy</h3>
+              <p class="text-gray-600 text-sm mb-3">Minimally invasive surgery for gynecological conditions with faster recovery time.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
             </div>
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">
-              Infertility Management
-            </h3>
-            <p class="text-gray-600">
-              Advanced treatments and compassionate care for couples facing
-              fertility challenges.
-            </p>
           </div>
 
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
-            data-aos="zoom-in"
-            data-aos-delay="100"
-          >
-            <div
-              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
-            >
-              <i class="fas fa-procedures text-white text-xl"></i>
+          <!-- Gallery Item 2 - Visible -->
+          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="100" data-image="2">
+            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fetal Ultrasound Monitoring" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Fetal Ultrasound</h3>
+              <p class="text-gray-600 text-sm mb-3">High-resolution ultrasound imaging for comprehensive fetal monitoring.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
             </div>
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">
-              High-Risk Pregnancies
-            </h3>
-            <p class="text-gray-600">
-              Expert management of complex pregnancies ensuring safety for
-              mother and baby.
-            </p>
           </div>
 
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
-            data-aos="zoom-in"
-            data-aos-delay="200"
-          >
-            <div
-              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
-            >
-              <i class="fas fa-stethoscope text-white text-xl"></i>
+          <!-- Gallery Item 3 - Visible -->
+          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="200" data-image="3">
+            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cesarean Delivery Operation" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Cesarean Delivery</h3>
+              <p class="text-gray-600 text-sm mb-3">Expertly performed cesarean sections ensuring safety for mother and baby.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
             </div>
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">
-              Complicated Deliveries
-            </h3>
-            <p class="text-gray-600">
-              Skilled in cesarean, vaginal, forceps, vacuum-assisted, preterm,
-              and post-date deliveries.
-            </p>
           </div>
 
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
-            data-aos="zoom-in"
-            data-aos-delay="300"
-          >
-            <div
-              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
-            >
-              <i class="fas fa-laptop-medical text-white text-xl"></i>
+          <!-- Gallery Item 4 - Visible -->
+          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="300" data-image="4">
+            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Infertility Treatment Success" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Infertility Success</h3>
+              <p class="text-gray-600 text-sm mb-3">Celebrating successful fertility treatments and helping couples achieve parenthood.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
             </div>
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">
-              Laparoscopy
-            </h3>
-            <p class="text-gray-600">
-              Minimally invasive surgical procedures for faster recovery and
-              better outcomes.
-            </p>
           </div>
 
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
-            data-aos="zoom-in"
-            data-aos-delay="400"
-          >
-            <div
-              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
-            >
-              <i class="fas fa-wave-square text-white text-xl"></i>
+          <!-- Gallery Item 5 - Visible -->
+          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="400" data-image="5">
+            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Neonatal Care Unit" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Neonatal Care</h3>
+              <p class="text-gray-600 text-sm mb-3">State-of-the-art neonatal care unit for premature and newborn babies.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
             </div>
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">Sonography</h3>
-            <p class="text-gray-600">
-              Advanced ultrasound imaging for accurate diagnosis and monitoring
-              during pregnancy.
-            </p>
           </div>
 
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 card-hover"
-            data-aos="zoom-in"
-            data-aos-delay="500"
-          >
-            <div
-              class="w-14 h-14 gradient-bg rounded-xl flex items-center justify-center mb-4"
-            >
-              <i class="fas fa-award text-white text-xl"></i>
+          <!-- Gallery Item 6 - Visible -->
+          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="500" data-image="6">
+            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Gynecological Surgery" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Gynecological Surgery</h3>
+              <p class="text-gray-600 text-sm mb-3">Advanced surgical procedures for various gynecological conditions.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
             </div>
-            <h3 class="text-xl font-semibold mb-3 text-gray-800">
-              Award-Winning Care
-            </h3>
-            <p class="text-gray-600">
-              Recipient of MyFm Sangli's Award for excellence in infertility
-              management.
-            </p>
           </div>
+
+          <!-- Gallery Item 7 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="600" data-image="7">
+            <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Labor and Delivery Room" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Modern Delivery Suite</h3>
+              <p class="text-gray-600 text-sm mb-3">Fully equipped labor and delivery rooms for comfort and safety.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 8 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="700" data-image="8">
+            <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Equipment" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Advanced Equipment</h3>
+              <p class="text-gray-600 text-sm mb-3">Latest medical technology for accurate diagnosis and effective treatment.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 9 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="800" data-image="9">
+            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Team" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Expert Medical Team</h3>
+              <p class="text-gray-600 text-sm mb-3">Dedicated team of specialists for comprehensive women's healthcare.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 10 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="900" data-image="10">
+            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Postpartum Care" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Postpartum Recovery</h3>
+              <p class="text-gray-600 text-sm mb-3">Comprehensive postpartum care and support for new mothers.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 11 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1000" data-image="11">
+            <img src="https://images.unsplash.com/photo-1584467735871-8db9ac8d0916?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Prenatal Checkup" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Prenatal Consultation</h3>
+              <p class="text-gray-600 text-sm mb-3">Regular prenatal checkups for healthy pregnancy monitoring.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 12 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1100" data-image="12">
+            <img src="https://images.unsplash.com/photo-1553949345-eb786bb3f7ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Awards" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Awards & Recognition</h3>
+              <p class="text-gray-600 text-sm mb-3">Recognitions for excellence in obstetrics and gynecology.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 13 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1200" data-image="13">
+            <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Conference" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Medical Conferences</h3>
+              <p class="text-gray-600 text-sm mb-3">Active participation in national and international medical conferences.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 14 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1300" data-image="14">
+            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Patient Education" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Patient Education</h3>
+              <p class="text-gray-600 text-sm mb-3">Educational sessions for informed decision-making about women's health.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+
+          <!-- Gallery Item 15 - Hidden Initially -->
+          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1400" data-image="15">
+            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Hospital Facilities" class="gallery-img">
+            <div class="p-5">
+              <h3 class="text-lg font-semibold mb-2 text-gray-800">Modern Facilities</h3>
+              <p class="text-gray-600 text-sm mb-3">State-of-the-art hospital facilities for patient comfort and excellence.</p>
+              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Load More Button -->
+        <div class="text-center mt-10" data-aos="fade-up">
+          <button id="loadMoreBtn" class="bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+            <span class="flex items-center justify-center">
+              <i class="fas fa-chevron-down mr-2"></i>
+              Load More Gallery Items
+              <i class="fas fa-chevron-down ml-2"></i>
+            </span>
+          </button>
+          <p class="text-gray-500 text-sm mt-3">Showing 6 of 15 gallery items</p>
         </div>
       </div>
     </section>
+
+    <!-- Image Details Modal -->
+    <div id="imageModal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="p-6">
+          <div class="flex justify-between items-center mb-6">
+            <h3 id="modalTitle" class="text-2xl font-bold text-gray-800"></h3>
+            <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+          </div>
+          <div class="mb-6">
+            <img id="modalImage" src="" alt="" class="w-full h-64 object-cover rounded-lg">
+          </div>
+          <div id="modalDescription" class="text-gray-600 mb-6"></div>
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="bg-pink-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-800 mb-2">Procedure Details</h4>
+              <p id="modalProcedure" class="text-sm text-gray-600"></p>
+            </div>
+            <div class="bg-blue-50 p-4 rounded-lg">
+              <h4 class="font-semibold text-gray-800 mb-2">Success Rate</h4>
+              <p id="modalSuccess" class="text-sm text-gray-600"></p>
+            </div>
+          </div>
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <h4 class="font-semibold text-gray-800 mb-2">Additional Information</h4>
+            <p id="modalAdditional" class="text-sm text-gray-600"></p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Qualifications Section -->
     <section id="qualifications" class="py-16 blue-gradient-bg">
@@ -740,9 +875,215 @@
     document.addEventListener('DOMContentLoaded', () => {
         loadHeader();
         loadFooter();
-        // ... rest of your code
+        
+        // Gallery functionality
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('imageModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalProcedure = document.getElementById('modalProcedure');
+        const modalSuccess = document.getElementById('modalSuccess');
+        const modalAdditional = document.getElementById('modalAdditional');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const hiddenItems = document.querySelectorAll('.gallery-item.hidden');
+        
+        // Initialize - Show first 6 items only
+        let allItemsLoaded = false;
+        
+        // Gallery data
+        const galleryData = {
+            1: {
+                title: "Advanced Laparoscopy Procedure",
+                image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Minimally invasive laparoscopic surgery for gynecological conditions. This advanced technique allows for smaller incisions, reduced pain, and faster recovery compared to traditional open surgery.",
+                procedure: "Diagnostic and operative laparoscopy for conditions like endometriosis, ovarian cysts, fibroids, and ectopic pregnancies.",
+                success: "98% success rate with minimal complications",
+                additional: "Patients typically return to normal activities within 1-2 weeks post-surgery."
+            },
+            2: {
+                title: "Fetal Ultrasound Monitoring",
+                image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "High-resolution ultrasound imaging for comprehensive fetal monitoring. Our advanced equipment provides detailed images of fetal development and helps detect any abnormalities early.",
+                procedure: "Regular ultrasound scans during pregnancy including NT scan, anomaly scan, and growth scans.",
+                success: "99% accuracy in fetal anomaly detection",
+                additional: "3D/4D ultrasound available for detailed fetal imaging and bonding."
+            },
+            3: {
+                title: "Cesarean Delivery Operation",
+                image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Expertly performed cesarean sections ensuring maximum safety for both mother and baby during complicated deliveries.",
+                procedure: "Both elective and emergency C-sections performed with precision and care.",
+                success: "99.5% successful cesarean deliveries",
+                additional: "Enhanced recovery protocols for faster post-operative healing."
+            },
+            4: {
+                title: "Infertility Treatment Success",
+                image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Celebrating successful fertility treatments and helping couples achieve their dream of parenthood through advanced reproductive techniques.",
+                procedure: "IUI, IVF, ICSI, and other assisted reproductive technologies.",
+                success: "65-70% success rate in IVF treatments",
+                additional: "Comprehensive fertility workup and personalized treatment plans."
+            },
+            5: {
+                title: "Neonatal Care Unit",
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "State-of-the-art neonatal intensive care unit equipped to handle premature and critically ill newborns with advanced life support systems.",
+                procedure: "24/7 neonatal care with ventilators, incubators, and monitoring equipment.",
+                success: "95% survival rate for premature babies",
+                additional: "Kangaroo mother care practiced for better bonding and development."
+            },
+            6: {
+                title: "Gynecological Surgery",
+                image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Advanced surgical procedures for various gynecological conditions including hysterectomy, myomectomy, and ovarian surgeries.",
+                procedure: "Both open and minimally invasive surgical approaches available.",
+                success: "97% successful surgical outcomes",
+                additional: "Robotic-assisted surgery options for complex cases."
+            },
+            7: {
+                title: "Modern Delivery Suite",
+                image: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Fully equipped labor and delivery rooms designed for comfort, safety, and optimal birthing experience with family-centered care approach.",
+                procedure: "Natural births, water births, and pain management options available.",
+                success: "98% normal delivery rate",
+                additional: "Birth partners allowed with 24/7 anesthesia services."
+            },
+            8: {
+                title: "Advanced Medical Equipment",
+                image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Latest medical technology and equipment including advanced ultrasound machines, laparoscopic towers, and monitoring systems.",
+                procedure: "Regular equipment maintenance and calibration for accuracy.",
+                success: "99% equipment reliability",
+                additional: "Digital imaging and electronic medical records system."
+            },
+            9: {
+                title: "Expert Medical Team",
+                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Our dedicated team of obstetricians, gynecologists, neonatologists, anesthetists, and nurses working collaboratively.",
+                procedure: "Multidisciplinary team approach for complex cases.",
+                success: "100% patient satisfaction rate",
+                additional: "Regular training and skill enhancement programs."
+            },
+            10: {
+                title: "Postpartum Recovery",
+                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Comprehensive postpartum care including breastfeeding support, wound care, and emotional support for new mothers.",
+                procedure: "Regular postpartum checkups and lactation consultation.",
+                success: "95% successful breastfeeding initiation",
+                additional: "Postpartum depression screening and support groups."
+            },
+            11: {
+                title: "Prenatal Consultation",
+                image: "https://images.unsplash.com/photo-1584467735871-8db9ac8d0916?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Regular prenatal checkups, genetic counseling, and high-risk pregnancy management for optimal maternal and fetal health.",
+                procedure: "Monthly to weekly visits depending on pregnancy stage.",
+                success: "99% healthy pregnancy outcomes",
+                additional: "Nutritional counseling and exercise guidance provided."
+            },
+            12: {
+                title: "Awards & Recognition",
+                image: "https://images.unsplash.com/photo-1553949345-eb786bb3f7ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Recognitions and awards received for excellence in obstetrics and gynecology including the prestigious MyFm Sangli Excellence Award.",
+                procedure: "Regular participation in quality improvement programs.",
+                success: "Multiple awards for clinical excellence",
+                additional: "Featured in medical journals and conferences."
+            },
+            13: {
+                title: "Medical Conferences",
+                image: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Active participation in national and international medical conferences to stay updated with latest advancements in women's healthcare.",
+                procedure: "Regular attendance and paper presentations at conferences.",
+                success: "Published research papers",
+                additional: "Collaboration with international medical institutions."
+            },
+            14: {
+                title: "Patient Education",
+                image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "Educational sessions, workshops, and materials for informed decision-making about women's health, pregnancy, and family planning.",
+                procedure: "Regular health talks and prenatal classes.",
+                success: "Improved patient understanding and compliance",
+                additional: "Digital education materials and support groups."
+            },
+            15: {
+                title: "Modern Hospital Facilities",
+                image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
+                description: "State-of-the-art hospital facilities including private rooms, operation theaters, and recovery areas designed for patient comfort and medical excellence.",
+                procedure: "24/7 emergency services and ambulance facility.",
+                success: "100% infection control compliance",
+                additional: "Family accommodation and visitor facilities available."
+            }
+        };
+
+        // Load More Button functionality
+        loadMoreBtn.addEventListener('click', () => {
+            if (!allItemsLoaded) {
+                // Show all hidden items
+                hiddenItems.forEach(item => {
+                    item.classList.remove('hidden');
+                    item.style.animation = 'fadeInUp 0.8s ease-out forwards';
+                });
+                
+                // Update button text and state
+                loadMoreBtn.innerHTML = `
+                    <span class="flex items-center justify-center">
+                        <i class="fas fa-check mr-2"></i>
+                        All Items Loaded
+                        <i class="fas fa-check ml-2"></i>
+                    </span>
+                `;
+                loadMoreBtn.classList.remove('from-pink-500', 'to-blue-500');
+                loadMoreBtn.classList.add('bg-green-500', 'hover:bg-green-600');
+                loadMoreBtn.disabled = true;
+                
+                // Update showing text
+                document.querySelector('.text-gray-500.text-sm.mt-3').textContent = 'Showing all 15 gallery items';
+                
+                allItemsLoaded = true;
+            }
+        });
+
+        // Add click event to gallery items
+        galleryItems.forEach(item => {
+            const viewDetailsBtn = item.querySelector('.view-details-btn');
+            const imageNumber = item.getAttribute('data-image');
+            
+            viewDetailsBtn.addEventListener('click', () => {
+                const data = galleryData[imageNumber];
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalImage.src = data.image;
+                    modalImage.alt = data.title;
+                    modalDescription.textContent = data.description;
+                    modalProcedure.textContent = data.procedure;
+                    modalSuccess.textContent = data.success;
+                    modalAdditional.textContent = data.additional;
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        });
+
+        // ... rest of your existing code
     });
-</script>
+
+    // Your existing JavaScript code continues below
+    </script>
 
     <script>
       // Initialize AOS (Animate On Scroll)
