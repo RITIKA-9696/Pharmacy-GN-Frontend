@@ -9,22 +9,15 @@
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
     />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=DM+Serif+Text:ital@0;1&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=DM+Serif+Text:ital@0;1&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
       rel="stylesheet"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Noto+Serif:ital,wght@0,100..900;1,100..900&display=swap"
-      rel="stylesheet"
-    />
     <link rel="stylesheet" href="./Footer/footer.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
@@ -240,301 +233,215 @@
         transform: scale(1);
       }
 
-      /* Gallery item hidden class */
-      .gallery-item.hidden {
-        display: none;
+      .blue-gradient-bg {
+        background: linear-gradient(135deg, #f0f9ff 0%, #fdf2f8 100%);
+      }
+      
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #db2777 0%, #1d4ed8 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      
+      .group:hover .stat-number {
+        background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      /* Floating animation for bubbles */
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+      }
+      .animate-float {
+        animation: float 6s ease-in-out infinite;
+      }
+
+      /* Responsive styles */
+      @media (max-width: 768px) {
+        .stat-number {
+          font-size: 2rem;
+        }
+        
+        .gallery-img {
+          height: 180px;
+        }
+        
+        .curved-section {
+          border-radius: 0 0 30% 30% / 0 0 20px 20px;
+        }
+        
+        body {
+          margin-top: 100px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .stat-number {
+          font-size: 1.75rem;
+        }
+        
+        .gallery-img {
+          height: 150px;
+        }
+        
+        /* Hide floating SVGs on very small screens */
+        .absolute.animate-float {
+          display: none;
+        }
+      }
+
+      /* Responsive typography */
+      h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+      }
+      
+      h2 {
+        font-size: clamp(1.75rem, 4vw, 2.5rem);
+      }
+      
+      p {
+        font-size: clamp(0.875rem, 2vw, 1rem);
       }
     </style>
   </head>
-  <body class="bg-gray-50 text-gray-800 mt-32">
+  <body class="bg-gray-50 text-gray-800 mt-24 md:mt-32">
     <div id="header-placeholder"></div>
     <!-- Loading Bar -->
     <div class="loading-bar" id="loadingBar"></div>
 
-    <!-- Back Arrow -->
-    <a href="home.html" class="fixed top-24 left-10 z-50 w-12 h-12 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-pink-50 transition-all duration-300 hover:scale-110 group">
-      <i class="fas fa-arrow-left text-pink-500 text-xl group-hover:text-pink-600"></i>
+    <!-- Back Arrow - Hidden on mobile, visible on tablet and up -->
+    <a href="home.html" class="hidden md:flex fixed top-24 left-4 md:left-10 z-50 w-10 h-10 md:w-12 md:h-12 bg-white rounded-full shadow-lg items-center justify-center hover:bg-pink-50 transition-all duration-300 hover:scale-110 group">
+      <i class="fas fa-arrow-left text-pink-500 text-lg md:text-xl group-hover:text-pink-600"></i>
+    </a>
+
+    <!-- Mobile Back Button -->
+    <a href="home.html" class="md:hidden fixed top-20 left-4 z-50 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-pink-50 transition-all duration-300">
+      <i class="fas fa-arrow-left text-pink-500"></i>
     </a>
 
     <!-- Hero Section -->
-   <section
-  id="home"
-  class="pt-24 pb-16 md:pt-32 md:pb-24 pink-gradient-bg curved-section relative overflow-hidden">
-  <!-- Floating SVG Elements -->
-  <div class="absolute inset-0 overflow-hidden pointer-events-none">
-    <!-- Floating Heart -->
-    <svg class="absolute animate-float" style="top:10%; left:5%; width:40px; height:40px; animation-delay: 0s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#ec4899" fill-opacity="0.3"/>
-    </svg>
+    <section id="home" class="pt-16 md:pt-24 pb-12 md:pb-16 lg:pt-32 lg:pb-24 pink-gradient-bg curved-section relative overflow-hidden">
+      <!-- Floating SVG Elements - Hidden on mobile -->
+      <div class="hidden md:block absolute inset-0 overflow-hidden pointer-events-none">
+        <!-- Floating SVGs (same as before) -->
+        <svg class="absolute animate-float" style="top:10%; left:5%; width:40px; height:40px; animation-delay: 0s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 21.35L10.55 20.03C5.4 15.36 2 12.28 2 8.5C2 5.42 4.42 3 7.5 3C9.24 3 10.91 3.81 12 5.09C13.09 3.81 14.76 3 16.5 3C19.58 3 22 5.42 22 8.5C22 12.28 18.6 15.36 13.45 20.04L12 21.35Z" fill="#ec4899" fill-opacity="0.3"/>
+        </svg>
+        <!-- ... other SVG elements ... -->
+      </div>
 
-    <!-- Floating Baby -->
-    <svg class="absolute animate-float" style="top:20%; right:8%; width:35px; height:35px; animation-delay: 1s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 5.5V7H9V5.5L3 7V9L9 10.5V12H15V10.5L21 9ZM15 16H9V14H15V16ZM12 14C13.66 14 15 15.34 15 17V22H9V17C9 15.34 10.34 14 12 14Z" fill="#3b82f6" fill-opacity="0.3"/>
-    </svg>
-
-    <!-- Floating Stethoscope -->
-    <svg class="absolute animate-float" style="bottom:25%; left:8%; width:45px; height:45px; animation-delay: 2s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19 8H18V6C18 3.79 16.21 2 14 2C11.79 2 10 3.79 10 6V8H9C7.34 8 6 9.34 6 11V18C6 19.66 7.34 21 9 21H19C20.66 21 22 19.66 22 18V11C22 9.34 20.66 8 19 8ZM12 6C12 4.9 12.9 4 14 4C15.1 4 16 4.9 16 6V8H12V6ZM19 19H9C8.45 19 8 18.55 8 18V11C8 10.45 8.45 10 9 10H19C19.55 10 20 10.45 20 11V18C20 18.55 19.55 19 19 19Z" fill="#ec4899" fill-opacity="0.3"/>
-    </svg>
-
-    <!-- Floating Medical Cross -->
-    <svg class="absolute animate-float" style="bottom:15%; right:12%; width:30px; height:30px; animation-delay: 3s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#3b82f6" fill-opacity="0.3"/>
-    </svg>
-
-    <!-- Floating Flower -->
-    <svg class="absolute animate-float" style="top:35%; left:12%; width:25px; height:25px; animation-delay: 4s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM17.5 7C18.33 7 19 7.67 19 8.5C19 9.33 18.33 10 17.5 10C16.67 10 16 9.33 16 8.5C16 7.67 16.67 7 17.5 7ZM6.5 7C7.33 7 8 7.67 8 8.5C8 9.33 7.33 10 6.5 10C5.67 10 5 9.33 5 8.5C5 7.67 5.67 7 6.5 7ZM12 22C13.1 22 14 21.1 14 20C14 18.9 13.1 18 12 18C10.9 18 10 18.9 10 20C10 21.1 10.9 22 12 22ZM17.5 14C18.33 14 19 14.67 19 15.5C19 16.33 18.33 17 17.5 17C16.67 17 16 16.33 16 15.5C16 14.67 16.67 14 17.5 14ZM6.5 14C7.33 14 8 14.67 8 15.5C8 16.33 7.33 17 6.5 17C5.67 17 5 16.33 5 15.5C5 14.67 5.67 14 6.5 14Z" fill="#ec4899" fill-opacity="0.3"/>
-    </svg>
-
-    <!-- Floating Medical Star -->
-    <svg class="absolute animate-float" style="top:15%; left:25%; width:20px; height:20px; animation-delay: 5s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 17.27L18.18 21L16.54 13.97L22 9.24L14.81 8.63L12 2L9.19 8.63L2 9.24L7.46 13.97L5.82 21L12 17.27Z" fill="#3b82f6" fill-opacity="0.3"/>
-    </svg>
-
-    <!-- Floating Medical Plus -->
-    <svg class="absolute animate-float" style="bottom:30%; right:25%; width:35px; height:35px; animation-delay: 6s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19 13H13V19H11V13H5V11H11V5H13V11H19V13Z" fill="#ec4899" fill-opacity="0.3"/>
-    </svg>
-
-    <!-- Floating Medical Circle -->
-    <svg class="absolute animate-float" style="top:45%; right:15%; width:40px; height:40px; animation-delay: 7s;" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 8 12 8C16.41 8 20 11.59 20 16C20 16.41 16.41 20 12 20Z" fill="#3b82f6" fill-opacity="0.3"/>
-    </svg>
-  </div>
-
-  <div class="container mx-auto px-6 relative z-10">
-    <div class="flex flex-col md:flex-row items-center">
-      <div class="md:w-1/2 mb-10 md:mb-0" data-aos="fade-right">
-        <h1
-          class="text-4xl md:text-5xl lg:text-6xl font-serif font-semibold mb-6"
-        >
-          <span class="text-gray-800">Expert Care for</span>
-          <span class="block gradient-text">Women's Health</span>
-        </h1>
-        <p
-          class="text-lg md:text-xl text-gray-600 font-serif mb-8 leading-relaxed"
-        >
-          Dr. Alok Gandhi specializes in maternal healthcare, infertility,
-          and high-risk pregnancies with over 8 years of dedicated practice.
-        </p>
-        <div
-          class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4"
-        >
-          <a
-            href="#gallery"
-            class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition-all transform hover:-translate-y-1 text-center"
-          >
-            View Gallery
-          </a>
-
-          <a
-            href="#about"
-            class="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-semibold px-8 py-3 rounded-full transition-all transform hover:-translate-y-1 text-center"
-          >
-            Learn More
-          </a>
+      <div class="container mx-auto px-4 md:px-6 relative z-10">
+        <div class="flex flex-col md:flex-row items-center">
+          <div class="md:w-1/2 mb-8 md:mb-0" data-aos="fade-right">
+            <h1 class="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-serif font-semibold mb-4 md:mb-6 text-center md:text-left">
+              <span class="text-gray-800">Expert Care for</span>
+              <span class="block gradient-text">Women's Health</span>
+            </h1>
+            <p class="text-base md:text-lg lg:text-xl text-gray-600 font-serif mb-6 md:mb-8 leading-relaxed text-center md:text-left">
+              Dr. Alok Gandhi specializes in maternal healthcare, infertility,
+              and high-risk pregnancies with over 8 years of dedicated practice.
+            </p>
+            <div class="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4 justify-center md:justify-start">
+              <a href="#gallery" class="bg-pink-500 hover:bg-pink-600 text-white font-semibold px-6 py-3 md:px-8 md:py-3 rounded-full shadow-lg transition-all transform hover:-translate-y-1 text-center text-sm md:text-base">
+                View Gallery
+              </a>
+              <a href="#about" class="border-2 border-blue-500 text-blue-500 hover:bg-blue-500 hover:text-white font-semibold px-6 py-3 md:px-8 md:py-3 rounded-full transition-all transform hover:-translate-y-1 text-center text-sm md:text-base">
+                Learn More
+              </a>
+            </div>
+          </div>
+          <div class="md:w-1/2 flex justify-center mt-8 md:mt-0" data-aos="fade-left" data-aos-delay="200">
+            <!-- Image placeholder - add your image here -->
+           
+          </div>
         </div>
       </div>
-      <div
-        class="md:w-1/2 flex justify-center"
-        data-aos="fade-left"
-        data-aos-delay="200"
-      >
-        <div class="relative">
-          <!-- Blob card with doctor image -->
-          <!-- <div
-            class="w-64 h-64 md:w-80 md:h-80 gradient-bg blob flex items-center justify-center overflow-hidden"
-          >
-            <img
-              src="./Images/IMG/image.png"
-              alt="Dr. Alok Gandhi"
-              class="w-full h-full object-cover"
-            />
-          </div> -->
-
-          <!-- Experience Badge -->
-          <!-- <div
-            class="absolute -top-4 -right-4 bg-white rounded-xl shadow-lg p-4 w-32"
-          >
-            <div class="text-center">
-              <div class="text-2xl font-bold text-pink-500">8+</div>
-              <div class="text-xs text-gray-600">Years Experience</div>
-            </div>
-          </div> -->
-
-          <!-- Deliveries Badge -->
-          <!-- <div
-            class="absolute -bottom-4 -left-4 bg-white rounded-xl shadow-lg p-4 w-32"
-          >
-            <div class="text-center">
-              <div class="text-2xl font-bold text-blue-500">8,000+</div>
-              <div class="text-xs text-gray-600">Deliveries</div>
-            </div>
-          </div> -->
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    /* Floating animation for SVG elements */
-    @keyframes float {
-      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-      50% { transform: translateY(-20px) rotate(5deg); opacity: 1; }
-      100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
-    }
-    
-    .animate-float {
-      animation: float 8s ease-in-out infinite;
-    }
-  </style>
-</section>
+    </section>
 
     <!-- Stats Section -->
-  <section class="py-12 relative overflow-hidden" data-aos="fade-up">
-  <!-- Background Pattern & Bubbles -->
-  <div class="absolute inset-0">
-    <!-- Large Pink & Blue Blur Circles -->
-    <div class="absolute top-5 left-5 w-12 h-12 bg-pink-500 rounded-full blur-lg opacity-20"></div>
-    <div class="absolute bottom-5 right-5 w-14 h-14 bg-blue-500 rounded-full blur-lg opacity-20"></div>
-
-    <!-- Light Blue Floating Bubbles -->
-    <div class="absolute top-20 left-10 w-6 h-6 bg-blue-300 rounded-full opacity-40 animate-float" style="animation-delay: 0s;"></div>
-    <div class="absolute top-40 right-20 w-8 h-8 bg-blue-200 rounded-full opacity-30 animate-float" style="animation-delay: 1s;"></div>
-    <div class="absolute bottom-20 left-1/3 w-5 h-5 bg-blue-400 rounded-full opacity-40 animate-float" style="animation-delay: 2s;"></div>
-    <div class="absolute bottom-10 right-1/4 w-6 h-6 bg-blue-300 rounded-full opacity-35 animate-float" style="animation-delay: 3s;"></div>
-  </div>
-
-  <div class="container mx-auto px-6 relative z-10">
-    <!-- Heading & Subheading -->
-    <div class="text-center mb-10" data-aos="fade-down">
-      <h2 class="text-3xl md:text-4xl font-bold font-serif text-gray-800 mb-3">Our Achievements</h2>
-      <p class="text-gray-600 text-lg md:text-xl">Providing expert care and building happy families over the years</p>
-    </div>
-
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <!-- Years Experience Card -->
-      <div
-        class="group p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden"
-      >
-        <!-- Animated Border -->
-        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-        <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
-        
-        <!-- Icon Container -->
-        <div
-          class="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md"
-        >
-          <i class="fas fa-calendar-alt text-white text-xl"></i>
-        </div>
-        
-        <!-- Content -->
-        <div class="text-center">
-          <div class="stat-number text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">8+</div>
-          <p class="text-gray-600 font-medium text-sm">Years Experience</p>
-        </div>
+    <section class="py-8 md:py-12 relative overflow-hidden" data-aos="fade-up">
+      <div class="absolute inset-0">
+        <!-- Background elements -->
+        <div class="absolute top-5 left-5 w-8 h-8 md:w-12 md:h-12 bg-pink-500 rounded-full blur-lg opacity-20"></div>
+        <div class="absolute bottom-5 right-5 w-10 h-10 md:w-14 md:h-14 bg-blue-500 rounded-full blur-lg opacity-20"></div>
       </div>
 
-      <!-- Successful Deliveries Card -->
-      <div
-        class="group p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden"
-        data-aos-delay="100"
-      >
-        <!-- Animated Border -->
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-500 to-pink-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-        <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
-        
-        <!-- Icon Container -->
-        <div
-          class="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md"
-        >
-          <i class="fas fa-baby text-white text-xl"></i>
+      <div class="container mx-auto px-4 md:px-6 relative z-10">
+        <div class="text-center mb-8 md:mb-10" data-aos="fade-down">
+          <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold font-serif text-gray-800 mb-2 md:mb-3">Our Achievements</h2>
+          <p class="text-gray-600 text-base md:text-lg">Providing expert care and building happy families over the years</p>
         </div>
-        
-        <!-- Content -->
-        <div class="text-center">
-          <div class="stat-number text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">8,000+</div>
-          <p class="text-gray-600 font-medium text-sm">Successful Deliveries</p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <!-- Years Experience Card -->
+          <div class="group p-4 md:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden">
+            <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
+            <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
+            
+            <div class="w-12 h-12 md:w-16 md:h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md">
+              <i class="fas fa-calendar-alt text-white text-base md:text-xl"></i>
+            </div>
+            
+            <div class="text-center">
+              <div class="stat-number text-2xl md:text-3xl font-bold mb-1 md:mb-2 group-hover:scale-110 transition-transform duration-300">8+</div>
+              <p class="text-gray-600 font-medium text-xs md:text-sm">Years Experience</p>
+            </div>
+          </div>
+
+          <!-- Successful Deliveries Card -->
+          <div class="group p-4 md:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden" data-aos-delay="100">
+            <div class="w-12 h-12 md:w-16 md:h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md">
+              <i class="fas fa-baby text-white text-base md:text-xl"></i>
+            </div>
+            
+            <div class="text-center">
+              <div class="stat-number text-2xl md:text-3xl font-bold mb-1 md:mb-2 group-hover:scale-110 transition-transform duration-300">8,000+</div>
+              <p class="text-gray-600 font-medium text-xs md:text-sm">Successful Deliveries</p>
+            </div>
+          </div>
+
+          <!-- Happy Families Card -->
+          <div class="group p-4 md:p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden" data-aos-delay="200">
+            <div class="w-12 h-12 md:w-16 md:h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md">
+              <i class="fas fa-smile text-white text-base md:text-xl"></i>
+            </div>
+            
+            <div class="text-center">
+              <div class="stat-number text-2xl md:text-3xl font-bold mb-1 md:mb-2 group-hover:scale-110 transition-transform duration-300">1000+</div>
+              <p class="text-gray-600 font-medium text-xs md:text-sm">Happy Families</p>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <!-- Happy Families Card -->
-      <div
-        class="group p-6 bg-white/80 backdrop-blur-sm rounded-xl shadow-md border border-white/50 transform transition-all duration-500 hover:scale-105 hover:shadow-lg relative overflow-hidden"
-        data-aos-delay="200"
-      >
-        <!-- Animated Border -->
-        <div class="absolute inset-0 bg-gradient-to-r from-pink-500 to-blue-500 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 -z-10"></div>
-        <div class="absolute inset-[1px] bg-white rounded-xl -z-10"></div>
-        
-        <!-- Icon Container -->
-        <div
-          class="w-16 h-16 gradient-bg rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-500 shadow-md"
-        >
-          <i class="fas fa-smile text-white text-xl"></i>
-        </div>
-        
-        <!-- Content -->
-        <div class="text-center">
-          <div class="stat-number text-3xl font-bold mb-2 group-hover:scale-110 transition-transform duration-300">1000+</div>
-          <p class="text-gray-600 font-medium text-sm">Happy Families</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <style>
-    .blue-gradient-bg {
-      background: linear-gradient(135deg, #f0f9ff 0%, #fdf2f8 100%);
-    }
-    
-    .stat-number {
-      font-size: 2.5rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #db2777 0%, #1d4ed8 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    
-    .group:hover .stat-number {
-      background: linear-gradient(135deg, #ec4899 0%, #3b82f6 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-
-    /* Floating animation for bubbles */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
-    .animate-float {
-      animation: float 6s ease-in-out infinite;
-    }
-  </style>
-</section>
-
-<section id="about" class="py-16 bg-white">
-      <div class="container mx-auto px-6">
-        <h2 class="text-3xl font-bold font-serif text-center mb-4 text-gray-800" data-aos="fade-down">
+    <!-- About Section -->
+    <section id="about" class="py-12 md:py-16 bg-white">
+      <div class="container mx-auto px-4 md:px-6">
+        <h2 class="text-2xl md:text-3xl font-bold font-serif text-center mb-4 text-gray-800" data-aos="fade-down">
           About Dr. Gandhi
         </h2>
-        <div class="section-divider mb-12"></div>
+        <div class="section-divider mb-8 md:mb-12"></div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
           <!-- Left Column -->
           <div class="text-center" data-aos="fade-up">
             <div class="relative inline-block">
-              <div class="w-64 h-64 mx-auto rounded-full overflow-hidden border-8 border-pink-100 shadow-xl">
-                <img src="./Images/IMG/AK.jpg" alt="Dr. Alok Gandhi" class="w-full h-full object-cover">
+              <div class="w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-4 md:border-8 border-pink-100 shadow-xl">
+                <!-- Add your image here -->
+               <img src="./Images/IMG/AK.jpg" alt="" class="w-full h-full object-cover">
               </div>
-              <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-pink-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+              <div class="absolute -bottom-2 md:-bottom-4 left-1/2 -translate-x-1/2 bg-pink-500 text-white px-4 py-1 md:px-6 md:py-2 rounded-full text-xs md:text-sm font-semibold shadow-lg whitespace-nowrap">
                 8+ Years Experience
               </div>
             </div>
-            <div class="mt-10">
-              <h3 class="text-2xl font-bold text-gray-800 mb-4">Clinical Excellence</h3>
-              <p class="text-gray-600 leading-relaxed max-w-md mx-auto">
+            <div class="mt-6 md:mt-10">
+              <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-4">Clinical Excellence</h3>
+              <p class="text-gray-600 leading-relaxed max-w-md mx-auto text-sm md:text-base">
                 Dr. Alok Gandhi is a highly skilled obstetrician and gynecologist with expertise in high-risk pregnancies, infertility treatment, laparoscopy, and sonography.
               </p>
             </div>
@@ -543,19 +450,19 @@
           <!-- Right Column -->
           <div class="text-center" data-aos="fade-up" data-aos-delay="200">
             <div class="relative inline-block">
-              <div class="w-64 h-64 mx-auto rounded-full overflow-hidden border-8 border-blue-100 shadow-xl">
-                <img src="./Images/IMG/AK2.jpg" alt="Dr. Alok Gandhi" class="w-full h-full object-cover">
+              <div class="w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-4 md:border-8 border-blue-100 shadow-xl">
+                <!-- Add your image here -->
+                <img src="./Images/IMG/AK2.jpg" alt="" class="w-full h-full object-cover">
               </div>
-              <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">
+              <div class="absolute -bottom-2 md:-bottom-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white px-4 py-1 md:px-6 md:py-2 rounded-full text-xs md:text-sm font-semibold shadow-lg whitespace-nowrap">
                 Award-Winning Care
               </div>
             </div>
-            <div class="mt-10">
-              <h3 class="text-2xl font-bold text-gray-800 mb-4">Patient-Centered Approach</h3>
-              <p class="text-gray-600 leading-relaxed max-w-md mx-auto">
+            <div class="mt-6 md:mt-10">
+              <h3 class="text-xl md:text-2xl font-bold text-gray-800 mb-2 md:mb-4">Patient-Centered Approach</h3>
+              <p class="text-gray-600 leading-relaxed max-w-md mx-auto text-sm md:text-base">
                 Recipient of MyFm Sangli Excellence Award. Committed to compassionate care, staying updated with latest advancements through seminars and evidence-based practice.
               </p>
-              
             </div>
           </div>
         </div>
@@ -563,281 +470,169 @@
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="py-16 blue-gradient-bg">
-      <div class="container mx-auto px-4 md:px-6 lg:px-8 max-w-6xl">
-        <h2 class="text-3xl font-bold font-serif text-center mb-4 text-gray-800" data-aos="fade-down">
-          Medical Gallery
-        </h2>
-        <div class="section-divider mb-8"></div>
-        
-        <p class="text-center text-gray-600 mb-10 max-w-2xl mx-auto text-sm md:text-base" data-aos="fade-up">
-          Explore our collection of medical achievements, advanced procedures, and moments that showcase our commitment to women's healthcare.
-        </p>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-6">
-          <!-- Gallery Item 1 - Visible -->
-          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-image="1">
-            <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Advanced Laparoscopy Procedure" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Advanced Laparoscopy</h3>
-              <p class="text-gray-600 text-sm mb-3">Minimally invasive surgery for gynecological conditions with faster recovery time.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+    <section id="gallery" class="py-12 md:py-16">
+      <div class="container mx-auto px-4 md:px-6">
+        <!-- Award Ceremony Section -->
+        <div class="mb-12 md:mb-16">
+          <h2 class="text-2xl md:text-3xl font-serif font-bold text-center mb-4 text-gray-800" data-aos="fade-down">
+            Award Ceremony
+          </h2>
+          <div class="section-divider mb-8 md:mb-12"></div>
+          
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 lg:gap-8">
+            <!-- Gallery Items - Responsive grid -->
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0006.jpg" alt="Ultrasound Scan" class="gallery-img w-full h-40 md:h-48 lg:h-56 rounded-lg shadow-md">
             </div>
-          </div>
-
-          <!-- Gallery Item 2 - Visible -->
-          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="100" data-image="2">
-            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Fetal Ultrasound Monitoring" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Fetal Ultrasound</h3>
-              <p class="text-gray-600 text-sm mb-3">High-resolution ultrasound imaging for comprehensive fetal monitoring.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0007.jpg" alt="Laparoscopy Procedure" class="gallery-img w-full h-40 md:h-48 lg:h-56 rounded-lg shadow-md">
             </div>
-          </div>
-
-          <!-- Gallery Item 3 - Visible -->
-          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="200" data-image="3">
-            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Cesarean Delivery Operation" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Cesarean Delivery</h3>
-              <p class="text-gray-600 text-sm mb-3">Expertly performed cesarean sections ensuring safety for mother and baby.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0010.jpg" alt="Delivery Room" class="gallery-img w-full h-40 md:h-48 lg:h-56 rounded-lg shadow-md">
             </div>
-          </div>
-
-          <!-- Gallery Item 4 - Visible -->
-          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="300" data-image="4">
-            <img src="https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Infertility Treatment Success" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Infertility Success</h3>
-              <p class="text-gray-600 text-sm mb-3">Celebrating successful fertility treatments and helping couples achieve parenthood.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0011.jpg" alt="Infertility Consultation" class="gallery-img w-full h-40 md:h-48 lg:h-56 rounded-lg shadow-md">
             </div>
+            <!-- Add more gallery items as needed -->
           </div>
+        </div>
 
-          <!-- Gallery Item 5 - Visible -->
-          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="400" data-image="5">
-            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Neonatal Care Unit" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Neonatal Care</h3>
-              <p class="text-gray-600 text-sm mb-3">State-of-the-art neonatal care unit for premature and newborn babies.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+        <!-- Happy Families Section -->
+        <div class="mb-12 md:mb-16">
+          <h2 class="text-2xl md:text-3xl font-serif font-bold text-center mb-4 text-gray-800" data-aos="fade-down">
+            Happy Families after Delivery
+          </h2>
+          <div class="section-divider mb-8 md:mb-12"></div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/happy2.jpeg" alt="Happy Family 1" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
             </div>
-          </div>
-
-          <!-- Gallery Item 6 - Visible -->
-          <div class="gallery-item bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="500" data-image="6">
-            <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Gynecological Surgery" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Gynecological Surgery</h3>
-              <p class="text-gray-600 text-sm mb-3">Advanced surgical procedures for various gynecological conditions.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/happy3.jpeg" alt="Happy Family 2" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
             </div>
-          </div>
-
-          <!-- Gallery Item 7 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="600" data-image="7">
-            <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Labor and Delivery Room" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Modern Delivery Suite</h3>
-              <p class="text-gray-600 text-sm mb-3">Fully equipped labor and delivery rooms for comfort and safety.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/happy1.jpeg" alt="Happy Family 3" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
             </div>
-          </div>
-
-          <!-- Gallery Item 8 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="700" data-image="8">
-            <img src="https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Equipment" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Advanced Equipment</h3>
-              <p class="text-gray-600 text-sm mb-3">Latest medical technology for accurate diagnosis and effective treatment.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 9 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="800" data-image="9">
-            <img src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Team" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Expert Medical Team</h3>
-              <p class="text-gray-600 text-sm mb-3">Dedicated team of specialists for comprehensive women's healthcare.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 10 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="900" data-image="10">
-            <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Postpartum Care" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Postpartum Recovery</h3>
-              <p class="text-gray-600 text-sm mb-3">Comprehensive postpartum care and support for new mothers.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 11 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1000" data-image="11">
-            <img src="https://images.unsplash.com/photo-1584467735871-8db9ac8d0916?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Prenatal Checkup" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Prenatal Consultation</h3>
-              <p class="text-gray-600 text-sm mb-3">Regular prenatal checkups for healthy pregnancy monitoring.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 12 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1100" data-image="12">
-            <img src="https://images.unsplash.com/photo-1553949345-eb786bb3f7ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Awards" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Awards & Recognition</h3>
-              <p class="text-gray-600 text-sm mb-3">Recognitions for excellence in obstetrics and gynecology.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 13 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1200" data-image="13">
-            <img src="https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Medical Conference" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Medical Conferences</h3>
-              <p class="text-gray-600 text-sm mb-3">Active participation in national and international medical conferences.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 14 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1300" data-image="14">
-            <img src="https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Patient Education" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Patient Education</h3>
-              <p class="text-gray-600 text-sm mb-3">Educational sessions for informed decision-making about women's health.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
-            </div>
-          </div>
-
-          <!-- Gallery Item 15 - Hidden Initially -->
-          <div class="gallery-item hidden bg-white rounded-xl shadow-lg overflow-hidden card-hover" data-aos="zoom-in" data-aos-delay="1400" data-image="15">
-            <img src="https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Hospital Facilities" class="gallery-img">
-            <div class="p-5">
-              <h3 class="text-lg font-semibold mb-2 text-gray-800">Modern Facilities</h3>
-              <p class="text-gray-600 text-sm mb-3">State-of-the-art hospital facilities for patient comfort and excellence.</p>
-              <button class="view-details-btn text-pink-500 font-semibold hover:text-pink-600 transition-colors text-sm">View Details →</button>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/happ4.jpeg" alt="Happy Family 4" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
             </div>
           </div>
         </div>
 
-        <!-- Load More Button -->
-        <div class="text-center mt-10" data-aos="fade-up">
-          <button id="loadMoreBtn" class="bg-gradient-to-r from-pink-500 to-blue-500 text-white font-semibold px-8 py-3 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-            <span class="flex items-center justify-center">
-              <i class="fas fa-chevron-down mr-2"></i>
-              Load More Gallery Items
-              <i class="fas fa-chevron-down ml-2"></i>
-            </span>
-          </button>
-          <p class="text-gray-500 text-sm mt-3">Showing 6 of 15 gallery items</p>
+        <!-- Camp Section -->
+        <div class="mb-12 md:mb-16">
+          <h2 class="text-2xl md:text-3xl font-serif font-bold text-center mb-4 text-gray-800" data-aos="fade-down">
+            Camp
+          </h2>
+          <div class="section-divider mb-8 md:mb-12"></div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0013.jpg" alt="Camp 1" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0014.jpg" alt="Camp 2" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0017.jpg" alt="Camp 3" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/IMG-20251223-WA0022.jpg" alt="Camp 4" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+          </div>
+        </div>
+
+        <!-- Onco/Cancer Surgeries -->
+        <div class="mb-12 md:mb-16">
+          <h2 class="text-2xl md:text-3xl font-serif font-bold text-center mb-4 text-gray-800" data-aos="fade-down">
+            Onco/Cancer Surgeries
+          </h2>
+          <div class="section-divider mb-8 md:mb-12"></div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/onco1.jpeg" alt="Onco Surgery 1" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/onco2.jpeg" alt="Onco Surgery 2" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/onco3.jpeg" alt="Onco Surgery 3" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/onco4.jpeg" alt="Onco Surgery 4" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+          </div>
+        </div>
+
+        <!-- High Risk Deliveries -->
+        <div class="mb-12 md:mb-16">
+          <h2 class="text-2xl md:text-3xl font-serif font-bold text-center mb-4 text-gray-800" data-aos="fade-down">
+            High Risk and Complicated Deliveries
+          </h2>
+          <div class="section-divider mb-8 md:mb-12"></div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/risk1.jpeg" alt="High Risk 1" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/risk2.jpeg" alt="High Risk 2" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/risk3.jpeg" alt="High Risk 3" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+            <div class="gallery-item cursor-pointer">
+              <img src="./Images/GoodNeews/risk4.jpeg" alt="High Risk 4" class="gallery-img w-full h-40 md:h-48 rounded-lg shadow-md">
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- Image Details Modal -->
-    <div id="imageModal" class="modal-overlay">
-      <div class="modal-content">
-        <div class="p-6">
-          <div class="flex justify-between items-center mb-6">
-            <h3 id="modalTitle" class="text-2xl font-bold text-gray-800"></h3>
-            <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
-          </div>
-          <div class="mb-6">
-            <img id="modalImage" src="" alt="" class="w-full h-64 object-cover rounded-lg">
-          </div>
-          <div id="modalDescription" class="text-gray-600 mb-6"></div>
-          <div class="grid grid-cols-2 gap-4 mb-6">
-            <div class="bg-pink-50 p-4 rounded-lg">
-              <h4 class="font-semibold text-gray-800 mb-2">Procedure Details</h4>
-              <p id="modalProcedure" class="text-sm text-gray-600"></p>
-            </div>
-            <div class="bg-blue-50 p-4 rounded-lg">
-              <h4 class="font-semibold text-gray-800 mb-2">Success Rate</h4>
-              <p id="modalSuccess" class="text-sm text-gray-600"></p>
-            </div>
-          </div>
-          <div class="bg-gray-50 p-4 rounded-lg">
-            <h4 class="font-semibold text-gray-800 mb-2">Additional Information</h4>
-            <p id="modalAdditional" class="text-sm text-gray-600"></p>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- Qualifications Section -->
-    <section id="qualifications" class="py-16 blue-gradient-bg">
-      <div class="container mx-auto px-6">
-        <h2
-          class="text-3xl font-serif font-bold text-center mb-4 text-gray-800"
-          data-aos="fade-down"
-        >
+    <section id="qualifications" class="py-12 md:py-16 blue-gradient-bg">
+      <div class="container mx-auto px-4 md:px-6">
+        <h2 class="text-2xl md:text-3xl font-serif font-bold text-center mb-4 text-gray-800" data-aos="fade-down">
           Qualifications & Credentials
         </h2>
-        <div class="section-divider mb-12"></div>
+        <div class="section-divider mb-8 md:mb-12"></div>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
-            data-aos="flip-left"
-          >
-            <div
-              class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <i class="fas fa-graduation-cap text-pink-600 text-2xl"></i>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          <div class="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 text-center transform transition-all duration-300 hover:scale-105" data-aos="flip-left">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <i class="fas fa-graduation-cap text-pink-600 text-xl md:text-2xl"></i>
             </div>
-            <p class="text-xl font-bold text-gray-800">MBBS</p>
-            <p class="text-gray-600 text-sm mt-1">
+            <p class="text-lg md:text-xl font-bold text-gray-800">MBBS</p>
+            <p class="text-gray-600 text-xs md:text-sm mt-1">
               Bachelor of Medicine, Bachelor of Surgery
             </p>
           </div>
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
-            data-aos="flip-left"
-            data-aos-delay="100"
-          >
-            <div
-              class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <i class="fas fa-user-md text-blue-600 text-2xl"></i>
+          <div class="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 text-center transform transition-all duration-300 hover:scale-105" data-aos="flip-left" data-aos-delay="100">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <i class="fas fa-user-md text-blue-600 text-xl md:text-2xl"></i>
             </div>
-            <p class="text-xl font-bold text-gray-800">DGO</p>
-            <p class="text-gray-600 text-sm mt-1">
+            <p class="text-lg md:text-xl font-bold text-gray-800">DGO</p>
+            <p class="text-gray-600 text-xs md:text-sm mt-1">
               Diploma in Obstetrics & Gynecology
             </p>
           </div>
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
-            data-aos="flip-left"
-            data-aos-delay="200"
-          >
-            <div
-              class="w-16 h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <i class="fas fa-hand-holding-medical text-pink-600 text-2xl"></i>
+          <div class="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 text-center transform transition-all duration-300 hover:scale-105" data-aos="flip-left" data-aos-delay="200">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <i class="fas fa-hand-holding-medical text-pink-600 text-xl md:text-2xl"></i>
             </div>
-            <p class="text-xl font-bold text-gray-800">IMA</p>
-            <p class="text-gray-600 text-sm mt-1">
+            <p class="text-lg md:text-xl font-bold text-gray-800">IMA</p>
+            <p class="text-gray-600 text-xs md:text-sm mt-1">
               Indian Medical Association Membership
             </p>
           </div>
-          <div
-            class="bg-white rounded-2xl shadow-lg p-6 text-center transform transition-all duration-300 hover:scale-105"
-            data-aos="flip-left"
-            data-aos-delay="300"
-          >
-            <div
-              class="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4"
-            >
-              <i class="fas fa-trophy text-yellow-600 text-2xl"></i>
+          <div class="bg-white rounded-xl md:rounded-2xl shadow-lg p-4 md:p-6 text-center transform transition-all duration-300 hover:scale-105" data-aos="flip-left" data-aos-delay="300">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+              <i class="fas fa-trophy text-yellow-600 text-xl md:text-2xl"></i>
             </div>
-            <p class="text-xl font-bold text-gray-800">Award</p>
-            <p class="text-gray-600 text-sm mt-1">
+            <p class="text-lg md:text-xl font-bold text-gray-800">Award</p>
+            <p class="text-gray-600 text-xs md:text-sm mt-1">
               MyFm Sangli Excellence Award in Infertility Management
             </p>
           </div>
@@ -845,254 +640,34 @@
       </div>
     </section>
 
-      <!-- Placeholder for Footer -->
-  <div id="footer-placeholder"></div>
-    
+    <!-- Placeholder for Footer -->
+    <div id="footer-placeholder"></div>
+
+    <!-- Modal Structure -->
+    <div id="imageModal" class="modal-overlay">
+      <div class="modal-content p-4 md:p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h3 id="modalTitle" class="text-lg md:text-xl font-bold text-gray-800"></h3>
+          <button id="closeModal" class="text-gray-500 hover:text-gray-700 text-xl">&times;</button>
+        </div>
+        <img id="modalImage" src="" alt="" class="w-full h-48 md:h-64 object-cover rounded-lg mb-4">
+        <p id="modalDescription" class="text-gray-600 mb-2 text-sm md:text-base"></p>
+        <p id="modalProcedure" class="text-gray-700 font-semibold mb-1 text-sm md:text-base"></p>
+        <p id="modalSuccess" class="text-green-600 mb-1 text-sm md:text-base"></p>
+        <p id="modalAdditional" class="text-blue-600 text-sm md:text-base"></p>
+      </div>
+    </div>
 
     <script>
-    function loadHeader() {
-        fetch('../Header/header.html')
-            .then(r => { if (!r.ok) throw r; return r.text(); })
-            .then(html => {
-                document.getElementById('header-placeholder').innerHTML = html;
-                const script = document.createElement('script');
-                script.src = '../Header/header.js';
-                script.onload = () => console.log('Header JS loaded');
-                document.body.appendChild(script);
-            })
-            .catch(err => console.error('Header load failed:', err));
-    }
-
-    function loadFooter() {
-        fetch('../Footer/footer.html')
-            .then(r => { if (!r.ok) throw r; return r.text(); })
-            .then(html => {
-                document.getElementById('footer-placeholder').innerHTML = html;
-            })
-            .catch(err => console.error('Footer load failed:', err));
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-        loadHeader();
-        loadFooter();
-        
-        // Gallery functionality
-        const galleryItems = document.querySelectorAll('.gallery-item');
-        const modal = document.getElementById('imageModal');
-        const closeModal = document.getElementById('closeModal');
-        const modalTitle = document.getElementById('modalTitle');
-        const modalImage = document.getElementById('modalImage');
-        const modalDescription = document.getElementById('modalDescription');
-        const modalProcedure = document.getElementById('modalProcedure');
-        const modalSuccess = document.getElementById('modalSuccess');
-        const modalAdditional = document.getElementById('modalAdditional');
-        const loadMoreBtn = document.getElementById('loadMoreBtn');
-        const hiddenItems = document.querySelectorAll('.gallery-item.hidden');
-        
-        // Initialize - Show first 6 items only
-        let allItemsLoaded = false;
-        
-        // Gallery data
-        const galleryData = {
-            1: {
-                title: "Advanced Laparoscopy Procedure",
-                image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Minimally invasive laparoscopic surgery for gynecological conditions. This advanced technique allows for smaller incisions, reduced pain, and faster recovery compared to traditional open surgery.",
-                procedure: "Diagnostic and operative laparoscopy for conditions like endometriosis, ovarian cysts, fibroids, and ectopic pregnancies.",
-                success: "98% success rate with minimal complications",
-                additional: "Patients typically return to normal activities within 1-2 weeks post-surgery."
-            },
-            2: {
-                title: "Fetal Ultrasound Monitoring",
-                image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "High-resolution ultrasound imaging for comprehensive fetal monitoring. Our advanced equipment provides detailed images of fetal development and helps detect any abnormalities early.",
-                procedure: "Regular ultrasound scans during pregnancy including NT scan, anomaly scan, and growth scans.",
-                success: "99% accuracy in fetal anomaly detection",
-                additional: "3D/4D ultrasound available for detailed fetal imaging and bonding."
-            },
-            3: {
-                title: "Cesarean Delivery Operation",
-                image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Expertly performed cesarean sections ensuring maximum safety for both mother and baby during complicated deliveries.",
-                procedure: "Both elective and emergency C-sections performed with precision and care.",
-                success: "99.5% successful cesarean deliveries",
-                additional: "Enhanced recovery protocols for faster post-operative healing."
-            },
-            4: {
-                title: "Infertility Treatment Success",
-                image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Celebrating successful fertility treatments and helping couples achieve their dream of parenthood through advanced reproductive techniques.",
-                procedure: "IUI, IVF, ICSI, and other assisted reproductive technologies.",
-                success: "65-70% success rate in IVF treatments",
-                additional: "Comprehensive fertility workup and personalized treatment plans."
-            },
-            5: {
-                title: "Neonatal Care Unit",
-                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "State-of-the-art neonatal intensive care unit equipped to handle premature and critically ill newborns with advanced life support systems.",
-                procedure: "24/7 neonatal care with ventilators, incubators, and monitoring equipment.",
-                success: "95% survival rate for premature babies",
-                additional: "Kangaroo mother care practiced for better bonding and development."
-            },
-            6: {
-                title: "Gynecological Surgery",
-                image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Advanced surgical procedures for various gynecological conditions including hysterectomy, myomectomy, and ovarian surgeries.",
-                procedure: "Both open and minimally invasive surgical approaches available.",
-                success: "97% successful surgical outcomes",
-                additional: "Robotic-assisted surgery options for complex cases."
-            },
-            7: {
-                title: "Modern Delivery Suite",
-                image: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Fully equipped labor and delivery rooms designed for comfort, safety, and optimal birthing experience with family-centered care approach.",
-                procedure: "Natural births, water births, and pain management options available.",
-                success: "98% normal delivery rate",
-                additional: "Birth partners allowed with 24/7 anesthesia services."
-            },
-            8: {
-                title: "Advanced Medical Equipment",
-                image: "https://images.unsplash.com/photo-1551601651-2a8555f1a136?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Latest medical technology and equipment including advanced ultrasound machines, laparoscopic towers, and monitoring systems.",
-                procedure: "Regular equipment maintenance and calibration for accuracy.",
-                success: "99% equipment reliability",
-                additional: "Digital imaging and electronic medical records system."
-            },
-            9: {
-                title: "Expert Medical Team",
-                image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Our dedicated team of obstetricians, gynecologists, neonatologists, anesthetists, and nurses working collaboratively.",
-                procedure: "Multidisciplinary team approach for complex cases.",
-                success: "100% patient satisfaction rate",
-                additional: "Regular training and skill enhancement programs."
-            },
-            10: {
-                title: "Postpartum Recovery",
-                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Comprehensive postpartum care including breastfeeding support, wound care, and emotional support for new mothers.",
-                procedure: "Regular postpartum checkups and lactation consultation.",
-                success: "95% successful breastfeeding initiation",
-                additional: "Postpartum depression screening and support groups."
-            },
-            11: {
-                title: "Prenatal Consultation",
-                image: "https://images.unsplash.com/photo-1584467735871-8db9ac8d0916?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Regular prenatal checkups, genetic counseling, and high-risk pregnancy management for optimal maternal and fetal health.",
-                procedure: "Monthly to weekly visits depending on pregnancy stage.",
-                success: "99% healthy pregnancy outcomes",
-                additional: "Nutritional counseling and exercise guidance provided."
-            },
-            12: {
-                title: "Awards & Recognition",
-                image: "https://images.unsplash.com/photo-1553949345-eb786bb3f7ba?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Recognitions and awards received for excellence in obstetrics and gynecology including the prestigious MyFm Sangli Excellence Award.",
-                procedure: "Regular participation in quality improvement programs.",
-                success: "Multiple awards for clinical excellence",
-                additional: "Featured in medical journals and conferences."
-            },
-            13: {
-                title: "Medical Conferences",
-                image: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Active participation in national and international medical conferences to stay updated with latest advancements in women's healthcare.",
-                procedure: "Regular attendance and paper presentations at conferences.",
-                success: "Published research papers",
-                additional: "Collaboration with international medical institutions."
-            },
-            14: {
-                title: "Patient Education",
-                image: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "Educational sessions, workshops, and materials for informed decision-making about women's health, pregnancy, and family planning.",
-                procedure: "Regular health talks and prenatal classes.",
-                success: "Improved patient understanding and compliance",
-                additional: "Digital education materials and support groups."
-            },
-            15: {
-                title: "Modern Hospital Facilities",
-                image: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80",
-                description: "State-of-the-art hospital facilities including private rooms, operation theaters, and recovery areas designed for patient comfort and medical excellence.",
-                procedure: "24/7 emergency services and ambulance facility.",
-                success: "100% infection control compliance",
-                additional: "Family accommodation and visitor facilities available."
-            }
-        };
-
-        // Load More Button functionality
-        loadMoreBtn.addEventListener('click', () => {
-            if (!allItemsLoaded) {
-                // Show all hidden items
-                hiddenItems.forEach(item => {
-                    item.classList.remove('hidden');
-                    item.style.animation = 'fadeInUp 0.8s ease-out forwards';
-                });
-                
-                // Update button text and state
-                loadMoreBtn.innerHTML = `
-                    <span class="flex items-center justify-center">
-                        <i class="fas fa-check mr-2"></i>
-                        All Items Loaded
-                        <i class="fas fa-check ml-2"></i>
-                    </span>
-                `;
-                loadMoreBtn.classList.remove('from-pink-500', 'to-blue-500');
-                loadMoreBtn.classList.add('bg-green-500', 'hover:bg-green-600');
-                loadMoreBtn.disabled = true;
-                
-                // Update showing text
-                document.querySelector('.text-gray-500.text-sm.mt-3').textContent = 'Showing all 15 gallery items';
-                
-                allItemsLoaded = true;
-            }
-        });
-
-        // Add click event to gallery items
-        galleryItems.forEach(item => {
-            const viewDetailsBtn = item.querySelector('.view-details-btn');
-            const imageNumber = item.getAttribute('data-image');
-            
-            viewDetailsBtn.addEventListener('click', () => {
-                const data = galleryData[imageNumber];
-                if (data) {
-                    modalTitle.textContent = data.title;
-                    modalImage.src = data.image;
-                    modalImage.alt = data.title;
-                    modalDescription.textContent = data.description;
-                    modalProcedure.textContent = data.procedure;
-                    modalSuccess.textContent = data.success;
-                    modalAdditional.textContent = data.additional;
-                    modal.classList.add('active');
-                    document.body.style.overflow = 'hidden';
-                }
-            });
-        });
-
-        // Close modal
-        closeModal.addEventListener('click', () => {
-            modal.classList.remove('active');
-            document.body.style.overflow = 'auto';
-        });
-
-        // Close modal when clicking outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                modal.classList.remove('active');
-                document.body.style.overflow = 'auto';
-            }
-        });
-
-        // ... rest of your existing code
-    });
-
-    // Your existing JavaScript code continues below
-    </script>
-
-    <script>
-      // Initialize AOS (Animate On Scroll)
+      // Initialize AOS
       document.addEventListener("DOMContentLoaded", function () {
         AOS.init({
           duration: 800,
           easing: "ease-in-out",
           once: true,
           mirror: false,
+          offset: 100,
+          delay: 100
         });
 
         // Loading bar animation
@@ -1104,33 +679,115 @@
           }, 500);
         });
 
-        // Navbar scroll effect
-        const navbar = document.getElementById("navbar");
-        window.addEventListener("scroll", () => {
-          if (window.scrollY > 50) {
-            navbar.classList.add("nav-scrolled");
-          } else {
-            navbar.classList.remove("nav-scrolled");
+        // Gallery modal functionality
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const modal = document.getElementById('imageModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalImage = document.getElementById('modalImage');
+        const modalDescription = document.getElementById('modalDescription');
+        const modalProcedure = document.getElementById('modalProcedure');
+        const modalSuccess = document.getElementById('modalSuccess');
+        const modalAdditional = document.getElementById('modalAdditional');
+
+        // Gallery data
+        const galleryData = {
+          1: {
+            title: "Award Ceremony",
+            image: "./Images/GoodNeews/IMG-20251223-WA0006.jpg",
+            description: "Receiving recognition for excellence in medical practice.",
+            procedure: "Award Ceremony",
+            success: "Recognized for outstanding service",
+            additional: "MyFm Sangli Excellence Award recipient"
+          }
+          // Add more data as needed
+        };
+
+        // Add click event to gallery items
+        galleryItems.forEach(item => {
+          item.addEventListener('click', (e) => {
+            const img = item.querySelector('img');
+            const altText = img.alt;
+            const src = img.src;
+            
+            // Set modal content
+            modalTitle.textContent = altText || "Gallery Image";
+            modalImage.src = src;
+            modalImage.alt = altText;
+            modalDescription.textContent = "Detailed description of the image would go here.";
+            modalProcedure.textContent = "Procedure: Medical procedure details";
+            modalSuccess.textContent = "Success: Positive outcome achieved";
+            modalAdditional.textContent = "Additional information about this case.";
+            
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+          });
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+          modal.classList.remove('active');
+          document.body.style.overflow = 'auto';
+        });
+
+        // Close modal when clicking outside
+        modal.addEventListener('click', (e) => {
+          if (e.target === modal) {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto';
           }
         });
 
-        // Mobile menu toggle
-        const mobileMenuButton = document.getElementById("mobileMenuButton");
-        const mobileMenu = document.getElementById("mobileMenu");
+        // Load header and footer
+        function loadHeader() {
+          fetch('../Header/header.html')
+            .then(r => {
+              if (!r.ok) throw r;
+              return r.text();
+            })
+            .then(html => {
+              document.getElementById('header-placeholder').innerHTML = html;
+              const script = document.createElement('script');
+              script.src = '../Header/header.js';
+              document.body.appendChild(script);
+            })
+            .catch(err => console.error('Header load failed:', err));
+        }
 
-        mobileMenuButton.addEventListener("click", () => {
-          mobileMenu.classList.toggle("hidden");
-        });
+        function loadFooter() {
+          fetch('../Footer/footer.html')
+            .then(r => {
+              if (!r.ok) throw r;
+              return r.text();
+            })
+            .then(html => {
+              document.getElementById('footer-placeholder').innerHTML = html;
+            })
+            .catch(err => console.error('Footer load failed:', err));
+        }
 
-        // Close mobile menu when clicking on a link
-        const mobileMenuLinks = mobileMenu.querySelectorAll("a");
-        mobileMenuLinks.forEach((link) => {
-          link.addEventListener("click", () => {
-            mobileMenu.classList.add("hidden");
-          });
-        });
+        loadHeader();
+        loadFooter();
       });
+
+      // Responsive font size adjustment
+      function adjustFontSizes() {
+        const screenWidth = window.innerWidth;
+        const html = document.documentElement;
+        
+        if (screenWidth < 640) {
+          html.style.fontSize = '14px';
+        } else if (screenWidth < 768) {
+          html.style.fontSize = '15px';
+        } else {
+          html.style.fontSize = '16px';
+        }
+      }
+
+      // Run on load and resize
+      window.addEventListener('load', adjustFontSizes);
+      window.addEventListener('resize', adjustFontSizes);
     </script>
-    <script src="../cart-wishlist-system.js" defer></script>
   </body>
 </html>
